@@ -14,9 +14,9 @@ Live preview: <https://owenabel-com.pages.dev>
 ## Commands
 
 ```sh
-npm run dev
-npm run build
-npm run preview
+pnpm run dev
+pnpm run build
+pnpm run preview
 ```
 
 ## Cloudflare Pages
@@ -24,7 +24,7 @@ npm run preview
 Build command:
 
 ```sh
-npm run build
+pnpm run build
 ```
 
 Build output directory:
@@ -36,7 +36,7 @@ dist
 Direct deploy:
 
 ```sh
-npm run deploy:cf
+pnpm run deploy:cf
 ```
 
 The site intentionally avoids host-specific runtime code, so it can migrate to

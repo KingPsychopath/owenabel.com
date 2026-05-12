@@ -9,9 +9,9 @@
     "format:check": "oxfmt --check .",
     "lint": "oxlint --type-aware --deny-warnings . --ignore-pattern dist --ignore-pattern node_modules --ignore-pattern '*.astro'",
     "typecheck": "tsgo --noEmit",
-    "build": "npm run format:check && npm run lint && npm run typecheck && astro build",
+    "build": "pnpm run format:check && pnpm run lint && pnpm run typecheck && astro build",
     "preview": "astro preview",
-    "deploy:cf": "npm run build && wrangler pages deploy dist --project-name owenabel-com --branch main"
+    "deploy:cf": "pnpm run build && wrangler pages deploy dist --project-name owenabel-com --branch main"
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.2",
