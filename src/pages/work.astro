@@ -3,11 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const work = [
   {
-    year: "2025",
+    year: "2025-26",
     name: "Fete Finder",
     href: "https://fete.outofofficecollective.co.uk",
     detail:
       "A cultural event discovery platform for Fete de la Musique, built to make a large, scattered programme feel findable.",
+    tension:
+      "A city-wide programme is only useful if people can move through it by place, time, taste, and confidence.",
     owned:
       "Listings, maps, event pages, partner placements, admin workflows, and launch readiness under real campaign traffic.",
     signal:
@@ -21,6 +23,8 @@ const work = [
     href: "https://www.jisc.ac.uk",
     detail:
       "Platform work across search, content, infrastructure, and data services for products with institutional users.",
+    tension:
+      "Product surfaces depended on records, publishing flows, and infrastructure that needed to stay reliable while changing.",
     owned:
       "CMS delivery, AWS migration work, search indexing, release validation, and coordination between product and data teams.",
     signal:
@@ -37,6 +41,8 @@ const work = [
     href: "https://receipts.beauty",
     detail:
       "A trust-first beauty discovery platform designed around evidence, not empty ranking theatre.",
+    tension:
+      "Beauty discovery often asks people to trust opaque recommendations; the product needed to show its working.",
     owned:
       "Product architecture, authentication, typed contracts, ranking logic, async work, and operational visibility.",
     signal:
@@ -45,11 +51,13 @@ const work = [
     role: "Founder",
   },
   {
-    year: "2024",
+    year: "2025",
     name: "Milk & Henny",
     href: "https://milkandhenny.com",
     detail:
       "A private content and media platform with careful handling of images, video, storage, and presentation.",
+    tension:
+      "A media-heavy product should feel quiet at the surface, even when storage, processing, and presentation are doing difficult work underneath.",
     owned:
       "Media storage, image transformation, video processing, focal-point handling, and the private publishing surface.",
     signal:
@@ -88,6 +96,10 @@ const work = [
             <details>
               <summary>More detail</summary>
               <dl>
+                <div>
+                  <dt>Tension</dt>
+                  <dd>{item.tension}</dd>
+                </div>
                 <div>
                   <dt>Owned</dt>
                   <dd>{item.owned}</dd>
