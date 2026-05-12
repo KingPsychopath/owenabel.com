@@ -115,7 +115,33 @@ a:hover {
 }
 
 .site-footer {
+  position: relative;
   margin-top: clamp(64px, 10vw, 120px);
+  overflow: hidden;
+  min-height: 74px;
+}
+
+.footer-microtext {
+  position: absolute;
+  inset: 12px 0 auto;
+  z-index: 0;
+  max-height: 56px;
+  overflow: hidden;
+  color: transparent;
+  font-size: 6px;
+  line-height: 1.05;
+  text-transform: uppercase;
+  user-select: none;
+  opacity: 0.12;
+  -webkit-text-stroke: 0.18px rgba(17, 17, 15, 0.18);
+  mask-image: linear-gradient(90deg, transparent, black 14%, black 86%, transparent);
+  pointer-events: none;
+}
+
+.site-footer > span,
+.site-footer > a {
+  position: relative;
+  z-index: 1;
 }
 
 .eyebrow {
