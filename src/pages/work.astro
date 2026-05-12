@@ -15,6 +15,16 @@ const work = [
     signal:
       "Supported 3,000+ registrations and 50,000+ unique visitors during launch.",
     links: [{ label: "fete.outofofficecollective.co.uk", href: "https://fete.outofofficecollective.co.uk" }],
+    caseNotes: [
+      {
+        label: "Fete Finder: discovery, maps, and share links",
+        href: "/work/fete-finder-discovery",
+      },
+      {
+        label: "Fete Finder: admin, data, and launch operations",
+        href: "/work/fete-finder-operations",
+      },
+    ],
     role: "Product",
   },
   {
@@ -69,10 +79,12 @@ const work = [
       },
       { label: "jisc.ac.uk", href: "https://www.jisc.ac.uk", key: "digital-experience" },
     ],
-    caseNote: {
-      label: "Open Policy Finder: search, documentation, and data quality",
-      href: "/work/open-policy-finder",
-    },
+    caseNotes: [
+      {
+        label: "Open Policy Finder: search, documentation, and data quality",
+        href: "/work/open-policy-finder",
+      },
+    ],
     role: "Senior",
   },
   {
@@ -106,6 +118,8 @@ const work = [
     role: "Full stack",
   },
 ];
+
+const getCaseNotes = (item) => item.caseNotes ?? (item.caseNote ? [item.caseNote] : []);
 ---
 
 <BaseLayout
@@ -135,15 +149,15 @@ const work = [
               <summary>
                 More detail
                 {
-                  item.caseNote && (
+                  getCaseNotes(item).map((caseNote, index) => (
                     <a
                       class="case-study-count"
-                      href={item.caseNote.href}
-                      aria-label={`Case study: ${item.caseNote.label}`}
+                      href={caseNote.href}
+                      aria-label={`Case study ${index + 1}: ${caseNote.label}`}
                     >
-                      [1]
+                      [{index + 1}]
                     </a>
-                  )
+                  ))
                 }
               </summary>
               <dl>
@@ -228,14 +242,20 @@ const work = [
                   </dd>
                 </div>
                 {
-                  item.caseNote && (
+                  getCaseNotes(item).length > 0 && (
                     <div>
-                      <dt>Case study</dt>
+                      <dt>{getCaseNotes(item).length > 1 ? "Case studies" : "Case study"}</dt>
                       <dd>
-                        <a href={item.caseNote.href}>
-                          <span class="case-study-ref" aria-hidden="true">[1]</span>
-                          {item.caseNote.label}
-                        </a>
+                        <ol class="case-study-list">
+                          {getCaseNotes(item).map((caseNote, index) => (
+                            <li>
+                              <a href={caseNote.href}>
+                                <span class="case-study-ref" aria-hidden="true">[{index + 1}]</span>
+                                {caseNote.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ol>
                       </dd>
                     </div>
                   )
