@@ -26,10 +26,26 @@ const threads = [
 ];
 
 const mechanisms = [
-  ["Search index", "Elasticsearch, fuzzy search, ranking, filters, and result shaping."],
-  ["Data quality", "Verification passes, percentage-error checks, record cleanup, and source-data feedback."],
-  ["Content model", "Markdown source, AST parsing, React rendering, connection blocks, and Directus sync."],
-  ["Documentation", "Help and API-facing documentation for users, stakeholders, and consumers."],
+  {
+    thread: "search",
+    layer: "Search index",
+    detail: "Elasticsearch, fuzzy search, ranking, filters, and result shaping.",
+  },
+  {
+    thread: "data",
+    layer: "Data quality",
+    detail: "Verification passes, percentage-error checks, record cleanup, and source-data feedback.",
+  },
+  {
+    thread: "docs",
+    layer: "Content model",
+    detail: "Markdown source, AST parsing, React rendering, connection blocks, and Directus sync.",
+  },
+  {
+    thread: "docs",
+    layer: "Documentation",
+    detail: "Help and API-facing documentation for users, stakeholders, and consumers.",
+  },
 ];
 
 const initialThread = "search";
@@ -139,10 +155,10 @@ const initialThread = "search";
         </thead>
         <tbody>
           {
-            mechanisms.map(([layer, detail]) => (
-              <tr>
-                <td>{layer}</td>
-                <td>{detail}</td>
+            mechanisms.map((mechanism) => (
+              <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+                <td>{mechanism.layer}</td>
+                <td>{mechanism.detail}</td>
               </tr>
             ))
           }
