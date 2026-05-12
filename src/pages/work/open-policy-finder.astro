@@ -106,7 +106,7 @@ const initialThread = "search";
     <section class="case-section" aria-labelledby="case-threads">
       <div class="case-section-label">
         <h2 id="case-threads">Threads</h2>
-        <p>Three parts of the work that connect through the page.</p>
+        <p>Three parts of the work that connect through the page. Arrow keys move between them.</p>
       </div>
       <div class="case-thread-grid">
         {
@@ -210,7 +210,7 @@ const initialThread = "search";
 
   <script>
     const caseNote = document.querySelector("[data-case-note]");
-    const controls = caseNote.querySelectorAll(".case-thread[data-thread]");
+    const controls = Array.from(caseNote.querySelectorAll(".case-thread[data-thread]"));
     const related = caseNote.querySelectorAll("[data-thread]");
 
     const setThread = (key) => {
@@ -227,8 +227,31 @@ const initialThread = "search";
       });
     };
 
-    controls.forEach((control) => {
+    controls.forEach((control, index) => {
       control.addEventListener("click", () => setThread(control.dataset.thread));
+      control.addEventListener("keydown", (event) => {
+        const keys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"];
+
+        if (!keys.includes(event.key)) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const nextIndex =
+          {
+            ArrowRight: (index + 1) % controls.length,
+            ArrowDown: (index + 1) % controls.length,
+            ArrowLeft: (index - 1 + controls.length) % controls.length,
+            ArrowUp: (index - 1 + controls.length) % controls.length,
+            Home: 0,
+            End: controls.length - 1,
+          }[event.key] ?? index;
+        const nextControl = controls[nextIndex];
+
+        nextControl.focus({ preventScroll: true });
+        setThread(nextControl.dataset.thread);
+      });
     });
 
     document.addEventListener("keydown", (event) => {
