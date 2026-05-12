@@ -1,0 +1,376 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const threads = [
+  {
+    key: "event",
+    label: "Event operations",
+    tension: "Party tools have to work for guests and door staff in the moment, not merely look correct in a demo.",
+    owned: "Built the party hub, guest-list check-in, admin management, best-dressed voting, vote-code controls, and multi-device sync behaviour.",
+    proof: "Live event workflows have clear roles: guests vote, staff check people in, admins can reset, revoke, import, and recover.",
+  },
+  {
+    key: "transfers",
+    label: "Private transfers",
+    tension: "Private file sharing needed memorable links, expiry, deletion, previews, downloads, and large-file paths without pushing file bytes through the app.",
+    owned: "Built self-destructing transfer links with Redis metadata, R2 storage, presigned uploads, delete tokens, media previews, and batch download paths.",
+    proof: "Files can be shared privately, expire automatically, and stay cheap because storage and bandwidth live on the right side of the system.",
+  },
+  {
+    key: "control",
+    label: "Operational control",
+    tension: "Small products still need incident response: auth revocation, rate limiting, cost budgets, retries, cleanup, and safe failure modes.",
+    owned: "Implemented httpOnly role cookies, token revocation/versioning, admin step-up, cron cleanup, R2 lifecycle guidance, worker fallbacks, and CLI diagnostics.",
+    proof: "The system can be operated without guessing: sessions can be revoked, queues can drain, credentials can rotate, and costs have guardrails.",
+  },
+];
+
+const mechanisms = [
+  {
+    thread: "event",
+    layer: "Guest list",
+    detail: "Door-staff check-in uses server-readable auth, optimistic UI, multi-device polling, CSV import, plus-one handling, and conservative fetch gaps.",
+  },
+  {
+    thread: "event",
+    layer: "Best dressed",
+    detail: "Voting uses staff-minted one-time codes, optional voting windows, per-device identity, server validation against the guest list, and admin resets.",
+  },
+  {
+    thread: "transfers",
+    layer: "Upload path",
+    detail: "Browser uploads use presigned PUT URLs so file bytes go directly to Cloudflare R2 instead of through serverless request bodies.",
+  },
+  {
+    thread: "transfers",
+    layer: "Lifecycle",
+    detail: "Transfer metadata lives in Redis with TTL, pages are noindexed, delete tokens are separate from recipient links, and cron/R2 lifecycle cleanup catches residue.",
+  },
+  {
+    thread: "transfers",
+    layer: "Heavy media",
+    detail: "Hybrid processing handles RAW previews, video posters, browser HEIC/HIF conversion, and worker-backed ZIP fallback for multi-file downloads.",
+  },
+  {
+    thread: "control",
+    layer: "Auth model",
+    detail: "Role JWTs live in httpOnly cookies; API bearer auth remains available for CLI and tools; admin actions use step-up tokens and revocation checks.",
+  },
+  {
+    thread: "control",
+    layer: "Cost guardrails",
+    detail: "CDN caching, direct R2 media delivery, polling budgets, retry rules, rate limits, and documented rotation paths reduce expensive surprises.",
+  },
+];
+
+const initialThread = "event";
+---
+
+<BaseLayout
+  title="Milk & Henny Operations - Owen Abel Amenze"
+  description="A case study on Milk & Henny's private tools, file transfers, auth model, and event operations."
+>
+  <article class="case-note" data-case-note data-active-thread={initialThread}>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/work">Work</a>
+      <span aria-hidden="true">/</span>
+      <span>Milk & Henny Operations</span>
+    </nav>
+
+    <header class="case-hero">
+      <p class="eyebrow">Case study</p>
+      <h1>Milk & Henny Operations</h1>
+      <p>
+        Work on the private tools behind a personal platform: event-night
+        check-in, voting, uploads, transfers, auth, cleanup, and cost controls.
+      </p>
+    </header>
+
+    <dl class="case-meta" aria-label="Case study summary">
+      <div>
+        <dt>Context</dt>
+        <dd>Personal platform / 2025</dd>
+      </div>
+      <div>
+        <dt>Focus</dt>
+        <dd>Event tooling, private transfers, auth, R2, Redis/KV, worker paths</dd>
+      </div>
+      <div>
+        <dt>Link</dt>
+        <dd>
+          <a href="https://milkandhenny.com">milkandhenny.com</a>
+        </dd>
+      </div>
+    </dl>
+
+    <nav class="case-control" aria-label="Case study controls">
+      <p>
+        <span>Navigate</span>
+        <kbd>↑</kbd><kbd>↓</kbd> sections
+        <kbd>←</kbd><kbd>→</kbd> threads
+        <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> direct
+      </p>
+      <div>
+        {
+          threads.map((thread, index) => (
+            <button
+              type="button"
+              data-thread-control={thread.key}
+              data-active={thread.key === initialThread ? true : undefined}
+              aria-pressed={thread.key === initialThread ? "true" : "false"}
+            >
+              [{index + 1}] {thread.label}
+            </button>
+          ))
+        }
+      </div>
+    </nav>
+
+    <section class="case-section" aria-labelledby="case-tension" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-tension">Tension</h2>
+        <p>The product problem beneath the work.</p>
+      </div>
+      <p>
+        Milk & Henny has a public editorial face, but it also has operational
+        work: letting staff run a door, letting guests vote, letting private
+        files move safely, and keeping large media cheap. The useful version of
+        the product is the one that holds during actual use.
+      </p>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-threads" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-threads">Threads</h2>
+        <p>Three contracts behind the private tool surface.</p>
+      </div>
+      <div class="case-thread-grid">
+        {
+          threads.map((thread) => (
+            <button
+              class="case-thread"
+              type="button"
+              data-thread={thread.key}
+              data-active={thread.key === initialThread ? true : undefined}
+              aria-pressed={thread.key === initialThread ? "true" : "false"}
+            >
+              <span>{thread.label}</span>
+              <small>{thread.tension}</small>
+            </button>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-owned" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-owned">Owned</h2>
+        <p>What I was responsible for, and what it changed.</p>
+      </div>
+      <table class="case-ledger">
+        <thead>
+          <tr>
+            <th scope="col">Thread</th>
+            <th scope="col">Work</th>
+            <th scope="col">Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            threads.map((thread) => (
+              <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+                <td>{thread.label}</td>
+                <td>{thread.owned}</td>
+                <td>{thread.proof}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-mechanism">Mechanism</h2>
+        <p>The technical layers behind those responsibilities.</p>
+      </div>
+      <table class="case-ledger">
+        <thead>
+          <tr>
+            <th scope="col">Layer</th>
+            <th scope="col">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            mechanisms.map((mechanism) => (
+              <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+                <td>{mechanism.layer}</td>
+                <td>{mechanism.detail}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-shape">Shape</h2>
+        <p>How private work stays controlled.</p>
+      </div>
+      <ol>
+        <li data-thread="event" data-active>Event tools define the role first: guest, staff, or admin.</li>
+        <li data-thread="event">Live state is kept lightweight so check-in and voting remain usable during an event.</li>
+        <li data-thread="transfers">Uploads go straight to R2 while metadata records expiry, ownership, and deletion paths.</li>
+        <li data-thread="transfers">Heavy media and batch downloads move into worker or client paths when the main app should not do the work.</li>
+        <li data-thread="control">Auth, revocation, cleanup, budgets, and logs make the private system recoverable.</li>
+      </ol>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-reflection" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-reflection">Reflection</h2>
+        <p>What the project clarified about private tools.</p>
+      </div>
+      <p>
+        Private tools are only quiet when their boundaries are strict. The
+        guest should not feel the storage model, the staff member should not
+        think about polling, and the operator should still have enough control
+        to recover when something unusual happens.
+      </p>
+    </section>
+  </article>
+
+  <script>
+    const caseNote = document.querySelector("[data-case-note]");
+    const controls = Array.from(caseNote.querySelectorAll(".case-thread[data-thread]"));
+    const threadControls = Array.from(caseNote.querySelectorAll("[data-thread-control]"));
+    const related = caseNote.querySelectorAll("[data-thread]");
+    const sections = Array.from(caseNote.querySelectorAll("[data-case-section]"));
+
+    const applyThread = (key) => {
+      caseNote.dataset.activeThread = key ?? "";
+
+      related.forEach((node) => {
+        const active = Boolean(key) && node.dataset.thread === key;
+        node.toggleAttribute("data-active", active);
+
+        if (node.matches(".case-thread")) {
+          node.setAttribute("aria-pressed", String(active));
+        }
+      });
+
+      threadControls.forEach((control) => {
+        const active = Boolean(key) && control.dataset.threadControl === key;
+        control.toggleAttribute("data-active", active);
+        control.setAttribute("aria-pressed", String(active));
+      });
+    };
+
+    const toggleThread = (key) => {
+      applyThread(caseNote.dataset.activeThread === key ? undefined : key);
+    };
+
+    const activeThreadIndex = () => {
+      const index = controls.findIndex((control) => control.dataset.thread === caseNote.dataset.activeThread);
+      return index < 0 ? 0 : index;
+    };
+
+    const moveThread = (amount) => {
+      const nextControl = controls[(activeThreadIndex() + amount + controls.length) % controls.length];
+
+      nextControl.focus({ preventScroll: true });
+      applyThread(nextControl.dataset.thread);
+    };
+
+    const currentSectionIndex = () => {
+      const viewportAnchor = window.scrollY + window.innerHeight * 0.28;
+
+      for (let index = sections.length - 1; index >= 0; index -= 1) {
+        if (sections[index].offsetTop <= viewportAnchor) {
+          return index;
+        }
+      }
+
+      return -1;
+    };
+
+    const moveSection = (amount) => {
+      const currentIndex = currentSectionIndex();
+      const firstSectionTop = sections[0].offsetTop;
+      const isNearFirstSection = window.scrollY <= firstSectionTop;
+
+      if (amount < 0 && (currentIndex <= 0 || isNearFirstSection)) {
+        window.scrollTo({
+          top: Math.max(0, caseNote.offsetTop - 18),
+          behavior: "smooth",
+        });
+        return;
+      }
+
+      const nextIndex = Math.min(Math.max(currentIndex + amount, 0), sections.length - 1);
+      sections[nextIndex].scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    controls.forEach((control, index) => {
+      control.addEventListener("click", () => toggleThread(control.dataset.thread));
+      control.addEventListener("keydown", (event) => {
+        const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
+
+        if (!keys.includes(event.key)) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const nextIndex =
+          {
+            ArrowRight: (index + 1) % controls.length,
+            ArrowLeft: (index - 1 + controls.length) % controls.length,
+            Home: 0,
+            End: controls.length - 1,
+          }[event.key] ?? index;
+        const nextControl = controls[nextIndex];
+
+        nextControl.focus({ preventScroll: true });
+        applyThread(nextControl.dataset.thread);
+      });
+    });
+
+    threadControls.forEach((control) => {
+      control.addEventListener("click", () => {
+        applyThread(control.dataset.threadControl);
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.defaultPrevented || event.metaKey || event.altKey || event.ctrlKey) {
+        return;
+      }
+
+      if (!caseNote.contains(event.target) && event.target !== document.body) {
+        return;
+      }
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        moveSection(1);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        moveSection(-1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        moveThread(1);
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        moveThread(-1);
+      } else if (["1", "2", "3"].includes(event.key)) {
+        event.preventDefault();
+        applyThread(controls[Number(event.key) - 1].dataset.thread);
+      } else if (event.key === "Escape") {
+        applyThread();
+      }
+    });
+  </script>
+</BaseLayout>
