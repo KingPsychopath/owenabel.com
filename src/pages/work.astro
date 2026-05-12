@@ -132,7 +132,10 @@ const work = [
             </h3>
             <p>{item.detail}</p>
             <details>
-              <summary>More detail</summary>
+              <summary>
+                More detail
+                {item.caseNote && <span class="case-study-count" aria-label="1 case study">[1]</span>}
+              </summary>
               <dl>
                 <div>
                   <dt>Tension</dt>

@@ -339,6 +339,11 @@ a:hover {
   color: var(--accent);
 }
 
+.case-study-count {
+  margin-left: 6px;
+  color: var(--muted);
+}
+
 .work-item details::details-content {
   block-size: 0;
   overflow: clip;
@@ -594,6 +599,13 @@ a:hover {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.35;
+}
+
+@media (min-width: 761px) {
+  .case-section-label p {
+    max-width: 20ch;
+    font-size: 11px;
+  }
 }
 
 .case-thread-grid {
