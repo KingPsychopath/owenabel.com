@@ -30,18 +30,24 @@ const work = [
     streams: [
       {
         label: "Open Policy Finder",
+        key: "open-policy-finder",
         body: "Built search and help surfaces for policy, journal, and transitional-agreement discovery, including documentation used by API consumers and internal stakeholders; supported data pipelines, search indexing, and source-data quality feedback for open access compliance.",
       },
       {
         label: "Digital Experience Content Management System",
+        key: "digital-experience",
         body: "Worked on the main Jisc website platform: content management system delivery, publishing flows, AWS migration support, release readiness, and validation with product and content teams.",
       },
     ],
     signal:
       "Policy and journal records became easier to keep aligned with the search experience, while website releases gained a clearer path from content change to production.",
     links: [
-      { label: "openpolicyfinder.jisc.ac.uk", href: "https://openpolicyfinder.jisc.ac.uk" },
-      { label: "jisc.ac.uk", href: "https://www.jisc.ac.uk" },
+      {
+        label: "openpolicyfinder.jisc.ac.uk",
+        href: "https://openpolicyfinder.jisc.ac.uk",
+        key: "open-policy-finder",
+      },
+      { label: "jisc.ac.uk", href: "https://www.jisc.ac.uk", key: "digital-experience" },
     ],
     role: "Senior",
   },
@@ -96,7 +102,7 @@ const work = [
   <div class="work-list">
     {
       work.map((item) => (
-        <article class="work-item">
+        <article class="work-item" data-work-item>
           <span>{item.year}</span>
           <div>
             <h3>
@@ -115,9 +121,9 @@ const work = [
                   <dd>
                     {
                       item.streams ? (
-                        <ol class="work-streams">
+                        <ol class="work-streams" data-relation-list>
                           {item.streams.map((stream) => (
-                            <li>
+                            <li data-relation={stream.key} tabindex="0">
                               <strong>{stream.label}</strong>
                               <span>{stream.body}</span>
                             </li>
@@ -139,7 +145,9 @@ const work = [
                     {item.links.map((link, index) => (
                       <>
                         {index > 0 && " / "}
-                        <a href={link.href}>{link.label}</a>
+                        <a href={link.href} data-relation={link.key}>
+                          {link.label}
+                        </a>
                       </>
                     ))}
                   </dd>
@@ -152,4 +160,43 @@ const work = [
       ))
     }
   </div>
+
+  <script>
+    const relationItems = document.querySelectorAll("[data-work-item]");
+
+    for (const item of relationItems) {
+      const setActive = (key, persist = false) => {
+        item.querySelectorAll("[data-relation]").forEach((node) => {
+          node.toggleAttribute("data-active", Boolean(key) && node.dataset.relation === key);
+        });
+
+        if (persist) {
+          if (item.dataset.pinnedRelation === key) {
+            delete item.dataset.pinnedRelation;
+            item.querySelectorAll("[data-relation]").forEach((node) => {
+              node.removeAttribute("data-active");
+            });
+          } else {
+            item.dataset.pinnedRelation = key;
+          }
+        }
+      };
+
+      item.querySelectorAll(".work-streams [data-relation]").forEach((node) => {
+        node.addEventListener("mouseenter", () => setActive(node.dataset.relation));
+        node.addEventListener("focus", () => setActive(node.dataset.relation));
+        node.addEventListener("click", () => setActive(node.dataset.relation, true));
+        node.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setActive(node.dataset.relation, true);
+          }
+        });
+      });
+
+      item.addEventListener("mouseleave", () => {
+        setActive(item.dataset.pinnedRelation);
+      });
+    }
+  </script>
 </BaseLayout>

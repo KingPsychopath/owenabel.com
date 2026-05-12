@@ -383,6 +383,21 @@ a:hover {
   gap: 2px;
   border-left: 1px solid var(--rule);
   padding-left: 12px;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    padding 180ms ease;
+}
+
+.work-streams li:hover,
+.work-streams li:focus-visible,
+.work-streams li[data-active] {
+  border-color: var(--accent);
+  background: rgba(123, 47, 29, 0.06);
+  outline: 0;
+  padding-left: 16px;
 }
 
 .work-streams strong {
@@ -392,6 +407,20 @@ a:hover {
 
 .work-streams span {
   color: var(--muted);
+}
+
+.work-item [data-relation] {
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    outline-color 180ms ease;
+}
+
+.work-item a[data-relation][data-active] {
+  color: var(--accent);
+  background: rgba(123, 47, 29, 0.08);
+  outline: 1px solid rgba(123, 47, 29, 0.32);
+  outline-offset: 3px;
 }
 
 .page-title {
