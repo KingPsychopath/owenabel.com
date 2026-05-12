@@ -396,7 +396,8 @@ a:hover {
 .work-streams li[data-active] {
   border-color: var(--accent);
   background: rgba(123, 47, 29, 0.06);
-  outline: 0;
+  outline: 1px solid rgba(123, 47, 29, 0.22);
+  outline-offset: 3px;
   padding-left: 16px;
 }
 
