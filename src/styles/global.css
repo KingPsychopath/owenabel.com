@@ -18,7 +18,7 @@
   --accent-outline-strong: rgba(123, 47, 29, 0.32);
   --footer-microstroke: rgba(17, 17, 15, 0.18);
   --grain-opacity: 0.34;
-  --grain-cloud-opacity: 0.22;
+  --grain-cloud-opacity: 0.42;
   --sticky-surface: rgba(239, 239, 236, 0.88);
   --max: 1080px;
   color-scheme: light;
@@ -45,7 +45,7 @@ html[data-theme="dark"] {
   --accent-outline-strong: rgba(240, 163, 109, 0.56);
   --footer-microstroke: rgba(243, 239, 230, 0.2);
   --grain-opacity: 0.38;
-  --grain-cloud-opacity: 0.3;
+  --grain-cloud-opacity: 0.48;
   --sticky-surface: rgba(17, 18, 19, 0.9);
   color-scheme: dark;
 }
@@ -98,11 +98,9 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background:
-    radial-gradient(circle at 16% 18%, currentColor, transparent 34rem),
-    radial-gradient(circle at 82% 24%, currentColor, transparent 30rem),
-    radial-gradient(circle at 46% 82%, currentColor, transparent 38rem);
-  color: var(--paper-glow);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1600 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='cloud'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.007 0.013' numOctaves='5' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.78'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='1600' height='1000' filter='url(%23cloud)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: cover;
   content: "";
   mix-blend-mode: soft-light;
   opacity: var(--grain-cloud-opacity);
