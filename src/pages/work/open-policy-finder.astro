@@ -286,7 +286,14 @@ const initialThread = "search";
     };
 
     const moveSection = (amount) => {
-      const nextIndex = Math.min(Math.max(currentSectionIndex() + amount, 0), sections.length - 1);
+      const currentIndex = currentSectionIndex();
+
+      if (amount < 0 && currentIndex <= 0) {
+        caseNote.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      const nextIndex = Math.min(Math.max(currentIndex + amount, 0), sections.length - 1);
       sections[nextIndex].scrollIntoView({ behavior: "smooth", block: "start" });
     };
 

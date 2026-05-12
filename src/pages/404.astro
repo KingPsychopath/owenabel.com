@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found - Owen Abel Amenze"
+  description="The requested page could not be found."
+  noindex
+>
+  <section class="not-found" aria-labelledby="not-found-title">
+    <p class="eyebrow">Missing entry</p>
+    <h1 id="not-found-title">This page is not in the ledger.</h1>
+    <p>
+      The address may have moved, expired, or been typed slightly differently.
+      The useful routes are still close by.
+    </p>
+
+    <div class="not-found-actions" aria-label="Recovery links">
+      <a class="button-link" href="/">Index</a>
+      <a class="button-link" href="/work">Work</a>
+      <a class="button-link" href="/contact">Contact</a>
+    </div>
+  </section>
+</BaseLayout>
