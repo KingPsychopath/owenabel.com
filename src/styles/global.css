@@ -85,6 +85,10 @@ html[data-theme="dark"] {
   box-sizing: border-box;
 }
 
+@view-transition {
+  navigation: auto;
+}
+
 html {
   background: var(--paper);
   color: var(--ink);
@@ -722,6 +726,10 @@ html[data-theme="dark"] .invoice-box::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
   *,
   *::before,
   *::after {
