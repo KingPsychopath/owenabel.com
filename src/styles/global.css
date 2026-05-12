@@ -58,6 +58,7 @@ html {
   background: var(--paper);
   color: var(--ink);
   min-width: 320px;
+  scroll-behavior: smooth;
 }
 
 @supports (interpolate-size: allow-keywords) {
@@ -77,6 +78,14 @@ body {
   font-size: 15px;
   line-height: 1.45;
   letter-spacing: 0;
+}
+
+p,
+li,
+dd,
+a,
+button {
+  overflow-wrap: anywhere;
 }
 
 body::before {
