@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
 
 const threads = [
   {
@@ -243,15 +244,7 @@ const initialThread = "event";
       </p>
     </section>
 
-    <section class="case-section related-case" aria-labelledby="related-case">
-      <div class="case-section-label">
-        <h2 id="related-case">Related</h2>
-        <p>The media pipeline that makes the archive durable.</p>
-      </div>
-      <p>
-        <a href="/work/milk-and-henny-media">Milk & Henny: media publishing and image pipeline</a>
-      </p>
-    </section>
+    <RelatedCaseStudies currentHref="/work/milk-and-henny-operations" />
   </article>
 
   <script>

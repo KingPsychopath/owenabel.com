@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getFeaturedWork } from "../data/work";
 
 const lineItems = [
   ["01", "Product systems", "Make the path through a problem visible"],
@@ -7,32 +8,7 @@ const lineItems = [
   ["03", "Reliability", "Leave the system easier to trust after launch"],
 ];
 
-const featuredWork = [
-  {
-    year: "2025-26",
-    name: "Fete Finder",
-    href: "/work/fete-finder-discovery",
-    detail:
-      "A cultural event discovery surface shaped around search, maps, share links, and launch traffic.",
-    role: "Product",
-  },
-  {
-    year: "2023-26",
-    name: "Open Policy Finder",
-    href: "/work/open-policy-finder",
-    detail:
-      "Search, documentation, content systems, indexing, and data quality for open access compliance.",
-    role: "Senior",
-  },
-  {
-    year: "2026",
-    name: "Receipts",
-    href: "/work/receipts-discovery",
-    detail:
-      "Beauty discovery designed around evidence, traceability, ranking, and operational confidence.",
-    role: "Founder",
-  },
-];
+const featuredWork = getFeaturedWork();
 ---
 
 <BaseLayout>

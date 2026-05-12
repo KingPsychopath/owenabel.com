@@ -1,0 +1,32 @@
+---
+import { getRelatedCaseStudies } from "../data/work";
+
+type Props = {
+  currentHref: string;
+};
+
+const { currentHref } = Astro.props;
+const relatedCaseStudies = getRelatedCaseStudies(currentHref);
+---
+
+{
+  relatedCaseStudies.length > 0 && (
+    <section class="case-section related-case" aria-labelledby="related-case">
+      <div class="case-section-label">
+        <h2 id="related-case">Related</h2>
+        <p>
+          {relatedCaseStudies.length > 1
+            ? "Other notes from the same system."
+            : "Another note from the same system."}
+        </p>
+      </div>
+      <ol class="related-case-list">
+        {relatedCaseStudies.map((caseStudy) => (
+          <li>
+            <a href={caseStudy.href}>{caseStudy.label}</a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}

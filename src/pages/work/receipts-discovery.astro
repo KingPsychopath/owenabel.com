@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
 
 const threads = [
   {
@@ -231,15 +232,7 @@ const initialThread = "evidence";
       </p>
     </section>
 
-    <section class="case-section related-case" aria-labelledby="related-case">
-      <div class="case-section-label">
-        <h2 id="related-case">Related</h2>
-        <p>The platform boundaries underneath the discovery work.</p>
-      </div>
-      <p>
-        <a href="/work/receipts-platform">Receipts: platform boundaries, jobs, and operations</a>
-      </p>
-    </section>
+    <RelatedCaseStudies currentHref="/work/receipts-discovery" />
   </article>
 
   <script>

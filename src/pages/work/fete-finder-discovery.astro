@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
 
 const threads = [
   {
@@ -228,15 +229,7 @@ const initialThread = "search";
       </p>
     </section>
 
-    <section class="case-section related-case" aria-labelledby="related-case">
-      <div class="case-section-label">
-        <h2 id="related-case">Related</h2>
-        <p>The operational note behind the public launch.</p>
-      </div>
-      <p>
-        <a href="/work/fete-finder-operations">Fete Finder: admin, data, and launch operations</a>
-      </p>
-    </section>
+    <RelatedCaseStudies currentHref="/work/fete-finder-discovery" />
   </article>
 
   <script>

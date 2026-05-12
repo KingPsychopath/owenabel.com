@@ -951,6 +951,14 @@ html[data-theme="dark"] .invoice-box::before {
   color: var(--ink);
 }
 
+.related-case-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 @media (min-width: 761px) {
   .case-section-label p {
     max-width: 20ch;
