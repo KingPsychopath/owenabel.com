@@ -17,7 +17,7 @@
   --accent-outline: rgba(123, 47, 29, 0.28);
   --accent-outline-strong: rgba(123, 47, 29, 0.32);
   --footer-microstroke: rgba(17, 17, 15, 0.18);
-  --grain-opacity: 0.18;
+  --grain-opacity: 0.3;
   --sticky-surface: rgba(239, 239, 236, 0.88);
   --max: 1080px;
   color-scheme: light;
@@ -43,7 +43,7 @@ html[data-theme="dark"] {
   --accent-outline: rgba(240, 163, 109, 0.42);
   --accent-outline-strong: rgba(240, 163, 109, 0.56);
   --footer-microstroke: rgba(243, 239, 230, 0.2);
-  --grain-opacity: 0.24;
+  --grain-opacity: 0.34;
   --sticky-surface: rgba(17, 18, 19, 0.9);
   color-scheme: dark;
 }
@@ -81,8 +81,8 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.58'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.18' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.72'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
   content: "";
   mix-blend-mode: multiply;
   opacity: var(--grain-opacity);
