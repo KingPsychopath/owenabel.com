@@ -5,23 +5,23 @@ const threads = [
   {
     key: "storage",
     label: "Storage model",
-    tension: "Albums, writing, private notes, and shared assets needed different lifecycles without turning the product into an admin maze.",
+    tension: "Travel writing, party albums, camera rolls, private notes, and shared assets all needed a home without becoming expensive or fragile.",
     owned: "Separated permanent albums, words content, reusable assets, and private share surfaces across git manifests, KV metadata, and R2 object paths.",
-    proof: "Each content type can update on the path that fits it: static for public albums, dynamic for private words, direct storage for media.",
+    proof: "The site can hold thoughts and photo archives in one owned place while keeping large media cheap to store and serve.",
   },
   {
     key: "images",
     label: "Image pipeline",
-    tension: "Photo-heavy pages needed to look intentional, share well, and stay cheap under repeated views.",
-    owned: "Built processing for thumbnails, full-size variants, originals, Open Graph images, focal points, rotation handling, and face-aware crops.",
-    proof: "Images serve from Cloudflare R2/CDN while pages retain editorial framing, social previews, and sensible crops.",
+    tension: "People should be able to browse an event, find themselves, and download the right image without asking for a separate transfer.",
+    owned: "Built processing for thumbnails, full-size variants, originals, Open Graph images, focal points, rotation handling, filtering, sorting, and face-aware crops.",
+    proof: "Large photo sets get fast previews, sensible crops, and HD downloads from Cloudflare R2/CDN instead of expensive one-off sharing tools.",
   },
   {
     key: "publishing",
     label: "Publishing surface",
-    tension: "The site needed to hold public writing, unlisted notes, private vault entries, and media embeds without creating separate systems.",
+    tension: "The same place needed to hold public writing, unlisted notes, private vault entries, and photo-led memory without creating separate systems.",
     owned: "Built the unified words model with markdown bodies in R2, KV metadata, visibility controls, signed share links, and reusable media references.",
-    proof: "Writing stays calm for readers while private access, media paths, and editorial presentation remain explicit in the system.",
+    proof: "Writing and photography can live together without sacrificing access control, editorial presentation, or storage clarity.",
   },
 ];
 
@@ -68,7 +68,7 @@ const initialThread = "storage";
 
 <BaseLayout
   title="Milk & Henny Media - Owen Abel Amenze"
-  description="A case study on Milk & Henny's media publishing model, image pipeline, and private editorial surfaces."
+  description="A case study on Milk & Henny's personal archive, image pipeline, and media publishing model."
 >
   <article class="case-note" data-case-note data-active-thread={initialThread}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -81,9 +81,9 @@ const initialThread = "storage";
       <p class="eyebrow">Case study</p>
       <h1>Milk & Henny Media</h1>
       <p>
-        Work on a private media and publishing system where photos, writing,
-        share previews, storage paths, and access rules all need to feel quiet
-        from the outside.
+        Work on a personal archive for travel, writing, parties, and the photos
+        I take on digital and film cameras, built so memory can be published and
+        shared without becoming admin.
       </p>
     </header>
 
@@ -94,7 +94,7 @@ const initialThread = "storage";
       </div>
       <div>
         <dt>Focus</dt>
-        <dd>Cloudflare R2, image variants, focal points, OG images, private publishing</dd>
+        <dd>Cloudflare R2, image variants, filtering, downloads, focal points, private publishing</dd>
       </div>
       <div>
         <dt>Link</dt>
@@ -133,17 +133,18 @@ const initialThread = "storage";
         <p>The product problem beneath the work.</p>
       </div>
       <p>
-        Milk & Henny wants to feel like an editorial object, but underneath it
-        handles large image sets, videos, private notes, share links, albums,
-        downloads, and social previews. The work was making that complexity
-        disappear for readers without hiding it from the system.
+        I travel, write, meet people, and take a lot of photos. After parties
+        and trips, the same problem repeats: people want their photos, large
+        batches are awkward to send, and temporary file-sharing tools become
+        expensive or disposable. Milk & Henny turns that loop into an owned
+        archive with optimized previews, filters, sorting, and HD downloads.
       </p>
     </section>
 
     <section class="case-section" aria-labelledby="case-threads" data-case-section>
       <div class="case-section-label">
         <h2 id="case-threads">Threads</h2>
-        <p>Three contracts behind the publishing surface.</p>
+        <p>Three contracts behind the archive surface.</p>
       </div>
       <div class="case-thread-grid">
         {
@@ -218,12 +219,12 @@ const initialThread = "storage";
     <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
       <div class="case-section-label">
         <h2 id="case-shape">Shape</h2>
-        <p>How media becomes presentable.</p>
+        <p>How media becomes browsable and shareable.</p>
       </div>
       <ol>
         <li data-thread="storage" data-active>Content enters through a route that matches its lifecycle: album, word, shared asset, or private entry.</li>
-        <li data-thread="images">Image uploads generate variants and social-preview assets before the page needs them.</li>
-        <li data-thread="images">Focal-point data controls crops so previews feel human rather than accidental.</li>
+        <li data-thread="images">Photo uploads generate fast previews, HD variants, and social-preview assets before anyone needs them.</li>
+        <li data-thread="images">Filtering, sorting, focal points, and crops help people find and recognize the photos they came for.</li>
         <li data-thread="publishing">Markdown references resolve against explicit R2 media paths and reusable asset paths.</li>
         <li data-thread="publishing">Visibility rules decide whether the result is public, unlisted, or privately shareable.</li>
       </ol>
@@ -232,13 +233,13 @@ const initialThread = "storage";
     <section class="case-section" aria-labelledby="case-reflection" data-case-section>
       <div class="case-section-label">
         <h2 id="case-reflection">Reflection</h2>
-        <p>What the project clarified about media systems.</p>
+        <p>What the project clarified about owning the archive.</p>
       </div>
       <p>
-        A media product feels simple when the storage model has already made
-        the hard decisions. Where the file lives, how it is cropped, when it is
-        cached, and who can see it are product choices as much as technical
-        ones.
+        The real product is relief: a place to put the writing, the camera
+        rolls, the party albums, and the people who ask for them later. The
+        storage model matters because it lets the archive feel generous without
+        becoming expensive.
       </p>
     </section>
   </article>

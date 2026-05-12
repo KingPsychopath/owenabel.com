@@ -5,23 +5,23 @@ const threads = [
   {
     key: "event",
     label: "Event operations",
-    tension: "Party tools have to work for guests and door staff in the moment, not merely look correct in a demo.",
-    owned: "Built the party hub, guest-list check-in, admin management, best-dressed voting, vote-code controls, and multi-device sync behaviour.",
-    proof: "Live event workflows have clear roles: guests vote, staff check people in, admins can reset, revoke, import, and recover.",
+    tension: "A party site has to work before, during, and after the event: entry, voting, photos, and the inevitable sharing afterwards.",
+    owned: "Built the party hub, guest-list check-in, admin management, best-dressed voting, vote-code controls, multi-device sync, and album download paths.",
+    proof: "The site supports the whole event loop: guests arrive, participate, find photos, and leave with a way to get what they need.",
   },
   {
     key: "transfers",
-    label: "Private transfers",
-    tension: "Private file sharing needed memorable links, expiry, deletion, previews, downloads, and large-file paths without pushing file bytes through the app.",
-    owned: "Built self-destructing transfer links with Redis metadata, R2 storage, presigned uploads, delete tokens, media previews, and batch download paths.",
-    proof: "Files can be shared privately, expire automatically, and stay cheap because storage and bandwidth live on the right side of the system.",
+    label: "Photo sharing",
+    tension: "Sending hundreds of photos through DMs or temporary transfer links does not scale socially, financially, or aesthetically.",
+    owned: "Built private transfer links, R2 storage, presigned uploads, delete tokens, media previews, optimized galleries, and batch download paths.",
+    proof: "People can browse and download their own photos from an owned surface instead of repeatedly asking for files after the event.",
   },
   {
     key: "control",
     label: "Operational control",
-    tension: "Small products still need incident response: auth revocation, rate limiting, cost budgets, retries, cleanup, and safe failure modes.",
+    tension: "A cheap personal platform still needs real controls when it handles private links, large media, and live event traffic.",
     owned: "Implemented httpOnly role cookies, token revocation/versioning, admin step-up, cron cleanup, R2 lifecycle guidance, worker fallbacks, and CLI diagnostics.",
-    proof: "The system can be operated without guessing: sessions can be revoked, queues can drain, credentials can rotate, and costs have guardrails.",
+    proof: "The archive can stay inexpensive and recoverable: sessions can be revoked, files can expire, credentials can rotate, and costs have guardrails.",
   },
 ];
 
@@ -39,7 +39,7 @@ const mechanisms = [
   {
     thread: "transfers",
     layer: "Upload path",
-    detail: "Browser uploads use presigned PUT URLs so file bytes go directly to Cloudflare R2 instead of through serverless request bodies.",
+    detail: "Browser uploads use presigned PUT URLs so large photo and video files go directly to Cloudflare R2 instead of through serverless request bodies.",
   },
   {
     thread: "transfers",
@@ -49,7 +49,7 @@ const mechanisms = [
   {
     thread: "transfers",
     layer: "Heavy media",
-    detail: "Hybrid processing handles RAW previews, video posters, browser HEIC/HIF conversion, and worker-backed ZIP fallback for multi-file downloads.",
+    detail: "Hybrid processing handles RAW previews, video posters, browser HEIC/HIF conversion, and ZIP fallback for multi-file downloads.",
   },
   {
     thread: "control",
@@ -67,22 +67,22 @@ const initialThread = "event";
 ---
 
 <BaseLayout
-  title="Milk & Henny Operations - Owen Abel Amenze"
-  description="A case study on Milk & Henny's private tools, file transfers, auth model, and event operations."
+  title="Milk & Henny Sharing - Owen Abel Amenze"
+  description="A case study on Milk & Henny's photo sharing, private transfers, auth model, and event tools."
 >
   <article class="case-note" data-case-note data-active-thread={initialThread}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="/work">Work</a>
       <span aria-hidden="true">/</span>
-      <span>Milk & Henny Operations</span>
+      <span>Milk & Henny Sharing</span>
     </nav>
 
     <header class="case-hero">
       <p class="eyebrow">Case study</p>
-      <h1>Milk & Henny Operations</h1>
+      <h1>Milk & Henny Sharing</h1>
       <p>
-        Work on the private tools behind a personal platform: event-night
-        check-in, voting, uploads, transfers, auth, cleanup, and cost controls.
+        Work on the tools around the archive: event-night check-in, voting,
+        uploads, private transfers, downloads, auth, cleanup, and cost controls.
       </p>
     </header>
 
@@ -93,7 +93,7 @@ const initialThread = "event";
       </div>
       <div>
         <dt>Focus</dt>
-        <dd>Event tooling, private transfers, auth, R2, Redis/KV, worker paths</dd>
+        <dd>Photo sharing, event tooling, private transfers, auth, R2, Redis/KV</dd>
       </div>
       <div>
         <dt>Link</dt>
@@ -132,17 +132,19 @@ const initialThread = "event";
         <p>The product problem beneath the work.</p>
       </div>
       <p>
-        Milk & Henny has a public editorial face, but it also has operational
-        work: letting staff run a door, letting guests vote, letting private
-        files move safely, and keeping large media cheap. The useful version of
-        the product is the one that holds during actual use.
+        The product came from a simple repeated friction: I would take photos
+        at parties, while travelling, and on film/digital cameras, then people
+        would ask for them afterwards. Milk & Henny makes that exchange cleaner:
+        an event can have tools, a gallery can have filters and downloads, and
+        large media can stay cheap instead of becoming a chain of temporary
+        transfer links.
       </p>
     </section>
 
     <section class="case-section" aria-labelledby="case-threads" data-case-section>
       <div class="case-section-label">
         <h2 id="case-threads">Threads</h2>
-        <p>Three contracts behind the private tool surface.</p>
+        <p>Three contracts behind sharing without the chase.</p>
       </div>
       <div class="case-thread-grid">
         {
@@ -217,27 +219,27 @@ const initialThread = "event";
     <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
       <div class="case-section-label">
         <h2 id="case-shape">Shape</h2>
-        <p>How private work stays controlled.</p>
+        <p>How event media becomes self-serve.</p>
       </div>
       <ol>
         <li data-thread="event" data-active>Event tools define the role first: guest, staff, or admin.</li>
-        <li data-thread="event">Live state is kept lightweight so check-in and voting remain usable during an event.</li>
+        <li data-thread="event">Live state stays lightweight so check-in and voting remain usable during the night.</li>
         <li data-thread="transfers">Uploads go straight to R2 while metadata records expiry, ownership, and deletion paths.</li>
-        <li data-thread="transfers">Heavy media and batch downloads move into worker or client paths when the main app should not do the work.</li>
-        <li data-thread="control">Auth, revocation, cleanup, budgets, and logs make the private system recoverable.</li>
+        <li data-thread="transfers">Galleries and transfer pages expose previews, filters, sorting, and downloads so recipients can self-serve.</li>
+        <li data-thread="control">Auth, cleanup, budgets, and rate limits keep the archive private, cheap, and recoverable.</li>
       </ol>
     </section>
 
     <section class="case-section" aria-labelledby="case-reflection" data-case-section>
       <div class="case-section-label">
         <h2 id="case-reflection">Reflection</h2>
-        <p>What the project clarified about private tools.</p>
+        <p>What the project clarified about sharing.</p>
       </div>
       <p>
-        Private tools are only quiet when their boundaries are strict. The
-        guest should not feel the storage model, the staff member should not
-        think about polling, and the operator should still have enough control
-        to recover when something unusual happens.
+        The nicest sharing experience is often the one where nobody has to ask
+        twice. People can find themselves, choose the quality they need, and
+        download from a place that feels like mine rather than a temporary
+        workaround.
       </p>
     </section>
   </article>
