@@ -10,7 +10,6 @@ Live preview: <https://owenabel-com.pages.dev>
 - Vite under Astro's build pipeline
 - TypeScript with `tsgo`
 - Oxlint and Oxfmt where they fit
-- Prettier only for Astro component formatting
 
 ## Commands
 
