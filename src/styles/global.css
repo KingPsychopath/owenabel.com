@@ -17,7 +17,8 @@
   --accent-outline: rgba(123, 47, 29, 0.28);
   --accent-outline-strong: rgba(123, 47, 29, 0.32);
   --footer-microstroke: rgba(17, 17, 15, 0.18);
-  --grain-opacity: 0.3;
+  --grain-opacity: 0.34;
+  --grain-cloud-opacity: 0.22;
   --sticky-surface: rgba(239, 239, 236, 0.88);
   --max: 1080px;
   color-scheme: light;
@@ -43,7 +44,8 @@ html[data-theme="dark"] {
   --accent-outline: rgba(240, 163, 109, 0.42);
   --accent-outline-strong: rgba(240, 163, 109, 0.56);
   --footer-microstroke: rgba(243, 239, 230, 0.2);
-  --grain-opacity: 0.34;
+  --grain-opacity: 0.38;
+  --grain-cloud-opacity: 0.3;
   --sticky-surface: rgba(17, 18, 19, 0.9);
   color-scheme: dark;
 }
@@ -81,15 +83,31 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.18' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.72'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 128px 128px;
   content: "";
-  mix-blend-mode: multiply;
-  opacity: var(--grain-opacity);
   pointer-events: none;
 }
 
-html[data-theme="dark"] body::before {
+body::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.82'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  mix-blend-mode: multiply;
+  opacity: var(--grain-opacity);
+}
+
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 640 640' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='cloud'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.68'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='640' height='640' filter='url(%23cloud)'/%3E%3C/svg%3E");
+  background-size: min(92vw, 760px) min(92vw, 760px);
+  content: "";
+  mix-blend-mode: soft-light;
+  opacity: var(--grain-cloud-opacity);
+  pointer-events: none;
+}
+
+html[data-theme="dark"] body::before,
+html[data-theme="dark"] body::after {
   filter: invert(1);
   mix-blend-mode: screen;
 }
