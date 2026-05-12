@@ -39,6 +39,23 @@ const structuredData = {
 <!doctype html>
 <html lang="en">
   <head>
+    <style is:inline>
+      html {
+        background: #efefec;
+        color: #11110f;
+        color-scheme: light;
+      }
+
+      html[data-theme="dark"] {
+        background: #111213;
+        color: #f3efe6;
+        color-scheme: dark;
+      }
+
+      body {
+        background-color: inherit;
+      }
+    </style>
     <script is:inline>
       (() => {
         try {
@@ -54,6 +71,7 @@ const structuredData = {
       })();
     </script>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
