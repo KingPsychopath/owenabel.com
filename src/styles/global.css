@@ -575,12 +575,25 @@ a:hover {
 }
 
 .case-section h2,
-.case-section p {
+.case-section p,
+.case-section-label p {
   margin: 0;
 }
 
 .case-section p {
   max-width: 72ch;
+}
+
+.case-section-label {
+  display: grid;
+  gap: 5px;
+  align-content: start;
+}
+
+.case-section-label p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .case-thread-grid {
