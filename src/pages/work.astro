@@ -134,7 +134,17 @@ const work = [
             <details>
               <summary>
                 More detail
-                {item.caseNote && <span class="case-study-count" aria-label="1 case study">[1]</span>}
+                {
+                  item.caseNote && (
+                    <a
+                      class="case-study-count"
+                      href={item.caseNote.href}
+                      aria-label={`Case study: ${item.caseNote.label}`}
+                    >
+                      [1]
+                    </a>
+                  )
+                }
               </summary>
               <dl>
                 <div>
@@ -222,7 +232,10 @@ const work = [
                     <div>
                       <dt>Case study</dt>
                       <dd>
-                        <a href={item.caseNote.href}>{item.caseNote.label}</a>
+                        <a href={item.caseNote.href}>
+                          <span class="case-study-ref" aria-hidden="true">[1]</span>
+                          {item.caseNote.label}
+                        </a>
                       </dd>
                     </div>
                   )

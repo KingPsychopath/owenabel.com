@@ -340,7 +340,23 @@ a:hover {
 }
 
 .case-study-count {
+  display: inline-block;
   margin-left: 6px;
+  color: var(--muted);
+  text-decoration: none;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.case-study-count:hover,
+.case-study-count:focus-visible {
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.case-study-ref {
+  margin-right: 6px;
   color: var(--muted);
 }
 
