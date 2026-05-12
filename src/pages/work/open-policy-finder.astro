@@ -11,10 +11,10 @@ const threads = [
   },
   {
     key: "docs",
-    label: "Help and documentation",
-    tension: "The product needed to serve institutional users, API consumers, and internal stakeholders.",
-    owned: "Built help pages and documentation surfaces around product and API understanding.",
-    proof: "Support material lived closer to the product surface it explained.",
+    label: "Content system",
+    tension: "Documentation needed to stay editable for content teams without becoming opaque to developers.",
+    owned: "Built a Markdown-to-AST-to-React parser and patched in connection blocks for easier editing.",
+    proof: "The repo could remain the source of truth while content synced into Directus for headless-CMS-style publishing.",
   },
   {
     key: "data",
@@ -28,13 +28,14 @@ const threads = [
 const mechanisms = [
   ["Search index", "Elasticsearch, fuzzy search, ranking, filters, and result shaping."],
   ["Data flow", "ETL-style movement from source records into searchable policy and journal data."],
+  ["Content model", "Markdown source, AST parsing, React rendering, connection blocks, and Directus sync."],
   ["Documentation", "Help and API-facing documentation for users, stakeholders, and consumers."],
 ];
 ---
 
 <BaseLayout
   title="Open Policy Finder - Owen Abel Amenze"
-  description="A case note on Open Policy Finder work across search, documentation, and data quality."
+  description="A case study on Open Policy Finder work across search, documentation, content systems, and data quality."
 >
   <article class="case-note" data-case-note>
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -44,7 +45,7 @@ const mechanisms = [
     </nav>
 
     <header class="case-hero">
-      <p class="eyebrow">Case note</p>
+      <p class="eyebrow">Case study</p>
       <h1>Open Policy Finder</h1>
       <p>
         Work on a Jisc product surface where open access compliance depended on
@@ -60,7 +61,7 @@ const mechanisms = [
       </div>
       <div>
         <dt>Focus</dt>
-        <dd>Search, documentation, Elasticsearch, indexing, data quality</dd>
+        <dd>Search, documentation, content systems, Elasticsearch, indexing, data quality</dd>
       </div>
       <div>
         <dt>Link</dt>
@@ -73,11 +74,11 @@ const mechanisms = [
     <section class="case-section" aria-labelledby="case-tension">
       <h2 id="case-tension">Tension</h2>
       <p>
-        Open access compliance is practical work. Users arrive with specific
-        questions about policies, journals, agreements, and eligibility, and the
-        interface has to help them move through fuzzy, acronym-heavy, and often
-        incomplete search behaviour without hiding the shape of the underlying
-        data.
+        Open access compliance is practical work. Users arrive with questions
+        about policies, journals, agreements, and eligibility, while internal
+        teams need documentation that can change safely. The interface had to
+        support fuzzy, acronym-heavy search behaviour and a content workflow that
+        stayed editable without hiding the shape of the underlying data.
       </p>
     </section>
 
@@ -146,17 +147,19 @@ const mechanisms = [
       <ol>
         <li data-thread="search">A user starts with a policy or journal question.</li>
         <li data-thread="search">Fuzzy search and ranking narrow the problem into inspectable results.</li>
-        <li data-thread="docs">Help and documentation explain how to interpret the product surface.</li>
+        <li data-thread="docs">Markdown content becomes structured React surfaces through an AST parser.</li>
+        <li data-thread="docs">Connection blocks keep related guidance editable for content teams and developers.</li>
         <li data-thread="data">ETL and source-data feedback keep the index aligned with the records.</li>
       </ol>
     </section>
 
-    <section class="case-section" aria-labelledby="case-note">
-      <h2 id="case-note">Note</h2>
+    <section class="case-section" aria-labelledby="case-reflection">
+      <h2 id="case-reflection">Reflection</h2>
       <p>
-        The important part was not only building a search page. It was making a
-        compliance surface easier to operate and easier to trust, from the
-        public interface through to the data and documentation around it.
+        The important part was not only building search pages. It was making a
+        compliance product easier to operate and easier to trust, from fuzzy
+        search and ranking through to the repo-backed content model, Directus
+        sync, and documentation around it.
       </p>
     </section>
   </article>
