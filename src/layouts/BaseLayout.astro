@@ -39,8 +39,26 @@ const structuredData = {
 <!doctype html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#efefec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111213" media="(prefers-color-scheme: dark)" />
     <style is:inline>
       html {
+        background: #efefec;
+        color: #11110f;
+        color-scheme: light;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        html:not([data-theme="light"]) {
+          background: #111213;
+          color: #f3efe6;
+          color-scheme: dark;
+        }
+      }
+
+      html[data-theme="light"] {
         background: #efefec;
         color: #11110f;
         color-scheme: light;
@@ -62,7 +80,9 @@ const structuredData = {
           const theme = localStorage.getItem("owenabel-theme");
           const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-          if (theme === "dark" || (!theme && prefersDark)) {
+          if (theme === "light" || theme === "dark") {
+            document.documentElement.dataset.theme = theme;
+          } else if (prefersDark) {
             document.documentElement.dataset.theme = "dark";
           }
         } catch {
@@ -70,8 +90,6 @@ const structuredData = {
         }
       })();
     </script>
-    <meta charset="UTF-8" />
-    <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
@@ -145,11 +163,7 @@ const structuredData = {
       const setTheme = (theme) => {
         const isDark = theme === "dark";
 
-        document.documentElement.dataset.theme = isDark ? "dark" : "";
-
-        if (!isDark) {
-          document.documentElement.removeAttribute("data-theme");
-        }
+        document.documentElement.dataset.theme = isDark ? "dark" : "light";
 
         themeToggle?.setAttribute("aria-pressed", String(isDark));
         themeToggle?.setAttribute("aria-label", isDark ? "Use light theme" : "Use dark theme");
