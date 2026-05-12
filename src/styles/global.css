@@ -319,6 +319,10 @@ a:hover {
   color: var(--muted);
 }
 
+.work-role {
+  color: var(--muted);
+}
+
 .work-item details {
   margin-top: 10px;
 }
@@ -530,6 +534,12 @@ a:hover {
 
   .work-item {
     gap: 6px;
+  }
+
+  .work-role::before {
+    content: "Role: ";
+    color: var(--muted);
+    text-transform: uppercase;
   }
 
   .work-item dl div {
