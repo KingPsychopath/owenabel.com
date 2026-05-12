@@ -516,6 +516,7 @@ a:hover {
 .case-note {
   display: grid;
   gap: clamp(34px, 6vw, 72px);
+  margin-top: clamp(-84px, -6vw, -36px);
 }
 
 .case-hero {
@@ -727,5 +728,9 @@ a:hover {
 
   .case-thread:last-child {
     border-bottom: 0;
+  }
+
+  .case-note {
+    margin-top: -24px;
   }
 }

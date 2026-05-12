@@ -5,9 +5,9 @@ const threads = [
   {
     key: "search",
     label: "Search surface",
-    tension: "People needed to move from uncertain policy questions to useful records quickly.",
-    owned: "Built search and result surfaces for policy, journal, and transitional-agreement discovery.",
-    proof: "Search became the main path through a complex compliance dataset.",
+    tension: "People searched with partial titles, acronyms, publisher names, policy terms, and imperfect recall.",
+    owned: "Built search and result surfaces around Elasticsearch-backed indexes, fuzzy matching, ranking, and filters.",
+    proof: "Search became a practical route through a complex compliance dataset rather than a thin lookup box.",
   },
   {
     key: "docs",
@@ -18,11 +18,17 @@ const threads = [
   },
   {
     key: "data",
-    label: "Source data quality",
-    tension: "Search trust depended on records staying clear, aligned, and explainable.",
-    owned: "Supported indexing, data-pipeline feedback, and source-data quality loops.",
+    label: "Data quality",
+    tension: "Search trust depended on source records staying clear, aligned, and explainable.",
+    owned: "Supported ETL-style data flows, indexing, and feedback loops for source-data quality.",
     proof: "Policy and journal records became easier to keep aligned with the search experience.",
   },
+];
+
+const mechanisms = [
+  ["Search index", "Elasticsearch, fuzzy search, ranking, filters, and result shaping."],
+  ["Data flow", "ETL-style movement from source records into searchable policy and journal data."],
+  ["Documentation", "Help and API-facing documentation for users, stakeholders, and consumers."],
 ];
 ---
 
@@ -54,7 +60,7 @@ const threads = [
       </div>
       <div>
         <dt>Focus</dt>
-        <dd>Search, help, documentation, indexing, data quality</dd>
+        <dd>Search, documentation, Elasticsearch, indexing, data quality</dd>
       </div>
       <div>
         <dt>Link</dt>
@@ -69,8 +75,9 @@ const threads = [
       <p>
         Open access compliance is practical work. Users arrive with specific
         questions about policies, journals, agreements, and eligibility, and the
-        interface has to help them move through that uncertainty without hiding
-        the shape of the underlying data.
+        interface has to help them move through fuzzy, acronym-heavy, and often
+        incomplete search behaviour without hiding the shape of the underlying
+        data.
       </p>
     </section>
 
@@ -112,13 +119,35 @@ const threads = [
       </table>
     </section>
 
+    <section class="case-section" aria-labelledby="case-mechanism">
+      <h2 id="case-mechanism">Mechanism</h2>
+      <table class="case-ledger">
+        <thead>
+          <tr>
+            <th scope="col">Layer</th>
+            <th scope="col">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            mechanisms.map(([layer, detail]) => (
+              <tr>
+                <td>{layer}</td>
+                <td>{detail}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </section>
+
     <section class="case-section case-flow" aria-labelledby="case-shape">
       <h2 id="case-shape">Shape</h2>
       <ol>
         <li data-thread="search">A user starts with a policy or journal question.</li>
-        <li data-thread="search">The search surface narrows the problem into inspectable results.</li>
+        <li data-thread="search">Fuzzy search and ranking narrow the problem into inspectable results.</li>
         <li data-thread="docs">Help and documentation explain how to interpret the product surface.</li>
-        <li data-thread="data">Source-data feedback keeps the search experience aligned with the records.</li>
+        <li data-thread="data">ETL and source-data feedback keep the index aligned with the records.</li>
       </ol>
     </section>
 
