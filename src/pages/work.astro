@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const work = [
+  {
+    year: "2025",
+    name: "Fete Finder",
+    detail:
+      "A cultural event discovery platform with searchable listings, maps, partner placements, and launch-scale traffic.",
+    role: "Product",
+  },
+  {
+    year: "2023-26",
+    name: "Jisc",
+    detail:
+      "Platform, search, CMS, AWS migration, ETL pipelines, and release work across product and data services.",
+    role: "Senior",
+  },
+  {
+    year: "2026",
+    name: "Receipts",
+    detail:
+      "Trust-first beauty discovery with typed contracts, auth, evidence-backed ranking, queues, and observability.",
+    role: "Founder",
+  },
+  {
+    year: "2024",
+    name: "Milk & Henny",
+    detail:
+      "A private content and media platform using Cloudflare storage, workers, image processing, and AI-assisted cropping.",
+    role: "Full stack",
+  },
+];
+---
+
+<BaseLayout
+  title="Work - Owen Abel Amenze"
+  description="Selected software engineering work by Owen Abel Amenze."
+>
+  <h1 class="page-title">Selected systems, kept deliberately brief.</h1>
+
+  <section class="section-header" aria-labelledby="work-heading">
+    <h2 id="work-heading">Work</h2>
+    <p>
+      I am most useful where product sense meets technical ambiguity: search,
+      data quality, launch readiness, infrastructure, and the quiet details that
+      make software feel dependable.
+    </p>
+  </section>
+
+  <div class="work-list">
+    {
+      work.map((item) => (
+        <article class="work-item">
+          <span>{item.year}</span>
+          <div>
+            <h3>{item.name}</h3>
+            <p>{item.detail}</p>
+          </div>
+          <span>{item.role}</span>
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>

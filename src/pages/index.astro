@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const lineItems = [
+  ["01", "Product systems", "Interfaces, workflows, launch pressure"],
+  ["02", "Data and search", "PostgreSQL, Elasticsearch, geospatial discovery"],
+  ["03", "Infrastructure", "AWS, Cloudflare, queues, observability"],
+];
+---
+
+<BaseLayout>
+  <section class="hero" aria-labelledby="intro-title">
+    <div class="hero-grid">
+      <div class="identity">
+        <p class="eyebrow">Personal site / engineering ledger</p>
+        <h1 id="intro-title">Owen Abel Amenze</h1>
+        <p>
+          I am a software engineer in London. I solve problems by making systems
+          clearer, calmer, and more reliable when real people start depending on
+          them.
+        </p>
+        <div class="hero-actions" aria-label="Primary actions">
+          <a class="button-link" href="/work">Selected work</a>
+          <a class="button-link" href="mailto:cv@owenabel.com"
+            >Start a conversation</a
+          >
+        </div>
+      </div>
+
+      <aside class="invoice-box" aria-label="Site note">
+        <dl>
+          <dt>Document:</dt>
+          <dd>INDEX-OWEN</dd>
+          <dt>Issued:</dt>
+          <dd>May 2026</dd>
+          <dt>Status:</dt>
+          <dd>Present</dd>
+          <dt>Method:</dt>
+          <dd>Care, code, proof</dd>
+        </dl>
+      </aside>
+    </div>
+
+    <div class="section">
+      <table class="ledger">
+        <caption>Current Practice</caption>
+        <thead>
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Area</th>
+            <th scope="col">Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            lineItems.map(([no, area, use]) => (
+              <tr>
+                <td>{no}</td>
+                <td>{area}</td>
+                <td>{use}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+      <hr class="rule double-rule" />
+    </div>
+  </section>
+</BaseLayout>

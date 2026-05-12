@@ -1,0 +1,63 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "Owen Abel Amenze - Software Engineer",
+  description = "Software engineer and problem solver in London, building reliable product, data, search, and infrastructure systems.",
+} = Astro.props;
+
+const nav = [
+  { href: "/", label: "Index" },
+  { href: "/work", label: "Work" },
+  { href: "/contact", label: "Contact" },
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href={Astro.url.href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Owen Abel Amenze home">
+          <strong>Owen Abel Amenze</strong>
+          <span>Software Engineer / London</span>
+        </a>
+        <nav class="nav" aria-label="Primary navigation">
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+          <a href="/owen-abel-amenze-cv.pdf">CV</a>
+        </nav>
+      </header>
+      <main>
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <span>Available for thoughtful engineering work.</span>
+        <a href="mailto:cv@owenabel.com">cv@owenabel.com</a>
+      </footer>
+    </div>
+  </body>
+</html>
