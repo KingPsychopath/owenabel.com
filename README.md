@@ -2,6 +2,8 @@
 
 Personal portfolio site for Owen Abel Amenze.
 
+Live preview: <https://owenabel-com.pages.dev>
+
 ## Stack
 
 - Astro static output
