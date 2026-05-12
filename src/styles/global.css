@@ -98,8 +98,11 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 640 640' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='cloud'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.68'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='640' height='640' filter='url(%23cloud)'/%3E%3C/svg%3E");
-  background-size: min(92vw, 760px) min(92vw, 760px);
+  background:
+    radial-gradient(circle at 16% 18%, currentColor, transparent 34rem),
+    radial-gradient(circle at 82% 24%, currentColor, transparent 30rem),
+    radial-gradient(circle at 46% 82%, currentColor, transparent 38rem);
+  color: var(--paper-glow);
   content: "";
   mix-blend-mode: soft-light;
   opacity: var(--grain-cloud-opacity);
