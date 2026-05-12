@@ -19,6 +19,18 @@ pnpm run build
 pnpm run preview
 ```
 
+Local development runs through Portless:
+
+```txt
+https://owenabel.localhost
+```
+
+To bypass Portless:
+
+```sh
+pnpm run dev:raw
+```
+
 ## Cloudflare Pages
 
 Build command:

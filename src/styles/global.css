@@ -21,6 +21,12 @@ html {
   min-width: 320px;
 }
 
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -66,6 +72,7 @@ a:hover {
 
 .site-header {
   margin-bottom: clamp(56px, 11vw, 132px);
+  animation: settle-in 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .brand {
@@ -96,11 +103,15 @@ a:hover {
 }
 
 .nav a {
+  background: linear-gradient(currentColor 0 0) 0 100% / 0 1px no-repeat;
   text-decoration: none;
+  transition:
+    background-size 180ms ease,
+    color 180ms ease;
 }
 
 .nav a[aria-current="page"] {
-  border-bottom: 1px solid currentColor;
+  background-size: 100% 1px;
 }
 
 .site-footer {
@@ -134,6 +145,7 @@ a:hover {
   grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
   gap: clamp(28px, 8vw, 96px);
   align-items: start;
+  animation: settle-in 800ms 80ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .identity {
@@ -159,6 +171,8 @@ a:hover {
 .invoice-box {
   border: 1px solid var(--rule);
   background: rgba(248, 245, 236, 0.38);
+  transform-origin: top right;
+  animation: paper-mark 900ms 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .invoice-box dl {
@@ -182,6 +196,7 @@ a:hover {
 .ledger {
   width: 100%;
   border-collapse: collapse;
+  animation: settle-in 760ms 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .ledger caption {
@@ -221,11 +236,16 @@ a:hover {
   padding: 9px 12px;
   text-decoration: none;
   background: rgba(255, 255, 255, 0.24);
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .button-link:hover {
   background: var(--ink);
   color: var(--paper);
+  transform: translateY(-1px);
 }
 
 .section {
@@ -267,10 +287,18 @@ a:hover {
   align-items: baseline;
   border-bottom: 1px solid var(--rule);
   padding: 14px 0;
+  transition:
+    background 180ms ease,
+    padding 180ms ease;
+}
+
+.work-item:hover {
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .work-item h3,
-.work-item p {
+.work-item p,
+.work-item dl {
   margin: 0;
 }
 
@@ -279,8 +307,67 @@ a:hover {
   font-weight: 500;
 }
 
+.work-item h3 a {
+  text-decoration: none;
+}
+
+.work-item h3 a:hover {
+  text-decoration: underline;
+}
+
 .work-item p {
   color: var(--muted);
+}
+
+.work-item details {
+  margin-top: 10px;
+}
+
+.work-item summary {
+  width: max-content;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.work-item summary:hover {
+  color: var(--accent);
+}
+
+.work-item details::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    content-visibility 260ms allow-discrete;
+}
+
+.work-item details[open]::details-content {
+  block-size: auto;
+}
+
+.work-item dl {
+  display: grid;
+  gap: 10px;
+  max-width: 720px;
+  padding-top: 12px;
+}
+
+.work-item dl div {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 16px;
+}
+
+.work-item dt {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.work-item dd {
+  margin: 0;
 }
 
 .page-title {
@@ -290,6 +377,40 @@ a:hover {
   font-size: clamp(46px, 8vw, 104px);
   font-weight: 400;
   line-height: 0.95;
+}
+
+@keyframes settle-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes paper-mark {
+  from {
+    opacity: 0;
+    transform: translateY(8px) rotate(0.25deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
 }
 
 .contact-panel {
@@ -341,6 +462,11 @@ a:hover {
 
   .work-item {
     gap: 6px;
+  }
+
+  .work-item dl div {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 
   .ledger th:nth-child(1),

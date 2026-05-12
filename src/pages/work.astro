@@ -5,29 +5,49 @@ const work = [
   {
     year: "2025",
     name: "Fete Finder",
+    href: "https://fete.outofofficecollective.co.uk",
     detail:
-      "A cultural event discovery platform with searchable listings, maps, partner placements, and launch-scale traffic.",
+      "A cultural event discovery platform for Fete de la Musique, built to make a large, scattered programme feel findable.",
+    owned:
+      "Searchable listings, map-led discovery, shareable event pages, admin workflows, and launch-readiness under real campaign traffic.",
+    proof:
+      "Supported 3,000+ registrations and 50,000+ unique visitors during launch.",
     role: "Product",
   },
   {
     year: "2023-26",
     name: "Jisc",
+    href: "https://www.jisc.ac.uk",
     detail:
-      "Platform, search, CMS, AWS migration, ETL pipelines, and release work across product and data services.",
+      "Platform work across search, content, infrastructure, and data services for products with institutional users.",
+    owned:
+      "CMS delivery, AWS migration work, search indexing, release validation, and data pipeline coordination between engineering and data teams.",
+    proof:
+      "Focused on lowering release risk and improving the quality of records that downstream product surfaces depended on.",
     role: "Senior",
   },
   {
     year: "2026",
     name: "Receipts",
+    href: "https://receipts.beauty",
     detail:
-      "Trust-first beauty discovery with typed contracts, auth, evidence-backed ranking, queues, and observability.",
+      "A trust-first beauty discovery platform designed around evidence, not empty ranking theatre.",
+    owned:
+      "Product architecture, authentication, typed contracts, ranking logic, async work, and operational visibility.",
+    proof:
+      "Built around the idea that discovery should show its working where trust is part of the product.",
     role: "Founder",
   },
   {
     year: "2024",
     name: "Milk & Henny",
+    href: "https://milkandhenny.com",
     detail:
-      "A private content and media platform using Cloudflare storage, workers, image processing, and AI-assisted cropping.",
+      "A private content and media platform with careful handling of images, video, storage, and presentation.",
+    owned:
+      "Media storage, image transformation, video processing, focal-point handling, and the private publishing surface.",
+    proof:
+      "Made a media-heavy product feel simple at the point of use by moving complexity into the system.",
     role: "Full stack",
   },
 ];
@@ -54,8 +74,29 @@ const work = [
         <article class="work-item">
           <span>{item.year}</span>
           <div>
-            <h3>{item.name}</h3>
+            <h3>
+              <a href={item.href}>{item.name}</a>
+            </h3>
             <p>{item.detail}</p>
+            <details>
+              <summary>More detail</summary>
+              <dl>
+                <div>
+                  <dt>Owned</dt>
+                  <dd>{item.owned}</dd>
+                </div>
+                <div>
+                  <dt>Signal</dt>
+                  <dd>{item.proof}</dd>
+                </div>
+                <div>
+                  <dt>Link</dt>
+                  <dd>
+                    <a href={item.href}>{item.href.replace("https://", "")}</a>
+                  </dd>
+                </div>
+              </dl>
+            </details>
           </div>
           <span>{item.role}</span>
         </article>
