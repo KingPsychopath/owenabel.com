@@ -32,6 +32,12 @@ Build output directory:
 dist
 ```
 
+Direct deploy:
+
+```sh
+npm run deploy:cf
+```
+
 The site intentionally avoids host-specific runtime code, so it can migrate to
 Cloudflare Pages, Netlify, GitHub Pages, Railway static hosting, object storage,
 or any CDN that serves static files.

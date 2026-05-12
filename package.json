@@ -10,7 +10,8 @@
     "lint": "oxlint --type-aware --deny-warnings . --ignore-pattern dist --ignore-pattern node_modules --ignore-pattern '*.astro'",
     "typecheck": "astro check && tsgo --noEmit",
     "build": "npm run format:check && npm run lint && npm run typecheck && astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "deploy:cf": "npm run build && wrangler pages deploy dist --project-name owenabel-com --branch main"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
@@ -22,6 +23,7 @@
     "oxlint-tsgolint": "^0.22.1",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.90.1"
   }
 }
