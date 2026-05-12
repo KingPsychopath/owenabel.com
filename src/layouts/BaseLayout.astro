@@ -39,6 +39,20 @@ const structuredData = {
 <!doctype html>
 <html lang="en">
   <head>
+    <script is:inline>
+      (() => {
+        try {
+          const theme = localStorage.getItem("owenabel-theme");
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+          if (theme === "dark" || (!theme && prefersDark)) {
+            document.documentElement.dataset.theme = "dark";
+          }
+        } catch {
+          // Theme is progressive enhancement; default paper stays readable.
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
@@ -79,6 +93,15 @@ const structuredData = {
               </a>
             ))
           }
+          <button
+            class="theme-toggle"
+            type="button"
+            data-theme-toggle
+            aria-label="Use dark theme"
+            aria-pressed="false"
+          >
+            ◐
+          </button>
         </nav>
       </header>
       <main>
@@ -99,7 +122,36 @@ const structuredData = {
       </footer>
     </div>
     <script>
+      const themeToggle = document.querySelector("[data-theme-toggle]");
       const footerMicrotext = document.querySelector("[data-footer-microtext]");
+      const setTheme = (theme) => {
+        const isDark = theme === "dark";
+
+        document.documentElement.dataset.theme = isDark ? "dark" : "";
+
+        if (!isDark) {
+          document.documentElement.removeAttribute("data-theme");
+        }
+
+        themeToggle?.setAttribute("aria-pressed", String(isDark));
+        themeToggle?.setAttribute("aria-label", isDark ? "Use light theme" : "Use dark theme");
+      };
+
+      if (themeToggle) {
+        const storedTheme = localStorage.getItem("owenabel-theme");
+        const currentTheme =
+          storedTheme ??
+          (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+        setTheme(currentTheme);
+
+        themeToggle.addEventListener("click", () => {
+          const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+
+          localStorage.setItem("owenabel-theme", nextTheme);
+          setTheme(nextTheme);
+        });
+      }
 
       if (footerMicrotext) {
         fetch("/footer-microtext.txt")

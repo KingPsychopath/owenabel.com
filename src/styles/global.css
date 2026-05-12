@@ -6,9 +6,44 @@
   --faint: #d7d6d0;
   --warm: #f8f5ec;
   --accent: #7b2f1d;
+  --grid-line: rgba(17, 17, 15, 0.025);
+  --paper-glow: rgba(255, 255, 255, 0.42);
+  --surface-soft: rgba(255, 255, 255, 0.24);
+  --surface-faint: rgba(255, 255, 255, 0.18);
+  --surface-card: rgba(255, 255, 255, 0.16);
+  --surface-warm: rgba(248, 245, 236, 0.38);
+  --accent-wash: rgba(123, 47, 29, 0.08);
+  --accent-wash-soft: rgba(123, 47, 29, 0.06);
+  --accent-outline: rgba(123, 47, 29, 0.28);
+  --accent-outline-strong: rgba(123, 47, 29, 0.32);
+  --footer-microstroke: rgba(17, 17, 15, 0.18);
+  --sticky-surface: rgba(239, 239, 236, 0.88);
   --max: 1080px;
   color-scheme: light;
   font-family: "Berkeley Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+html[data-theme="dark"] {
+  --paper: #15140f;
+  --ink: #efebe0;
+  --muted: #aaa392;
+  --rule: #77705f;
+  --faint: #2c2a22;
+  --warm: #211f18;
+  --accent: #d9a15f;
+  --grid-line: rgba(239, 235, 224, 0.035);
+  --paper-glow: rgba(217, 161, 95, 0.1);
+  --surface-soft: rgba(239, 235, 224, 0.06);
+  --surface-faint: rgba(239, 235, 224, 0.045);
+  --surface-card: rgba(239, 235, 224, 0.055);
+  --surface-warm: rgba(33, 31, 24, 0.74);
+  --accent-wash: rgba(217, 161, 95, 0.12);
+  --accent-wash-soft: rgba(217, 161, 95, 0.08);
+  --accent-outline: rgba(217, 161, 95, 0.34);
+  --accent-outline-strong: rgba(217, 161, 95, 0.44);
+  --footer-microstroke: rgba(239, 235, 224, 0.18);
+  --sticky-surface: rgba(21, 20, 15, 0.9);
+  color-scheme: dark;
 }
 
 * {
@@ -31,8 +66,8 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    linear-gradient(90deg, rgba(17, 17, 15, 0.025) 1px, transparent 1px) 0 0 / 42px 42px,
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.42), transparent 36rem),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 42px 42px,
+    radial-gradient(circle at 50% 0%, var(--paper-glow), transparent 36rem),
     var(--paper);
   font-size: 15px;
   line-height: 1.45;
@@ -99,10 +134,11 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 10px 18px;
+  gap: 10px 14px;
 }
 
-.nav a {
+.nav a,
+.theme-toggle {
   background: linear-gradient(currentColor 0 0) 0 100% / 0 1px no-repeat;
   text-decoration: none;
   transition:
@@ -112,6 +148,29 @@ a:hover {
 
 .nav a[aria-current="page"] {
   background-size: 100% 1px;
+}
+
+.theme-toggle {
+  width: 19px;
+  height: 19px;
+  border: 1px solid var(--rule);
+  padding: 0;
+  background-color: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  text-align: center;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible,
+.theme-toggle[aria-pressed="true"] {
+  color: var(--ink);
+  background-color: var(--accent-wash);
+  outline: 1px solid var(--accent-outline);
+  outline-offset: -1px;
 }
 
 .site-footer {
@@ -133,7 +192,7 @@ a:hover {
   text-transform: uppercase;
   user-select: none;
   opacity: 0.12;
-  -webkit-text-stroke: 0.18px rgba(17, 17, 15, 0.18);
+  -webkit-text-stroke: 0.18px var(--footer-microstroke);
   mask-image: linear-gradient(90deg, transparent, black 14%, black 86%, transparent);
   pointer-events: none;
 }
@@ -196,7 +255,7 @@ a:hover {
 
 .invoice-box {
   border: 1px solid var(--rule);
-  background: rgba(248, 245, 236, 0.38);
+  background: var(--surface-warm);
   transform-origin: top right;
   animation: paper-mark 900ms 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -261,7 +320,7 @@ a:hover {
   border: 1px solid var(--rule);
   padding: 9px 12px;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.24);
+  background: var(--surface-soft);
   transition:
     background 180ms ease,
     color 180ms ease,
@@ -319,7 +378,7 @@ a:hover {
 }
 
 .work-item:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--surface-faint);
 }
 
 .work-item h3,
@@ -454,8 +513,8 @@ a:hover {
 .work-streams li:focus-visible,
 .work-streams li[data-active] {
   border-color: var(--accent);
-  background: rgba(123, 47, 29, 0.06);
-  outline: 1px solid rgba(123, 47, 29, 0.22);
+  background: var(--accent-wash-soft);
+  outline: 1px solid var(--accent-outline);
   outline-offset: 3px;
   padding-left: 16px;
 }
@@ -485,15 +544,15 @@ a:hover {
 .relation-text:focus-visible,
 .relation-text[data-active] {
   color: var(--ink);
-  background: rgba(123, 47, 29, 0.08);
-  outline: 1px solid rgba(123, 47, 29, 0.22);
+  background: var(--accent-wash);
+  outline: 1px solid var(--accent-outline);
   outline-offset: 2px;
 }
 
 .work-item a[data-relation][data-active] {
   color: var(--accent);
-  background: rgba(123, 47, 29, 0.08);
-  outline: 1px solid rgba(123, 47, 29, 0.32);
+  background: var(--accent-wash);
+  outline: 1px solid var(--accent-outline-strong);
   outline-offset: 3px;
 }
 
@@ -702,7 +761,7 @@ a:hover {
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
   padding: 8px 0;
-  background: rgba(239, 239, 236, 0.88);
+  background: var(--sticky-surface);
   backdrop-filter: blur(8px);
 }
 
@@ -753,9 +812,9 @@ a:hover {
 .case-control button:hover,
 .case-control button:focus-visible,
 .case-control button[data-active] {
-  background: rgba(123, 47, 29, 0.08);
+  background: var(--accent-wash);
   color: var(--ink);
-  outline: 1px solid rgba(123, 47, 29, 0.28);
+  outline: 1px solid var(--accent-outline);
   outline-offset: -1px;
 }
 
@@ -811,7 +870,7 @@ a:hover {
   border: 0;
   border-right: 1px solid var(--rule);
   padding: 14px;
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--surface-card);
   color: inherit;
   cursor: pointer;
   font: inherit;
@@ -840,8 +899,8 @@ a:hover {
 .case-thread[data-active],
 .case-ledger tr[data-active],
 .case-flow li[data-active] {
-  background: rgba(123, 47, 29, 0.08);
-  outline: 1px solid rgba(123, 47, 29, 0.28);
+  background: var(--accent-wash);
+  outline: 1px solid var(--accent-outline);
   outline-offset: -1px;
 }
 
