@@ -1,0 +1,378 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const threads = [
+  {
+    key: "boundaries",
+    label: "Platform boundaries",
+    tension: "The product needed to move quickly without letting web routes, API handlers, database code, and domain logic collapse into each other.",
+    owned: "Shaped the monorepo around delivery, runtime, adapter, domain, and contract layers with boundary checks, package ownership, and typed API contracts.",
+    proof: "Web, API, CLI, worker, and future mobile clients can share behaviour without importing the wrong runtime concerns.",
+  },
+  {
+    key: "jobs",
+    label: "Async work",
+    tension: "Uploads, AI analysis, derivatives, and search indexing should not live inside normal request handlers.",
+    owned: "Built job boundaries where the API validates and enqueues work, while workers claim Postgres queues for media processing, AI analysis, search indexing, and cleanup.",
+    proof: "Heavy work can retry, back off, report status, and hand off follow-up indexing without blocking user-facing routes.",
+  },
+  {
+    key: "ops",
+    label: "Operational control",
+    tension: "A trust product needs readable failure modes: health, audit, feature flags, database checks, and operator commands.",
+    owned: "Built ops surfaces and CLI commands for feature flags, DB targets, migrations, search smoke tests, endpoint audits, worker health, and observability.",
+    proof: "Operational work becomes inspectable and reversible instead of hidden in deploy memory.",
+  },
+];
+
+const mechanisms = [
+  {
+    thread: "boundaries",
+    layer: "Architecture",
+    detail: "TanStack Start web, Hono API, CLI, worker, mobile smoke scaffold, and packages for contracts, domain, data, jobs, and observability.",
+  },
+  {
+    thread: "boundaries",
+    layer: "Contracts",
+    detail: "/v1 APIs use shared Zod contracts, stable response envelopes, a typed API client, and mobile smoke checks.",
+  },
+  {
+    thread: "jobs",
+    layer: "Media queue",
+    detail: "The API validates signed uploads and enqueues processing; workers create derivatives, activate assets, and enqueue search refresh.",
+  },
+  {
+    thread: "jobs",
+    layer: "AI analysis",
+    detail: "Image analysis runs as queued work with retry/backoff, trace context, and browser-safe status messages.",
+  },
+  {
+    thread: "jobs",
+    layer: "Search indexing",
+    detail: "Provider search documents refresh through queue jobs and Postgres-backed projections.",
+  },
+  {
+    thread: "ops",
+    layer: "Observability",
+    detail: "Structured logs, Sentry capture, request correlation, DB audit events, and health/readiness/job/worker status endpoints.",
+  },
+  {
+    thread: "ops",
+    layer: "Operator CLI",
+    detail: "Commands for search smoke/explain, endpoint audit, feature flags, DB migration/seed/reset, and worker drains.",
+  },
+];
+
+const initialThread = "boundaries";
+---
+
+<BaseLayout
+  title="Receipts Platform - Owen Abel Amenze"
+  description="A case study on Receipts' platform boundaries, background jobs, and operational controls."
+>
+  <article class="case-note" data-case-note data-active-thread={initialThread}>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/work">Work</a>
+      <span aria-hidden="true">/</span>
+      <span>Receipts Platform</span>
+    </nav>
+
+    <header class="case-hero">
+      <p class="eyebrow">Case study</p>
+      <h1>Receipts Platform</h1>
+      <p>
+        Work on the system underneath a trust-first product: typed contracts,
+        package boundaries, background jobs, and operational controls that make
+        change possible.
+      </p>
+    </header>
+
+    <dl class="case-meta" aria-label="Case study summary">
+      <div>
+        <dt>Context</dt>
+        <dd>Founder / 2026</dd>
+      </div>
+      <div>
+        <dt>Focus</dt>
+        <dd>TanStack Start, Hono API, workers, queues, typed contracts, observability</dd>
+      </div>
+      <div>
+        <dt>Link</dt>
+        <dd>
+          <a href="https://receipts.beauty">receipts.beauty</a>
+        </dd>
+      </div>
+    </dl>
+
+    <nav class="case-control" aria-label="Case study controls">
+      <p>
+        <span>Navigate</span>
+        <kbd>↑</kbd><kbd>↓</kbd> sections
+        <kbd>←</kbd><kbd>→</kbd> threads
+        <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> direct
+      </p>
+      <div>
+        {
+          threads.map((thread, index) => (
+            <button
+              type="button"
+              data-thread-control={thread.key}
+              data-active={thread.key === initialThread ? true : undefined}
+              aria-pressed={thread.key === initialThread ? "true" : "false"}
+            >
+              [{index + 1}] {thread.label}
+            </button>
+          ))
+        }
+      </div>
+    </nav>
+
+    <section class="case-section" aria-labelledby="case-tension" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-tension">Tension</h2>
+        <p>The product problem beneath the work.</p>
+      </div>
+      <p>
+        Receipts has several kinds of complexity at once: evidence collection,
+        media processing, AI analysis, search indexing, ranking, public routes,
+        admin workflows, and operator tooling. Without clear boundaries, that
+        kind of product becomes hard to change exactly when it most needs to be
+        inspectable.
+      </p>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-threads" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-threads">Threads</h2>
+        <p>Three platform contracts behind a product that can be operated.</p>
+      </div>
+      <div class="case-thread-grid">
+        {
+          threads.map((thread) => (
+            <button
+              class="case-thread"
+              type="button"
+              data-thread={thread.key}
+              data-active={thread.key === initialThread ? true : undefined}
+              aria-pressed={thread.key === initialThread ? "true" : "false"}
+            >
+              <span>{thread.label}</span>
+              <small>{thread.tension}</small>
+            </button>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-owned" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-owned">Owned</h2>
+        <p>What I was responsible for, and what it changed.</p>
+      </div>
+      <table class="case-ledger">
+        <thead>
+          <tr>
+            <th scope="col">Thread</th>
+            <th scope="col">Work</th>
+            <th scope="col">Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            threads.map((thread) => (
+              <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+                <td>{thread.label}</td>
+                <td>{thread.owned}</td>
+                <td>{thread.proof}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-mechanism">Mechanism</h2>
+        <p>The technical layers behind those responsibilities.</p>
+      </div>
+      <table class="case-ledger">
+        <thead>
+          <tr>
+            <th scope="col">Layer</th>
+            <th scope="col">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            mechanisms.map((mechanism) => (
+              <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+                <td>{mechanism.layer}</td>
+                <td>{mechanism.detail}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-shape">Shape</h2>
+        <p>How product work moves through the system.</p>
+      </div>
+      <ol>
+        <li data-thread="boundaries" data-active>Domain and contract decisions define what product behaviour can mean.</li>
+        <li data-thread="boundaries">Web, API, CLI, and worker code consume shared contracts instead of leaking framework concerns.</li>
+        <li data-thread="jobs">The API writes durable state and enqueues work that does not belong in the request cycle.</li>
+        <li data-thread="jobs">Workers process, retry, update status, and enqueue follow-up indexing.</li>
+        <li data-thread="ops">Health, audit, CLI, and observability surfaces let the system be inspected and recovered.</li>
+      </ol>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-reflection" data-case-section>
+      <div class="case-section-label">
+        <h2 id="case-reflection">Reflection</h2>
+        <p>What the project clarified about platform work.</p>
+      </div>
+      <p>
+        The platform is part of the product. A trust product cannot explain
+        itself if its own internals are tangled, so the architecture has to make
+        responsibility visible: where data enters, where work waits, where it
+        retries, and where an operator can see what happened.
+      </p>
+    </section>
+  </article>
+
+  <script>
+    const caseNote = document.querySelector("[data-case-note]");
+    const controls = Array.from(caseNote.querySelectorAll(".case-thread[data-thread]"));
+    const threadControls = Array.from(caseNote.querySelectorAll("[data-thread-control]"));
+    const related = caseNote.querySelectorAll("[data-thread]");
+    const sections = Array.from(caseNote.querySelectorAll("[data-case-section]"));
+
+    const applyThread = (key) => {
+      caseNote.dataset.activeThread = key ?? "";
+
+      related.forEach((node) => {
+        const active = Boolean(key) && node.dataset.thread === key;
+        node.toggleAttribute("data-active", active);
+
+        if (node.matches(".case-thread")) {
+          node.setAttribute("aria-pressed", String(active));
+        }
+      });
+
+      threadControls.forEach((control) => {
+        const active = Boolean(key) && control.dataset.threadControl === key;
+        control.toggleAttribute("data-active", active);
+        control.setAttribute("aria-pressed", String(active));
+      });
+    };
+
+    const toggleThread = (key) => {
+      applyThread(caseNote.dataset.activeThread === key ? undefined : key);
+    };
+
+    const activeThreadIndex = () => {
+      const index = controls.findIndex((control) => control.dataset.thread === caseNote.dataset.activeThread);
+      return index < 0 ? 0 : index;
+    };
+
+    const moveThread = (amount) => {
+      const nextControl = controls[(activeThreadIndex() + amount + controls.length) % controls.length];
+
+      nextControl.focus({ preventScroll: true });
+      applyThread(nextControl.dataset.thread);
+    };
+
+    const currentSectionIndex = () => {
+      const viewportAnchor = window.scrollY + window.innerHeight * 0.28;
+
+      for (let index = sections.length - 1; index >= 0; index -= 1) {
+        if (sections[index].offsetTop <= viewportAnchor) {
+          return index;
+        }
+      }
+
+      return -1;
+    };
+
+    const moveSection = (amount) => {
+      const currentIndex = currentSectionIndex();
+      const firstSectionTop = sections[0].offsetTop;
+      const isNearFirstSection = window.scrollY <= firstSectionTop;
+
+      if (amount < 0 && (currentIndex <= 0 || isNearFirstSection)) {
+        window.scrollTo({
+          top: Math.max(0, caseNote.offsetTop - 18),
+          behavior: "smooth",
+        });
+        return;
+      }
+
+      const nextIndex = Math.min(Math.max(currentIndex + amount, 0), sections.length - 1);
+      sections[nextIndex].scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    controls.forEach((control, index) => {
+      control.addEventListener("click", () => toggleThread(control.dataset.thread));
+      control.addEventListener("keydown", (event) => {
+        const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
+
+        if (!keys.includes(event.key)) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const nextIndex =
+          {
+            ArrowRight: (index + 1) % controls.length,
+            ArrowLeft: (index - 1 + controls.length) % controls.length,
+            Home: 0,
+            End: controls.length - 1,
+          }[event.key] ?? index;
+        const nextControl = controls[nextIndex];
+
+        nextControl.focus({ preventScroll: true });
+        applyThread(nextControl.dataset.thread);
+      });
+    });
+
+    threadControls.forEach((control) => {
+      control.addEventListener("click", () => {
+        applyThread(control.dataset.threadControl);
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.defaultPrevented || event.metaKey || event.altKey || event.ctrlKey) {
+        return;
+      }
+
+      if (!caseNote.contains(event.target) && event.target !== document.body) {
+        return;
+      }
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        moveSection(1);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        moveSection(-1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        moveThread(1);
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        moveThread(-1);
+      } else if (["1", "2", "3"].includes(event.key)) {
+        event.preventDefault();
+        applyThread(controls[Number(event.key) - 1].dataset.thread);
+      } else if (event.key === "Escape") {
+        applyThread();
+      }
+    });
+  </script>
+</BaseLayout>
