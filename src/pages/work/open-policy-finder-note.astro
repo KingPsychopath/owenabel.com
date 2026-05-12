@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const threads = [
+  {
+    key: "search",
+    label: "Search surface",
+    tension: "People needed to move from uncertain policy questions to useful records quickly.",
+    owned: "Built search and result surfaces for policy, journal, and transitional-agreement discovery.",
+    proof: "Search became the main path through a complex compliance dataset.",
+  },
+  {
+    key: "docs",
+    label: "Help and documentation",
+    tension: "The product needed to serve institutional users, API consumers, and internal stakeholders.",
+    owned: "Built help pages and documentation surfaces around product and API understanding.",
+    proof: "Support material lived closer to the product surface it explained.",
+  },
+  {
+    key: "data",
+    label: "Source data quality",
+    tension: "Search trust depended on records staying clear, aligned, and explainable.",
+    owned: "Supported indexing, data-pipeline feedback, and source-data quality loops.",
+    proof: "Policy and journal records became easier to keep aligned with the search experience.",
+  },
+];
+---
+
+<BaseLayout
+  title="Open Policy Finder Case Note - Owen Abel Amenze"
+  description="A case note on Open Policy Finder work across search, documentation, and data quality."
+  noindex
+>
+  <article class="case-note" data-case-note>
+    <header class="case-hero">
+      <p class="eyebrow">Case note / test page</p>
+      <h1>Open Policy Finder</h1>
+      <p>
+        Work on a Jisc product surface where open access compliance depended on
+        policy, journal, and transitional-agreement data being searchable,
+        legible, and trusted.
+      </p>
+    </header>
+
+    <dl class="case-meta" aria-label="Case note summary">
+      <div>
+        <dt>Context</dt>
+        <dd>Jisc / 2023-26</dd>
+      </div>
+      <div>
+        <dt>Focus</dt>
+        <dd>Search, help, documentation, indexing, data quality</dd>
+      </div>
+      <div>
+        <dt>Link</dt>
+        <dd>
+          <a href="https://openpolicyfinder.jisc.ac.uk">openpolicyfinder.jisc.ac.uk</a>
+        </dd>
+      </div>
+    </dl>
+
+    <section class="case-section" aria-labelledby="case-tension">
+      <h2 id="case-tension">Tension</h2>
+      <p>
+        Open access compliance is practical work. Users arrive with specific
+        questions about policies, journals, agreements, and eligibility, and the
+        interface has to help them move through that uncertainty without hiding
+        the shape of the underlying data.
+      </p>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-threads">
+      <h2 id="case-threads">Threads</h2>
+      <div class="case-thread-grid">
+        {
+          threads.map((thread) => (
+            <button class="case-thread" type="button" data-thread={thread.key} aria-pressed="false">
+              <span>{thread.label}</span>
+              <small>{thread.tension}</small>
+            </button>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-owned">
+      <h2 id="case-owned">Owned</h2>
+      <table class="case-ledger">
+        <thead>
+          <tr>
+            <th scope="col">Thread</th>
+            <th scope="col">Work</th>
+            <th scope="col">Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            threads.map((thread) => (
+              <tr data-thread={thread.key}>
+                <td>{thread.label}</td>
+                <td>{thread.owned}</td>
+                <td>{thread.proof}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="case-section case-flow" aria-labelledby="case-shape">
+      <h2 id="case-shape">Shape</h2>
+      <ol>
+        <li data-thread="search">A user starts with a policy or journal question.</li>
+        <li data-thread="search">The search surface narrows the problem into inspectable results.</li>
+        <li data-thread="docs">Help and documentation explain how to interpret the product surface.</li>
+        <li data-thread="data">Source-data feedback keeps the search experience aligned with the records.</li>
+      </ol>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-note">
+      <h2 id="case-note">Note</h2>
+      <p>
+        The important part was not only building a search page. It was making a
+        compliance surface easier to operate and easier to trust, from the
+        public interface through to the data and documentation around it.
+      </p>
+    </section>
+  </article>
+
+  <script>
+    const caseNote = document.querySelector("[data-case-note]");
+    const controls = caseNote.querySelectorAll(".case-thread[data-thread]");
+    const related = caseNote.querySelectorAll("[data-thread]");
+
+    const setThread = (key) => {
+      const nextKey = caseNote.dataset.activeThread === key ? undefined : key;
+      caseNote.dataset.activeThread = nextKey ?? "";
+
+      related.forEach((node) => {
+        const active = Boolean(nextKey) && node.dataset.thread === nextKey;
+        node.toggleAttribute("data-active", active);
+
+        if (node.matches(".case-thread")) {
+          node.setAttribute("aria-pressed", String(active));
+        }
+      });
+    };
+
+    controls.forEach((control) => {
+      control.addEventListener("click", () => setThread(control.dataset.thread));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setThread(caseNote.dataset.activeThread);
+      }
+    });
+  </script>
+</BaseLayout>
