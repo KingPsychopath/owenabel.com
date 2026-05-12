@@ -19,15 +19,15 @@ const threads = [
   {
     key: "data",
     label: "Data quality",
-    tension: "Search trust depended on source records staying clear, aligned, and explainable.",
-    owned: "Supported ETL-style data flows, indexing, and feedback loops for source-data quality.",
-    proof: "Policy and journal records became easier to keep aligned with the search experience.",
+    tension: "The dataset looked usable until somebody actually verified it.",
+    owned: "Led the data-quality effort with the data team: massaging records, checking percentage errors, and tracing missing or incorrect fields.",
+    proof: "Reduced glaring missing or incorrect data failures from roughly 70% to zero before launch.",
   },
 ];
 
 const mechanisms = [
   ["Search index", "Elasticsearch, fuzzy search, ranking, filters, and result shaping."],
-  ["Data flow", "ETL-style movement from source records into searchable policy and journal data."],
+  ["Data quality", "Verification passes, percentage-error checks, record cleanup, and source-data feedback."],
   ["Content model", "Markdown source, AST parsing, React rendering, connection blocks, and Directus sync."],
   ["Documentation", "Help and API-facing documentation for users, stakeholders, and consumers."],
 ];
@@ -149,7 +149,8 @@ const mechanisms = [
         <li data-thread="search">Fuzzy search and ranking narrow the problem into inspectable results.</li>
         <li data-thread="docs">Markdown content becomes structured React surfaces through an AST parser.</li>
         <li data-thread="docs">Connection blocks keep related guidance editable for content teams and developers.</li>
-        <li data-thread="data">ETL and source-data feedback keep the index aligned with the records.</li>
+        <li data-thread="data">Verification catches missing and incorrect fields that had previously gone unnoticed.</li>
+        <li data-thread="data">Data cleanup brings the failure rate from roughly 70% down to zero.</li>
       </ol>
     </section>
 
@@ -159,7 +160,8 @@ const mechanisms = [
         The important part was not only building search pages. It was making a
         compliance product easier to operate and easier to trust, from fuzzy
         search and ranking through to the repo-backed content model, Directus
-        sync, and documentation around it.
+        sync, documentation, and the verification work that made the underlying
+        records safe to expose.
       </p>
     </section>
   </article>
