@@ -139,7 +139,7 @@ const work = [
                       Array.isArray(item.tension)
                         ? item.tension.map((part) =>
                             part.key ? (
-                              <span class="relation-text" data-relation={part.key}>
+                              <span class="relation-text" data-relation={part.key} tabindex="0">
                                 {part.text}
                               </span>
                             ) : (
@@ -176,7 +176,7 @@ const work = [
                       Array.isArray(item.signal)
                         ? item.signal.map((part) =>
                             part.key ? (
-                              <span class="relation-text" data-relation={part.key}>
+                              <span class="relation-text" data-relation={part.key} tabindex="0">
                                 {part.text}
                               </span>
                             ) : (
@@ -212,6 +212,13 @@ const work = [
   <script>
     const relationItems = document.querySelectorAll("[data-work-item]");
 
+    const clearItem = (item) => {
+      delete item.dataset.pinnedRelation;
+      item.querySelectorAll("[data-relation]").forEach((node) => {
+        node.removeAttribute("data-active");
+      });
+    };
+
     for (const item of relationItems) {
       const setActive = (key, persist = false) => {
         item.querySelectorAll("[data-relation]").forEach((node) => {
@@ -246,5 +253,19 @@ const work = [
         setActive(item.dataset.pinnedRelation);
       });
     }
+
+    document.addEventListener("click", (event) => {
+      if (event.target.closest("[data-relation]")) {
+        return;
+      }
+
+      relationItems.forEach(clearItem);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        relationItems.forEach(clearItem);
+      }
+    });
   </script>
 </BaseLayout>
