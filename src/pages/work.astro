@@ -22,13 +22,23 @@ const work = [
     name: "Jisc",
     href: "https://www.jisc.ac.uk",
     detail:
-      "Platform work across search, content, infrastructure, and data services for products with institutional users.",
+      "Work across Open Policy Finder and the Digital Experience CMS, where policy data and public publishing both needed steadier systems.",
     tension:
-      "Product surfaces depended on records, publishing flows, and infrastructure that needed to stay reliable while changing.",
+      "Open access compliance depends on policy, journal, and transitional-agreement data being searchable and trustworthy; the main website depended on publishing workflows and infrastructure that could change without becoming brittle.",
     owned:
-      "CMS delivery, AWS migration work, search indexing, release validation, and coordination between product and data teams.",
+      "Search, CMS delivery, AWS migration work, release validation, and coordination between product, content, infrastructure, and data teams.",
+    streams: [
+      {
+        label: "Open Policy Finder",
+        body: "Worked on policy, journal, and transitional-agreement discovery: data pipelines, search indexing, source-data quality feedback, and product surfaces for open access compliance.",
+      },
+      {
+        label: "Digital Experience CMS",
+        body: "Worked on the main Jisc website platform: CMS delivery, publishing flows, AWS migration support, release readiness, and validation with product and content teams.",
+      },
+    ],
     signal:
-      "Lower release risk and better source data made downstream product experiences easier to trust.",
+      "Better source data, safer releases, and clearer publishing paths made institutional-facing product surfaces easier to operate and trust.",
     links: [
       { label: "openpolicyfinder.jisc.ac.uk", href: "https://openpolicyfinder.jisc.ac.uk" },
       { label: "jisc.ac.uk", href: "https://www.jisc.ac.uk" },
@@ -101,8 +111,23 @@ const work = [
                   <dd>{item.tension}</dd>
                 </div>
                 <div>
-                  <dt>Owned</dt>
-                  <dd>{item.owned}</dd>
+                  <dt>{item.streams ? "Workstreams" : "Owned"}</dt>
+                  <dd>
+                    {
+                      item.streams ? (
+                        <ol class="work-streams">
+                          {item.streams.map((stream) => (
+                            <li>
+                              <strong>{stream.label}</strong>
+                              <span>{stream.body}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      ) : (
+                        item.owned
+                      )
+                    }
+                  </dd>
                 </div>
                 <div>
                   <dt>Signal</dt>
