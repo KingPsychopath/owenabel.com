@@ -544,6 +544,12 @@ a:hover {
   color: var(--muted);
 }
 
+.not-found .not-found-aside {
+  color: var(--ink);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
 .not-found-actions {
   display: flex;
   flex-wrap: wrap;
