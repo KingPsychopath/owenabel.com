@@ -31,13 +31,15 @@ const mechanisms = [
   ["Content model", "Markdown source, AST parsing, React rendering, connection blocks, and Directus sync."],
   ["Documentation", "Help and API-facing documentation for users, stakeholders, and consumers."],
 ];
+
+const initialThread = "search";
 ---
 
 <BaseLayout
   title="Open Policy Finder - Owen Abel Amenze"
   description="A case study on Open Policy Finder work across search, documentation, content systems, and data quality."
 >
-  <article class="case-note" data-case-note>
+  <article class="case-note" data-case-note data-active-thread={initialThread}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="/work">Work</a>
       <span aria-hidden="true">/</span>
@@ -87,7 +89,13 @@ const mechanisms = [
       <div class="case-thread-grid">
         {
           threads.map((thread) => (
-            <button class="case-thread" type="button" data-thread={thread.key} aria-pressed="false">
+            <button
+              class="case-thread"
+              type="button"
+              data-thread={thread.key}
+              data-active={thread.key === initialThread ? true : undefined}
+              aria-pressed={thread.key === initialThread ? "true" : "false"}
+            >
               <span>{thread.label}</span>
               <small>{thread.tension}</small>
             </button>
@@ -109,7 +117,7 @@ const mechanisms = [
         <tbody>
           {
             threads.map((thread) => (
-              <tr data-thread={thread.key}>
+              <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
                 <td>{thread.label}</td>
                 <td>{thread.owned}</td>
                 <td>{thread.proof}</td>
@@ -145,8 +153,8 @@ const mechanisms = [
     <section class="case-section case-flow" aria-labelledby="case-shape">
       <h2 id="case-shape">Shape</h2>
       <ol>
-        <li data-thread="search">A user starts with a policy or journal question.</li>
-        <li data-thread="search">Fuzzy search and ranking narrow the problem into inspectable results.</li>
+        <li data-thread="search" data-active>A user starts with a policy or journal question.</li>
+        <li data-thread="search" data-active>Fuzzy search and ranking narrow the problem into inspectable results.</li>
         <li data-thread="docs">Markdown content becomes structured React surfaces through an AST parser.</li>
         <li data-thread="docs">Connection blocks keep related guidance editable for content teams and developers.</li>
         <li data-thread="data">Verification catches missing and incorrect fields that had previously gone unnoticed.</li>
