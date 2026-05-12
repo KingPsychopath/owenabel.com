@@ -416,6 +416,20 @@ a:hover {
     outline-color 180ms ease;
 }
 
+.relation-text {
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.relation-text:hover,
+.relation-text:focus-visible,
+.relation-text[data-active] {
+  color: var(--ink);
+  background: rgba(123, 47, 29, 0.08);
+  outline: 1px solid rgba(123, 47, 29, 0.22);
+  outline-offset: 2px;
+}
+
 .work-item a[data-relation][data-active] {
   color: var(--accent);
   background: rgba(123, 47, 29, 0.08);

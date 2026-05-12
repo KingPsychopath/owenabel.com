@@ -23,8 +23,18 @@ const work = [
     href: "https://www.jisc.ac.uk",
     detail:
       "Work across Open Policy Finder and the Digital Experience Content Management System, where policy data and public publishing both needed steadier systems.",
-    tension:
-      "Open access compliance depends on policy, journal, and transitional-agreement data being searchable and trustworthy; the main website depended on publishing workflows and infrastructure that could change without becoming brittle.",
+    tension: [
+      {
+        text: "Open access compliance depends on policy, journal, and transitional-agreement data being searchable and trustworthy",
+        key: "open-policy-finder",
+      },
+      { text: "; " },
+      {
+        text: "the main website depended on publishing workflows and infrastructure that could change without becoming brittle",
+        key: "digital-experience",
+      },
+      { text: "." },
+    ],
     owned:
       "Search, content management system delivery, AWS migration work, release validation, and coordination between product, content, infrastructure, and data teams.",
     streams: [
@@ -39,8 +49,18 @@ const work = [
         body: "Worked on the main Jisc website platform: content management system delivery, publishing flows, AWS migration support, release readiness, and validation with product and content teams.",
       },
     ],
-    signal:
-      "Policy and journal records became easier to keep aligned with the search experience, while website releases gained a clearer path from content change to production.",
+    signal: [
+      {
+        text: "Policy and journal records became easier to keep aligned with the search experience",
+        key: "open-policy-finder",
+      },
+      { text: ", while " },
+      {
+        text: "website releases gained a clearer path from content change to production",
+        key: "digital-experience",
+      },
+      { text: "." },
+    ],
     links: [
       {
         label: "openpolicyfinder.jisc.ac.uk",
@@ -114,7 +134,21 @@ const work = [
               <dl>
                 <div>
                   <dt>Tension</dt>
-                  <dd>{item.tension}</dd>
+                  <dd>
+                    {
+                      Array.isArray(item.tension)
+                        ? item.tension.map((part) =>
+                            part.key ? (
+                              <span class="relation-text" data-relation={part.key}>
+                                {part.text}
+                              </span>
+                            ) : (
+                              part.text
+                            ),
+                          )
+                        : item.tension
+                    }
+                  </dd>
                 </div>
                 <div>
                   <dt>{item.streams ? "Workstreams" : "Owned"}</dt>
@@ -137,7 +171,21 @@ const work = [
                 </div>
                 <div>
                   <dt>Signal</dt>
-                  <dd>{item.signal}</dd>
+                  <dd>
+                    {
+                      Array.isArray(item.signal)
+                        ? item.signal.map((part) =>
+                            part.key ? (
+                              <span class="relation-text" data-relation={part.key}>
+                                {part.text}
+                              </span>
+                            ) : (
+                              part.text
+                            ),
+                          )
+                        : item.signal
+                    }
+                  </dd>
                 </div>
                 <div>
                   <dt>Links</dt>
@@ -182,7 +230,7 @@ const work = [
         }
       };
 
-      item.querySelectorAll(".work-streams [data-relation]").forEach((node) => {
+      item.querySelectorAll(".work-streams [data-relation], .relation-text[data-relation]").forEach((node) => {
         node.addEventListener("mouseenter", () => setActive(node.dataset.relation));
         node.addEventListener("focus", () => setActive(node.dataset.relation));
         node.addEventListener("click", () => setActive(node.dataset.relation, true));
