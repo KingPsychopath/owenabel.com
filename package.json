@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "PORTLESS_TLD=localhost portless owenabel astro dev",
     "dev:raw": "astro dev",
+    "og:generate": "node scripts/generate-og.mjs",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "lint": "oxlint --type-aware --deny-warnings . --ignore-pattern dist --ignore-pattern node_modules --ignore-pattern '*.astro'",
@@ -22,6 +23,7 @@
     "oxlint": "^1.64.0",
     "oxlint-tsgolint": "^0.22.1",
     "portless": "^0.13.0",
+    "sharp": "0.34.5",
     "typescript": "^6.0.3",
     "wrangler": "^4.90.1"
   }
