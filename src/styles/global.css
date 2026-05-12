@@ -529,6 +529,40 @@ a:hover {
   gap: 20px;
 }
 
+.contact-value {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+}
+
+.copy-button {
+  border: 1px solid var(--rule);
+  padding: 3px 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  text-transform: uppercase;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.copy-button:hover,
+.copy-button:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-1px);
+}
+
+.copy-status {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .not-found {
   display: grid;
   gap: 18px;

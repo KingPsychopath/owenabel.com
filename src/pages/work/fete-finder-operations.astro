@@ -78,7 +78,8 @@ const initialThread = "data";
       <p>
         Work on the system behind the public programme: data management,
         publishing, backups, placements, analytics, and the launch controls that
-        keep a cultural product dependable.
+        kept a cultural product dependable across 3,000+ registrations and
+        50,000+ unique visitors.
       </p>
     </header>
 
@@ -293,9 +294,14 @@ const initialThread = "data";
 
     const moveSection = (amount) => {
       const currentIndex = currentSectionIndex();
+      const firstSectionTop = sections[0].offsetTop;
+      const isNearFirstSection = window.scrollY <= firstSectionTop;
 
-      if (amount < 0 && currentIndex <= 0) {
-        caseNote.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (amount < 0 && (currentIndex <= 0 || isNearFirstSection)) {
+        window.scrollTo({
+          top: Math.max(0, caseNote.offsetTop - 18),
+          behavior: "smooth",
+        });
         return;
       }
 

@@ -68,7 +68,8 @@ const initialThread = "search";
       <p>
         Work on the public surface of a city-wide cultural programme: search,
         filters, maps, event detail routes, and the small pieces of trust that
-        make a listing worth sharing.
+        make a listing worth sharing under launch traffic that reached 3,000+
+        registrations and 50,000+ unique visitors.
       </p>
     </header>
 
@@ -284,9 +285,14 @@ const initialThread = "search";
 
     const moveSection = (amount) => {
       const currentIndex = currentSectionIndex();
+      const firstSectionTop = sections[0].offsetTop;
+      const isNearFirstSection = window.scrollY <= firstSectionTop;
 
-      if (amount < 0 && currentIndex <= 0) {
-        caseNote.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (amount < 0 && (currentIndex <= 0 || isNearFirstSection)) {
+        window.scrollTo({
+          top: Math.max(0, caseNote.offsetTop - 18),
+          behavior: "smooth",
+        });
         return;
       }
 

@@ -287,9 +287,14 @@ const initialThread = "search";
 
     const moveSection = (amount) => {
       const currentIndex = currentSectionIndex();
+      const firstSectionTop = sections[0].offsetTop;
+      const isNearFirstSection = window.scrollY <= firstSectionTop;
 
-      if (amount < 0 && currentIndex <= 0) {
-        caseNote.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (amount < 0 && (currentIndex <= 0 || isNearFirstSection)) {
+        window.scrollTo({
+          top: Math.max(0, caseNote.offsetTop - 18),
+          behavior: "smooth",
+        });
         return;
       }
 

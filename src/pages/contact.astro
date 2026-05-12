@@ -12,7 +12,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="contact-row">
       <span>Email</span>
       <!--email_off-->
-      <a href="mailto:work@owenabel.com">work@owenabel.com</a>
+      <span class="contact-value">
+        <a href="mailto:work@owenabel.com">work@owenabel.com</a>
+        <button class="copy-button" type="button" data-copy-email="work@owenabel.com" aria-label="Copy work email">
+          Copy
+        </button>
+        <span class="copy-status" data-copy-status aria-live="polite"></span>
+      </span>
       <!--/email_off-->
     </div>
     <div class="contact-row">
@@ -30,4 +36,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <a href="/owen-abel-amenze-cv.pdf">Download PDF</a>
     </div>
   </section>
+
+  <script>
+    const copyButton = document.querySelector("[data-copy-email]");
+    const copyStatus = document.querySelector("[data-copy-status]");
+
+    copyButton?.addEventListener("click", async () => {
+      const email = copyButton.dataset.copyEmail;
+
+      if (!email) {
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(email);
+        copyButton.textContent = "Copied";
+        copyStatus.textContent = "Email copied.";
+        window.setTimeout(() => {
+          copyButton.textContent = "Copy";
+          copyStatus.textContent = "";
+        }, 1800);
+      } catch {
+        copyStatus.textContent = "Copy failed.";
+      }
+    });
+  </script>
 </BaseLayout>
