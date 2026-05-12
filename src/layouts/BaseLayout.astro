@@ -88,6 +88,7 @@ const structuredData = {
         <div
           class="footer-microtext"
           aria-hidden="true"
+          data-footer-microtext
         >
           according to all known laws of tasteful portfolio restraint there is no reason a tiny footer texture should contain this much honeyed administrative nonsense nevertheless the ledger continues invoice number wing-0001 line item soft landing line item improbable work ethic line item one small joke rendered almost invisible for quality assurance purposes please ignore this decorative transcript substitute it has no canonical relation to any animated feature film and exists only as a transparent paper grain for people who inspect too closely according to all known laws of tasteful portfolio restraint there is no reason a tiny footer texture should contain this much honeyed administrative nonsense nevertheless the ledger continues invoice number wing-0002 line item quiet systems line item calmer launches line item a barely readable joke hiding politely under the contact details
         </div>
@@ -97,5 +98,23 @@ const structuredData = {
         <!--/email_off-->
       </footer>
     </div>
+    <script>
+      const footerMicrotext = document.querySelector("[data-footer-microtext]");
+
+      if (footerMicrotext) {
+        fetch("/footer-microtext.txt")
+          .then((response) => (response.ok ? response.text() : ""))
+          .then((text) => {
+            const normalized = text.replace(/\s+/g, " ").trim();
+
+            if (normalized) {
+              footerMicrotext.textContent = normalized;
+            }
+          })
+          .catch(() => {
+            // Decorative only; the inline fallback stays in place.
+          });
+      }
+    </script>
   </body>
 </html>
