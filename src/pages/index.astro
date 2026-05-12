@@ -6,6 +6,33 @@ const lineItems = [
   ["02", "Data work", "Turn uncertain records into useful decisions"],
   ["03", "Reliability", "Leave the system easier to trust after launch"],
 ];
+
+const featuredWork = [
+  {
+    year: "2025-26",
+    name: "Fete Finder",
+    href: "/work/fete-finder-discovery",
+    detail:
+      "A cultural event discovery surface shaped around search, maps, share links, and launch traffic.",
+    role: "Product",
+  },
+  {
+    year: "2023-26",
+    name: "Open Policy Finder",
+    href: "/work/open-policy-finder",
+    detail:
+      "Search, documentation, content systems, indexing, and data quality for open access compliance.",
+    role: "Senior",
+  },
+  {
+    year: "2026",
+    name: "Receipts",
+    href: "/work/receipts-discovery",
+    detail:
+      "Beauty discovery designed around evidence, traceability, ranking, and operational confidence.",
+    role: "Founder",
+  },
+];
 ---
 
 <BaseLayout>
@@ -20,9 +47,9 @@ const lineItems = [
           them.
         </p>
         <div class="hero-actions" aria-label="Primary actions">
-          <a class="button-link" href="/work">Selected work</a>
+          <a class="button-link" href="#selected-work">Selected work</a>
           <!--email_off-->
-          <a class="button-link" href="mailto:work@owenabel.com"
+          <a class="button-link" href="#contact"
             >Start a conversation</a
           >
           <!--/email_off-->
@@ -66,6 +93,61 @@ const lineItems = [
         </tbody>
       </table>
       <hr class="rule double-rule" />
+    </div>
+  </section>
+
+  <section class="home-continuation" id="selected-work" aria-labelledby="selected-work-heading">
+    <div class="section-header">
+      <h2 id="selected-work-heading">Work</h2>
+      <p>
+        A short index of systems where the problem was not just writing code,
+        but making the path through uncertainty easier to operate.
+      </p>
+    </div>
+
+    <div class="work-list home-work-list">
+      {
+        featuredWork.map((item) => (
+          <article class="work-item home-work-item">
+            <span>{item.year}</span>
+            <div>
+              <h3>
+                <a href={item.href}>{item.name}</a>
+              </h3>
+              <p>{item.detail}</p>
+            </div>
+            <span class="work-role">{item.role}</span>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="continuation-link">
+      <a href="/work">Open the full work ledger</a>
+    </p>
+  </section>
+
+  <section class="home-continuation" id="contact" aria-labelledby="home-contact-heading">
+    <div class="section-header">
+      <h2 id="home-contact-heading">Contact</h2>
+      <p>Hit me up anytime. I like thoughtful work and clear conversations.</p>
+    </div>
+
+    <div class="contact-panel home-contact-panel">
+      <div class="contact-row">
+        <span>Email</span>
+        <!--email_off-->
+        <a href="mailto:work@owenabel.com">work@owenabel.com</a>
+        <!--/email_off-->
+      </div>
+      <div class="contact-row">
+        <span>Links</span>
+        <span>
+          <a href="/contact">Contact page</a>
+          <span aria-hidden="true"> / </span>
+          <a href="/owen-abel-amenze-cv.pdf">CV</a>
+        </span>
+      </div>
     </div>
   </section>
 </BaseLayout>

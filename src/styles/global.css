@@ -404,6 +404,31 @@ html[data-theme="dark"] .invoice-box::before {
   padding-top: clamp(52px, 9vw, 96px);
 }
 
+.home-continuation {
+  scroll-margin-top: 24px;
+  padding-top: clamp(56px, 12vw, 136px);
+}
+
+.home-work-list {
+  animation: none;
+}
+
+.home-work-item {
+  padding-block: 18px;
+}
+
+.continuation-link {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.home-contact-panel {
+  max-width: none;
+}
+
 .section-header {
   display: grid;
   grid-template-columns: 170px 1fr;
@@ -914,6 +939,16 @@ html[data-theme="dark"] .invoice-box::before {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.35;
+}
+
+.related-case {
+  margin-top: clamp(12px, 3vw, 28px);
+  border-top-style: double;
+  color: var(--muted);
+}
+
+.related-case a {
+  color: var(--ink);
 }
 
 @media (min-width: 761px) {
