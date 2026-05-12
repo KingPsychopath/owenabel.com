@@ -69,6 +69,10 @@ const work = [
       },
       { label: "jisc.ac.uk", href: "https://www.jisc.ac.uk", key: "digital-experience" },
     ],
+    caseNote: {
+      label: "Open Policy Finder case note",
+      href: "/work/open-policy-finder",
+    },
     role: "Senior",
   },
   {
@@ -210,6 +214,16 @@ const work = [
                     ))}
                   </dd>
                 </div>
+                {
+                  item.caseNote && (
+                    <div>
+                      <dt>Case</dt>
+                      <dd>
+                        <a href={item.caseNote.href}>{item.caseNote.label}</a>
+                      </dd>
+                    </div>
+                  )
+                }
               </dl>
             </details>
           </div>
