@@ -249,6 +249,12 @@ a:hover {
   background-size: 100% 1px;
 }
 
+.brand[aria-current="page"],
+.nav a[aria-current="page"] {
+  cursor: default;
+  pointer-events: none;
+}
+
 .theme-toggle {
   width: 19px;
   height: 19px;

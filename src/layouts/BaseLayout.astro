@@ -115,7 +115,12 @@ const structuredData = {
   <body>
     <div class="site-shell">
       <header class="site-header">
-        <a class="brand" href="/" aria-label="Owen Abel Amenze home">
+        <a
+          class="brand"
+          href="/"
+          aria-label="Owen Abel Amenze home"
+          aria-current={pathname === "/" ? "page" : undefined}
+        >
           <strong>Owen Abel Amenze</strong>
           <span>Software Engineer / London</span>
         </a>
@@ -185,26 +190,6 @@ const structuredData = {
           setTheme(nextTheme);
         });
       }
-
-      document.addEventListener("click", (event) => {
-        const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
-
-        if (!link) {
-          return;
-        }
-
-        const target = new URL(link.href, window.location.href);
-        const normalizePath = (path) => path.replace(/\/$/, "") || "/";
-        const samePage =
-          target.origin === window.location.origin &&
-          normalizePath(target.pathname) === normalizePath(window.location.pathname) &&
-          target.search === window.location.search &&
-          !target.hash;
-
-        if (samePage) {
-          event.preventDefault();
-        }
-      });
 
       if (footerMicrotext) {
         fetch("/footer-microtext.txt")
