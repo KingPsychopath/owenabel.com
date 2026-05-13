@@ -186,6 +186,26 @@ const structuredData = {
         });
       }
 
+      document.addEventListener("click", (event) => {
+        const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+
+        if (!link) {
+          return;
+        }
+
+        const target = new URL(link.href, window.location.href);
+        const normalizePath = (path) => path.replace(/\/$/, "") || "/";
+        const samePage =
+          target.origin === window.location.origin &&
+          normalizePath(target.pathname) === normalizePath(window.location.pathname) &&
+          target.search === window.location.search &&
+          !target.hash;
+
+        if (samePage) {
+          event.preventDefault();
+        }
+      });
+
       if (footerMicrotext) {
         fetch("/footer-microtext.txt")
           .then((response) => (response.ok ? response.text() : ""))

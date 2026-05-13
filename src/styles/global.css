@@ -193,6 +193,18 @@ a:hover {
 }
 
 .site-header {
+  view-transition-name: site-header;
+}
+
+.brand {
+  view-transition-name: site-brand;
+}
+
+.nav {
+  view-transition-name: site-nav;
+}
+
+.site-header {
   margin-bottom: clamp(56px, 11vw, 132px);
   animation: settle-in 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
