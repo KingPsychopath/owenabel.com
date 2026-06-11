@@ -4,7 +4,7 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "dev": "PORTLESS_TLD=localhost portless owenabel astro dev",
+    "dev": "astro dev",
     "dev:raw": "astro dev",
     "og:generate": "node scripts/generate-og.mjs",
     "format": "oxfmt --write .",
@@ -22,7 +22,6 @@
     "oxfmt": "^0.49.0",
     "oxlint": "^1.64.0",
     "oxlint-tsgolint": "^0.22.1",
-    "portless": "^0.13.0",
     "sharp": "0.34.5",
     "typescript": "^6.0.3",
     "wrangler": "^4.90.1"
