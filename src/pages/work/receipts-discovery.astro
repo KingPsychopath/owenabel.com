@@ -6,61 +6,51 @@ import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
 const threads = [
   {
     key: "evidence",
-    label: "Evidence model",
+    label: "Evidence",
     tension: "Beauty discovery often asks users to trust claims without showing where those claims came from.",
-    owned: "Shaped a trust model where provider capability comes from structured reviews, portfolio media, tag confirmations, and visible evidence.",
-    proof: "Discovery can explain why a provider appears instead of relying on empty popularity or self-claimed expertise.",
+    owned: "Separated claims, reviews, media confirmations, AI suggestions, and moderator decisions.",
+    proof: "Each result can show what is proven and by whom.",
   },
   {
-    key: "taxonomy",
-    label: "Taxonomy policy",
-    tension: "Hair and beauty language is messy, personal, and culturally specific; AI labels can easily overclaim.",
-    owned: "Defined taxonomy, tagging policy, and discovery facets so image analysis stays inside visually reliable buckets and user language maps safely at query time.",
-    proof: "The product can use AI for visual evidence without pretending to infer traits that belong to profile or behaviour.",
+    key: "intent",
+    label: "Search intent",
+    tension: "Hair and beauty language is messy, personal, and culturally specific; people also search with images, places, and saved looks.",
+    owned: "Let people search with words, images, places, and lookbooks without turning intent into proof.",
+    proof: "Visual similarity remains a lead, not a claim.",
   },
   {
     key: "ranking",
-    label: "Deterministic ranking",
-    tension: "Search needed to balance text relevance with verified capability, trust, feedback, and quality signals.",
-    owned: "Built the search model around Postgres projections, full-text search, trigram matching, taxonomy mapping, and deterministic reranking.",
-    proof: "Ranking becomes a product contract: structured evidence beats text-heavy matches when trust should matter more.",
+    label: "Ranking and explanation",
+    tension: "A relevant match is not always a proven one.",
+    owned: "Balanced relevance, evidence, review quality, location, and visual likeness.",
+    proof: "Each result explains why it appeared and how strong its evidence is.",
   },
 ];
 
 const mechanisms = [
   {
     thread: "evidence",
-    layer: "Feedback loop",
-    detail: "Review/portfolio scopes persist accepted, rejected, and manual tag feedback into consensus and training data.",
+    layer: "Evidence model",
+    detail: "Append-only events keep provider claims, verified reviews, media confirmations, corrections, and moderation distinct.",
   },
   {
-    thread: "taxonomy",
-    layer: "Tagging policy",
-    detail: "AI outputs visually reliable texture buckets; profile and behaviour signals handle traits that should not be image-inferred.",
-  },
-  {
-    thread: "taxonomy",
-    layer: "Manual language",
-    detail: "Aliases and fuzzy/manual mapping let user language resolve into canonical taxonomy without making AI labels over-specific.",
+    thread: "intent",
+    layer: "Search context",
+    detail: "Stable intent and lookbook IDs carry image, taxonomy, location, and provenance without turning intent into evidence.",
   },
   {
     thread: "ranking",
-    layer: "Retrieval",
-    detail: "Postgres search projection combines structured tags, generated tsvectors, full-text rank, and trigram-style loose matching.",
-  },
-  {
-    thread: "ranking",
-    layer: "Rerank",
-    detail: "Deterministic ranker balances taxonomy evidence, trust multipliers, review quality, profile affinity, feedback, and text relevance.",
+    layer: "Retrieval and rank",
+    detail: "Postgres text search and private embeddings feed a deterministic ranker that returns evidence level and admission reason.",
   },
 ];
 
-const initialThread = "evidence";
+const initialThread = "intent";
 ---
 
 <BaseLayout
   title="Receipts Discovery - Owen Abel Amenze"
-  description="A case study on Receipts' trust-first discovery, taxonomy policy, and evidence-backed ranking."
+  description="A case study on Receipts' evidence model, multimodal search, taxonomy policy, and explainable ranking."
 >
   <article class="case-note" data-case-note data-active-thread={initialThread}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -85,7 +75,7 @@ const initialThread = "evidence";
       </div>
       <div>
         <dt>Focus</dt>
-        <dd>Trust semantics, taxonomy, AI policy gates, Postgres search, ranking</dd>
+        <dd>Evidence, taxonomy, visual intent, lookbooks, Postgres search, ranking</dd>
       </div>
       <div>
         <dt>Link</dt>
@@ -121,7 +111,7 @@ const initialThread = "evidence";
     <section class="case-section" aria-labelledby="case-tension" data-case-section>
       <div class="case-section-label">
         <h2 id="case-tension">Tension</h2>
-        <p>The product problem beneath the work.</p>
+        <p>Looking right and being proven are different things.</p>
       </div>
       <p>
         Beauty discovery is full of high-stakes personal decisions and weak
@@ -134,7 +124,7 @@ const initialThread = "evidence";
     <section class="case-section" aria-labelledby="case-threads" data-case-section>
       <div class="case-section-label">
         <h2 id="case-threads">Threads</h2>
-        <p>Three product contracts behind trustworthy discovery.</p>
+        <p>What counts as proof, how intent enters, and why a result appears.</p>
       </div>
       <div class="case-thread-grid">
         {
@@ -157,14 +147,14 @@ const initialThread = "evidence";
     <section class="case-section" aria-labelledby="case-owned" data-case-section>
       <div class="case-section-label">
         <h2 id="case-owned">Owned</h2>
-        <p>What I was responsible for, and what it changed.</p>
+        <p>The product rules and systems I shaped.</p>
       </div>
       <table class="case-ledger">
         <thead>
           <tr>
             <th scope="col">Thread</th>
             <th scope="col">Work</th>
-            <th scope="col">Signal</th>
+            <th scope="col">Outcome</th>
           </tr>
         </thead>
         <tbody>
@@ -184,7 +174,7 @@ const initialThread = "evidence";
     <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
       <div class="case-section-label">
         <h2 id="case-mechanism">Mechanism</h2>
-        <p>The technical layers behind those responsibilities.</p>
+        <p>The technical choices beneath discovery.</p>
       </div>
       <table class="case-ledger">
         <thead>
@@ -204,20 +194,6 @@ const initialThread = "evidence";
           }
         </tbody>
       </table>
-    </section>
-
-    <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-shape">Shape</h2>
-        <p>How a search result becomes accountable.</p>
-      </div>
-      <ol>
-        <li data-thread="evidence" data-active>A user or provider contributes review or portfolio evidence.</li>
-        <li data-thread="taxonomy">AI suggestions are filtered through tagging policy before they can matter.</li>
-        <li data-thread="taxonomy">Manual language maps into canonical taxonomy when it is reliable enough.</li>
-        <li data-thread="ranking">Search retrieves candidates through structured tags and messy text.</li>
-        <li data-thread="ranking">Ranking balances relevance with trust, feedback, and quality signals.</li>
-      </ol>
     </section>
 
     <section class="case-section" aria-labelledby="case-reflection" data-case-section>

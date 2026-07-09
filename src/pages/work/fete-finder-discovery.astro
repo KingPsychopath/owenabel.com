@@ -5,57 +5,52 @@ import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
 
 const threads = [
   {
-    key: "search",
-    label: "Discovery surface",
+    key: "discover",
+    label: "Find the night",
     tension: "A large programme needed to feel searchable by half-formed intent: area, date, genre, venue, price, and mood.",
-    owned: "Built the event discovery surface around search, filters, result counts, dynamic chips, and clear recovery from over-filtering.",
-    proof: "The programme became something people could narrow without needing to understand the whole dataset first.",
+    owned: "Built search, filters, and maps around how people actually choose a night.",
+    proof: "A vague idea could become a manageable set of events.",
   },
   {
-    key: "map",
-    label: "City context",
-    tension: "Discovery was spatial as much as editorial; people needed to understand what was nearby and what was worth crossing Paris for.",
-    owned: "Shaped map loading, venue coordinates, location fallbacks, and map/list behaviour so geography supported browsing without blocking it.",
-    proof: "The map became an aid to discovery rather than a fragile dependency for the whole experience.",
+    key: "plan",
+    label: "Plan a route",
+    tension: "Finding one event was not enough; people needed to save stops, order a night, and share it.",
+    owned: "Turned saved events into timed routes that could be adjusted and shared.",
+    proof: "Browsing could become a plan instead of a collection of open tabs.",
   },
   {
-    key: "share",
-    label: "Shareable events",
-    tension: "A campaign only travels if individual events can be opened, shared, and trusted after programme edits.",
-    owned: "Built stable event identities, share routes, event detail hydration, OG image support, and modal routing around canonical event keys.",
-    proof: "Links could survive row order changes and content edits while still resolving into the live event experience.",
+    key: "return",
+    label: "Share and return",
+    tension: "Links and saved plans needed to survive programme edits and weak connections.",
+    owned: "Made event identity, sharing, offline state, and sync work as one return path.",
+    proof: "Plans remained useful after the first visit.",
   },
 ];
 
 const mechanisms = [
   {
-    thread: "search",
-    layer: "Search and filters",
-    detail: "Query matching across titles, locations, dates, arrondissements, genres, tags, type, price, nationality, venue type, age, and OOOC picks.",
+    thread: "discover",
+    layer: "Search and maps",
+    detail: "Typed event records feed multi-field filtering, result counts, location lookup, and lazy MapLibre views.",
   },
   {
-    thread: "map",
-    layer: "Map resilience",
-    detail: "Lazy map loading, coordinate enrichment, provider fallbacks, map preference settings, and graceful offline/map-asset failure copy.",
+    thread: "plan",
+    layer: "Saved routes",
+    detail: "Authenticated saved events and Postgres-backed plans support ordering, arrival times, sharing, and export.",
   },
   {
-    thread: "share",
-    layer: "Event identity",
-    detail: "Canonical eventKey lookup with decorative slugs, event modal URL state, detail hydration, and share metadata.",
-  },
-  {
-    thread: "share",
-    layer: "Offline detail",
-    detail: "IndexedDB event snapshots and service-worker caching for safe event JSON routes after a successful online visit.",
+    thread: "return",
+    layer: "Identity and offline",
+    detail: "Canonical event keys, share routes, IndexedDB snapshots, service-worker caching, and queued mutations preserve the return path.",
   },
 ];
 
-const initialThread = "search";
+const initialThread = "discover";
 ---
 
 <BaseLayout
   title="Fete Finder Discovery - Owen Abel Amenze"
-  description="A case study on Fete Finder's public discovery surface, maps, and shareable event routes."
+  description="A case study on Fete Finder's search, maps, saved routes, sharing, and offline product experience."
 >
   <article class="case-note" data-case-note data-active-thread={initialThread}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -82,7 +77,7 @@ const initialThread = "search";
       </div>
       <div>
         <dt>Focus</dt>
-        <dd>Search, filters, maps, event identity, share routes, offline fallback</dd>
+        <dd>Search, maps, saved events, route planning, sharing, offline support</dd>
       </div>
       <div>
         <dt>Link</dt>
@@ -118,7 +113,7 @@ const initialThread = "search";
     <section class="case-section" aria-labelledby="case-tension" data-case-section>
       <div class="case-section-label">
         <h2 id="case-tension">Tension</h2>
-        <p>The product problem beneath the work.</p>
+        <p>A city-wide programme rarely begins as a tidy plan.</p>
       </div>
       <p>
         Fete de la Musique is not a neat catalogue problem. It is a moving city
@@ -131,7 +126,7 @@ const initialThread = "search";
     <section class="case-section" aria-labelledby="case-threads" data-case-section>
       <div class="case-section-label">
         <h2 id="case-threads">Threads</h2>
-        <p>Three parts of the public discovery experience.</p>
+        <p>Finding an event, making a plan, and keeping it usable.</p>
       </div>
       <div class="case-thread-grid">
         {
@@ -154,14 +149,14 @@ const initialThread = "search";
     <section class="case-section" aria-labelledby="case-owned" data-case-section>
       <div class="case-section-label">
         <h2 id="case-owned">Owned</h2>
-        <p>What I was responsible for, and what it changed.</p>
+        <p>The parts I built across the public journey.</p>
       </div>
       <table class="case-ledger">
         <thead>
           <tr>
             <th scope="col">Thread</th>
             <th scope="col">Work</th>
-            <th scope="col">Signal</th>
+            <th scope="col">Outcome</th>
           </tr>
         </thead>
         <tbody>
@@ -181,7 +176,7 @@ const initialThread = "search";
     <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
       <div class="case-section-label">
         <h2 id="case-mechanism">Mechanism</h2>
-        <p>The technical layers behind those responsibilities.</p>
+        <p>The technical choices beneath the product work.</p>
       </div>
       <table class="case-ledger">
         <thead>
@@ -203,20 +198,6 @@ const initialThread = "search";
       </table>
     </section>
 
-    <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-shape">Shape</h2>
-        <p>How the work moved from intent to a usable route.</p>
-      </div>
-      <ol>
-        <li data-thread="search" data-active>A user arrives with a vague cultural intent.</li>
-        <li data-thread="search" data-active>Search and filters turn the programme into a smaller set of decisions.</li>
-        <li data-thread="map">Map and location cues make the decision feel grounded in the city.</li>
-        <li data-thread="share">A stable event route turns a discovery into something shareable.</li>
-        <li data-thread="share">The event key keeps that link intact as the programme changes.</li>
-      </ol>
-    </section>
-
     <section class="case-section" aria-labelledby="case-reflection" data-case-section>
       <div class="case-section-label">
         <h2 id="case-reflection">Reflection</h2>
@@ -224,9 +205,7 @@ const initialThread = "search";
       </div>
       <p>
         The strongest version of the product was not a beautiful list of events.
-        It was a surface that helped people form a plan from uncertainty:
-        narrowing the city, trusting the detail, and sending someone else a link
-        that still worked after the data moved.
+        It helped people narrow a whole city until a night began to take shape.
       </p>
     </section>
 

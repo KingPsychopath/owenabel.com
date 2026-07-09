@@ -6,62 +6,42 @@ import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
 const threads = [
   {
     key: "boundaries",
-    label: "Platform boundaries",
-    tension: "The product needed to move quickly without letting web routes, API handlers, database code, and domain logic collapse into each other.",
-    owned: "Shaped the monorepo around delivery, runtime, adapter, domain, and contract layers with boundary checks, package ownership, and typed API contracts.",
-    proof: "Web, API, CLI, worker, and future mobile clients can share behaviour without importing the wrong runtime concerns.",
+    label: "Runtime boundaries",
+    tension: "Product rules could not belong separately to web routes, API adapters, workers, and database queries.",
+    owned: "Moved product rules behind one generated API contract and a Go backend.",
+    proof: "Web and future clients can use the same behaviour.",
   },
   {
     key: "jobs",
-    label: "Async work",
-    tension: "Uploads, AI analysis, derivatives, and search indexing should not live inside normal request handlers.",
-    owned: "Built job boundaries where the API validates and enqueues work, while workers claim Postgres queues for media processing, AI analysis, search indexing, and cleanup.",
-    proof: "Heavy work can retry, back off, report status, and hand off follow-up indexing without blocking user-facing routes.",
+    label: "Durable workflows",
+    tension: "Media, AI analysis, and search indexing outlive a request and fail in different ways.",
+    owned: "Made long-running work retryable, visible, and recoverable.",
+    proof: "Failures no longer disappear inside a request.",
   },
   {
     key: "ops",
-    label: "Operational control",
-    tension: "A trust product needs readable failure modes: health, audit, feature flags, database checks, and operator commands.",
-    owned: "Built ops surfaces and CLI commands for feature flags, DB targets, migrations, search smoke tests, endpoint audits, worker health, and observability.",
-    proof: "Operational work becomes inspectable and reversible instead of hidden in deploy memory.",
+    label: "Control and release",
+    tension: "Speed could not come at the cost of unclear permissions, unsafe migrations, or fragile releases.",
+    owned: "Turned sensitive changes and releases into checked paths.",
+    proof: "Contract, migration, and release drift can fail before production.",
   },
 ];
 
 const mechanisms = [
   {
     thread: "boundaries",
-    layer: "Architecture",
-    detail: "TanStack Start web, Hono API, CLI, worker, mobile smoke scaffold, and packages for contracts, domain, data, jobs, and observability.",
-  },
-  {
-    thread: "boundaries",
     layer: "Contracts",
-    detail: "/v1 APIs use shared Zod contracts, stable response envelopes, a typed API client, and mobile smoke checks.",
+    detail: "Protobuf definitions generate ConnectRPC clients while Go capability packages own validation, policy, persistence, and projections.",
   },
   {
     thread: "jobs",
-    layer: "Media queue",
-    detail: "The API validates signed uploads and enqueues processing; workers create derivatives, activate assets, and enqueue search refresh.",
-  },
-  {
-    thread: "jobs",
-    layer: "AI analysis",
-    detail: "Image analysis runs as queued work with retry/backoff, trace context, and browser-safe status messages.",
-  },
-  {
-    thread: "jobs",
-    layer: "Search indexing",
-    detail: "Provider search documents refresh through queue jobs and Postgres-backed projections.",
+    layer: "Background work",
+    detail: "Postgres queues give media, AI, embeddings, indexing, notifications, and cleanup retryable state and visible status.",
   },
   {
     thread: "ops",
-    layer: "Observability",
-    detail: "Structured logs, Sentry capture, request correlation, DB audit events, and health/readiness/job/worker status endpoints.",
-  },
-  {
-    thread: "ops",
-    layer: "Operator CLI",
-    detail: "Commands for search smoke/explain, endpoint audit, feature flags, DB migration/seed/reset, and worker drains.",
+    layer: "Control plane",
+    detail: "OIDC sessions, permissions, audit events, health checks, architecture linting, migration checks, and release smokes guard production.",
   },
 ];
 
@@ -70,7 +50,7 @@ const initialThread = "boundaries";
 
 <BaseLayout
   title="Receipts Platform - Owen Abel Amenze"
-  description="A case study on Receipts' platform boundaries, background jobs, and operational controls."
+  description="A case study on Receipts' generated API contracts, Go backend, Postgres workflows, media jobs, and release controls."
 >
   <article class="case-note" data-case-note data-active-thread={initialThread}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -96,7 +76,7 @@ const initialThread = "boundaries";
       </div>
       <div>
         <dt>Focus</dt>
-        <dd>TanStack Start, Hono API, workers, queues, typed contracts, observability</dd>
+        <dd>TanStack Start, Go, ConnectRPC, Protobuf, Postgres, workers, Railway</dd>
       </div>
       <div>
         <dt>Link</dt>
@@ -132,21 +112,20 @@ const initialThread = "boundaries";
     <section class="case-section" aria-labelledby="case-tension" data-case-section>
       <div class="case-section-label">
         <h2 id="case-tension">Tension</h2>
-        <p>The product problem beneath the work.</p>
+        <p>The product grew faster than one application layer could own.</p>
       </div>
       <p>
-        Receipts has several kinds of complexity at once: evidence collection,
-        media processing, AI analysis, search indexing, ranking, public routes,
-        admin workflows, and operator tooling. Without clear boundaries, that
-        kind of product becomes hard to change exactly when it most needs to be
-        inspectable.
+        Receipts now spans search, reviews, provider workspaces, lookbooks,
+        messaging, media, AI, and moderation. The platform needed to keep those
+        capabilities changeable without letting routes, jobs, or database code
+        become the owners of product rules.
       </p>
     </section>
 
     <section class="case-section" aria-labelledby="case-threads" data-case-section>
       <div class="case-section-label">
         <h2 id="case-threads">Threads</h2>
-        <p>Three platform contracts behind a product that can be operated.</p>
+        <p>Where behaviour lives, how work survives, and how change ships.</p>
       </div>
       <div class="case-thread-grid">
         {
@@ -169,14 +148,14 @@ const initialThread = "boundaries";
     <section class="case-section" aria-labelledby="case-owned" data-case-section>
       <div class="case-section-label">
         <h2 id="case-owned">Owned</h2>
-        <p>What I was responsible for, and what it changed.</p>
+        <p>The platform boundaries and operating paths I shaped.</p>
       </div>
       <table class="case-ledger">
         <thead>
           <tr>
             <th scope="col">Thread</th>
             <th scope="col">Work</th>
-            <th scope="col">Signal</th>
+            <th scope="col">Outcome</th>
           </tr>
         </thead>
         <tbody>
@@ -196,7 +175,7 @@ const initialThread = "boundaries";
     <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
       <div class="case-section-label">
         <h2 id="case-mechanism">Mechanism</h2>
-        <p>The technical layers behind those responsibilities.</p>
+        <p>The technical choices beneath the platform.</p>
       </div>
       <table class="case-ledger">
         <thead>
@@ -216,20 +195,6 @@ const initialThread = "boundaries";
           }
         </tbody>
       </table>
-    </section>
-
-    <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-shape">Shape</h2>
-        <p>How product work moves through the system.</p>
-      </div>
-      <ol>
-        <li data-thread="boundaries" data-active>Domain and contract decisions define what product behaviour can mean.</li>
-        <li data-thread="boundaries">Web, API, CLI, and worker code consume shared contracts instead of leaking framework concerns.</li>
-        <li data-thread="jobs">The API writes durable state and enqueues work that does not belong in the request cycle.</li>
-        <li data-thread="jobs">Workers process, retry, update status, and enqueue follow-up indexing.</li>
-        <li data-thread="ops">Health, audit, CLI, and observability surfaces let the system be inspected and recovered.</li>
-      </ol>
     </section>
 
     <section class="case-section" aria-labelledby="case-reflection" data-case-section>

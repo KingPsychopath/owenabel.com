@@ -42,11 +42,11 @@ export const work: WorkItem[] = [
     detail:
       "A cultural event discovery platform for Fete de la Musique, built to make a large, scattered programme feel findable.",
     featuredDetail:
-      "A cultural event discovery surface shaped around search, maps, share links, and launch traffic.",
+      "Search, maps, saved routes, sharing, and offline support for 50,000+ launch visitors.",
     tension:
       "A city-wide programme is only useful if people can move through it by place, time, taste, and confidence.",
     owned:
-      "Listings, maps, event pages, partner placements, admin workflows, and launch readiness under real campaign traffic.",
+      "Discovery, planning, identity, submissions, ticket exchange, partner operations, data workflows, and the seasonal lifecycle.",
     signal: "Supported 3,000+ registrations and 50,000+ unique visitors during launch.",
     links: [
       {
@@ -56,11 +56,11 @@ export const work: WorkItem[] = [
     ],
     caseNotes: [
       {
-        label: "Fete Finder: discovery, maps, and share links",
+        label: "Fete Finder: discovery, planning, and sharing",
         href: "/work/fete-finder-discovery",
       },
       {
-        label: "Fete Finder: admin, data, and launch operations",
+        label: "Fete Finder: data, operations, and lifecycle",
         href: "/work/fete-finder-operations",
       },
     ],
@@ -135,21 +135,20 @@ export const work: WorkItem[] = [
     href: "https://receipts.beauty",
     detail:
       "A trust-first beauty discovery platform designed around evidence, not empty ranking theatre.",
-    featuredDetail:
-      "Beauty discovery designed around evidence, traceability, ranking, and operational confidence.",
+    featuredDetail: "Evidence-backed beauty search across words, images, location, and lookbooks.",
     tension:
       "Beauty discovery often asks people to trust opaque recommendations; the product needed to show its working.",
     owned:
-      "Product architecture, authentication, typed contracts, ranking logic, async work, and operational visibility.",
+      "Product architecture, search and evidence semantics, provider and review workflows, media and AI pipelines, generated API contracts, and release operations.",
     signal: "Trust becomes part of the interface rather than a claim made after the fact.",
     links: [{ label: "receipts.beauty", href: "https://receipts.beauty" }],
     caseNotes: [
       {
-        label: "Receipts: evidence-backed discovery and ranking",
+        label: "Receipts: evidence, multimodal search, and ranking",
         href: "/work/receipts-discovery",
       },
       {
-        label: "Receipts: platform boundaries, jobs, and operations",
+        label: "Receipts: Go platform, media jobs, and operations",
         href: "/work/receipts-platform",
       },
     ],

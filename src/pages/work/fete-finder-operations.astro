@@ -6,57 +6,42 @@ import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
 const threads = [
   {
     key: "data",
-    label: "Runtime data",
-    tension: "A live programme needed editable data without making the public site depend on a fragile manual spreadsheet loop.",
-    owned: "Built a Postgres-backed event store, CSV import/export paths, backups, local fallback, validation, and revalidation controls.",
-    proof: "The public site could keep serving useful event data even when the live store needed recovery or republishing.",
+    label: "Programme data",
+    tension: "The programme changed daily and still had to stay publishable.",
+    owned: "Turned programme edits into a safe publish-and-recover workflow.",
+    proof: "The public site stayed usable when live data needed repair.",
   },
   {
-    key: "admin",
-    label: "Admin workflow",
-    tension: "Content, submissions, placements, health checks, and recovery actions needed to be usable under launch pressure.",
-    owned: "Built admin surfaces for content editing, operations, placements, insights, submissions moderation, runtime health, and rollback.",
-    proof: "The launch workflow became a set of explicit operational moves rather than a bundle of manual interventions.",
+    key: "audience",
+    label: "Audience operations",
+    tension: "People did more than browse: they registered, submitted events, saved plans, and exchanged tickets.",
+    owned: "Built registration, submission moderation, saved-plan, and ticket-exchange tools.",
+    proof: "People could contribute events, plan a night, and find or pass on tickets.",
   },
   {
     key: "partners",
-    label: "Partner signal",
-    tension: "Campaign placements needed to be scheduled, fulfilled, measured, and reported without confusing editorial discovery.",
-    owned: "Built spotlight/promoted scheduling, partner activation queues, tokenized partner stats, engagement tracking, and reporting exports.",
-    proof: "Commercial placements could be operated with traceable performance without breaking the public discovery experience.",
+    label: "Partner operations",
+    tension: "Paid placements needed to be scheduled, measured, and reported without distorting editorial discovery.",
+    owned: "Built promoted-event scheduling, partner activation, performance reports, and exports.",
+    proof: "Partners could see what their campaign delivered without changing organic discovery.",
   },
 ];
 
 const mechanisms = [
   {
     thread: "data",
-    layer: "Source chain",
-    detail: "Managed Postgres event store first, latest backup second, bundled CSV fallback last.",
-  },
-  {
-    thread: "data",
-    layer: "Data quality",
-    detail: "Event assembly, date normalization, event keys, field transformers, quality checks, and warning surfaces.",
-  },
-  {
-    thread: "admin",
     layer: "Publishing",
-    detail: "Event sheet editor, manual backups, save-and-revalidate flow, live runtime snapshot, and restore path.",
+    detail: "Postgres event storage, validation, revision history, backups, CSV fallback, and revalidation keep edits recoverable.",
   },
   {
-    thread: "admin",
-    layer: "Security",
-    detail: "Admin sessions, route-level authentication, cron secrets, deploy revalidation tokens, and rate-limit storage.",
-  },
-  {
-    thread: "partners",
-    layer: "Placements",
-    detail: "Featured schedule, promoted schedule, Stripe activation ingestion, partner queues, and tokenized reporting pages.",
+    thread: "audience",
+    layer: "Audience state",
+    detail: "Public sessions connect users to submissions, saved events, plans, preferences, notices, and ticket exchange.",
   },
   {
     thread: "partners",
-    layer: "Analytics",
-    detail: "Event engagement, discovery analytics, calendar-save signal, outbound clicks, partner rates, and CSV export.",
+    layer: "Partner reporting",
+    detail: "Promoted schedules, Stripe activations, first-party engagement, tokenized reports, and CSV exports close the campaign loop.",
   },
 ];
 
@@ -65,7 +50,7 @@ const initialThread = "data";
 
 <BaseLayout
   title="Fete Finder Operations - Owen Abel Amenze"
-  description="A case study on Fete Finder's data model, admin workflow, partner placements, and launch operations."
+  description="A case study on Fete Finder's programme data, audience operations, partner reporting, launch controls, and seasonal lifecycle."
 >
   <article class="case-note" data-case-note data-active-thread={initialThread}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -78,10 +63,8 @@ const initialThread = "data";
       <p class="eyebrow">Case study</p>
       <h1>Fete Finder Operations</h1>
       <p>
-        Work on the system behind the public programme: data management,
-        publishing, backups, placements, analytics, and the launch controls that
-        kept a cultural product dependable across 3,000+ registrations and
-        50,000+ unique visitors.
+        The work that kept the programme publishable, supported its audience,
+        and carried it through launch into archive.
       </p>
     </header>
 
@@ -92,7 +75,7 @@ const initialThread = "data";
       </div>
       <div>
         <dt>Focus</dt>
-        <dd>Postgres, admin workflows, backups, revalidation, partner reporting, analytics</dd>
+        <dd>Publishing, audience workflows, partner reporting, recovery, archive</dd>
       </div>
       <div>
         <dt>Link</dt>
@@ -128,7 +111,7 @@ const initialThread = "data";
     <section class="case-section" aria-labelledby="case-tension" data-case-section>
       <div class="case-section-label">
         <h2 id="case-tension">Tension</h2>
-        <p>The product problem beneath the work.</p>
+        <p>The programme kept moving after the code shipped.</p>
       </div>
       <p>
         The public experience could only feel calm if the operating model behind
@@ -141,7 +124,7 @@ const initialThread = "data";
     <section class="case-section" aria-labelledby="case-threads" data-case-section>
       <div class="case-section-label">
         <h2 id="case-threads">Threads</h2>
-        <p>Three operational systems beneath the public surface.</p>
+        <p>Publishing the programme, supporting people, and running partner campaigns.</p>
       </div>
       <div class="case-thread-grid">
         {
@@ -164,14 +147,14 @@ const initialThread = "data";
     <section class="case-section" aria-labelledby="case-owned" data-case-section>
       <div class="case-section-label">
         <h2 id="case-owned">Owned</h2>
-        <p>What I was responsible for, and what it changed.</p>
+        <p>What I built and what it enabled.</p>
       </div>
       <table class="case-ledger">
         <thead>
           <tr>
             <th scope="col">Thread</th>
             <th scope="col">Work</th>
-            <th scope="col">Signal</th>
+            <th scope="col">Outcome</th>
           </tr>
         </thead>
         <tbody>
@@ -191,7 +174,7 @@ const initialThread = "data";
     <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
       <div class="case-section-label">
         <h2 id="case-mechanism">Mechanism</h2>
-        <p>The technical layers behind those responsibilities.</p>
+        <p>The technical choices beneath the operating model.</p>
       </div>
       <table class="case-ledger">
         <thead>
@@ -211,20 +194,6 @@ const initialThread = "data";
           }
         </tbody>
       </table>
-    </section>
-
-    <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-shape">Shape</h2>
-        <p>How the work moved from edits to launch confidence.</p>
-      </div>
-      <ol>
-        <li data-thread="data" data-active>Event data enters through admin, import, or submission paths.</li>
-        <li data-thread="data" data-active>Assembly and validation turn messy rows into stable public event objects.</li>
-        <li data-thread="admin">Operators back up, publish, revalidate, and inspect runtime status.</li>
-        <li data-thread="partners">Placements are scheduled and fulfilled without becoming hard-coded editorial state.</li>
-        <li data-thread="partners">Engagement and partner reports turn launch activity into a measurable signal.</li>
-      </ol>
     </section>
 
     <section class="case-section" aria-labelledby="case-reflection" data-case-section>
