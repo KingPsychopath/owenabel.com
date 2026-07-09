@@ -650,12 +650,18 @@ html[data-theme="dark"] .invoice-box::before {
   list-style: none;
 }
 
-.work-streams li {
+.work-streams button {
   display: grid;
   gap: 2px;
+  width: 100%;
+  border: 0;
   border-left: 1px solid var(--rule);
   padding-left: 12px;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
+  font: inherit;
+  text-align: left;
   transition:
     background 180ms ease,
     border-color 180ms ease,
@@ -663,9 +669,9 @@ html[data-theme="dark"] .invoice-box::before {
     padding 180ms ease;
 }
 
-.work-streams li:hover,
-.work-streams li:focus-visible,
-.work-streams li[data-active] {
+.work-streams button:hover,
+.work-streams button:focus-visible,
+.work-streams button[data-active] {
   border-color: var(--accent);
   background: var(--accent-wash-soft);
   outline: 1px solid var(--accent-outline);
@@ -690,8 +696,15 @@ html[data-theme="dark"] .invoice-box::before {
 }
 
 .relation-text {
+  display: inline;
+  border: 0;
   border-radius: 2px;
+  padding: 0;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
+  font: inherit;
+  text-align: inherit;
 }
 
 .relation-text:hover,
@@ -985,6 +998,12 @@ html[data-theme="dark"] .invoice-box::before {
   scroll-margin-top: 92px;
 }
 
+.case-meta > *,
+.case-control > *,
+.case-section > * {
+  min-width: 0;
+}
+
 .case-section h2,
 .case-section p,
 .case-section-label p {
@@ -1178,6 +1197,16 @@ html[data-theme="dark"] .invoice-box::before {
 
   .case-thread:last-child {
     border-bottom: 0;
+  }
+
+  .case-ledger {
+    table-layout: fixed;
+  }
+
+  .case-ledger th,
+  .case-ledger td {
+    padding-inline: 7px;
+    overflow-wrap: anywhere;
   }
 
   .case-control {

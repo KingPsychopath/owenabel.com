@@ -23,7 +23,7 @@ import { getCaseNotes, work } from "../data/work";
           <span>{item.year}</span>
           <div>
             <h3>
-              <a href={item.href}>{item.name}</a>
+              <a href={getCaseNotes(item)[0]?.href ?? item.href}>{item.name}</a>
             </h3>
             <p>{item.detail}</p>
             <details>
@@ -49,15 +49,14 @@ import { getCaseNotes, work } from "../data/work";
                       Array.isArray(item.tension)
                         ? item.tension.map((part) =>
                             part.key ? (
-                              <span
+                              <button
+                                type="button"
                                 class="relation-text"
                                 data-relation={part.key}
-                                role="button"
                                 aria-pressed="false"
-                                tabindex="0"
                               >
                                 {part.text}
-                              </span>
+                              </button>
                             ) : (
                               part.text
                             ),
@@ -73,9 +72,11 @@ import { getCaseNotes, work } from "../data/work";
                       item.streams ? (
                         <ol class="work-streams" data-relation-list>
                           {item.streams.map((stream) => (
-                            <li data-relation={stream.key} role="button" aria-pressed="false" tabindex="0">
-                              <strong>{stream.label}</strong>
-                              <span>{stream.body}</span>
+                            <li>
+                              <button type="button" data-relation={stream.key} aria-pressed="false">
+                                <strong>{stream.label}</strong>
+                                <span>{stream.body}</span>
+                              </button>
                             </li>
                           ))}
                         </ol>
@@ -92,15 +93,14 @@ import { getCaseNotes, work } from "../data/work";
                       Array.isArray(item.signal)
                         ? item.signal.map((part) =>
                             part.key ? (
-                              <span
+                              <button
+                                type="button"
                                 class="relation-text"
                                 data-relation={part.key}
-                                role="button"
                                 aria-pressed="false"
-                                tabindex="0"
                               >
                                 {part.text}
-                              </span>
+                              </button>
                             ) : (
                               part.text
                             ),
@@ -154,7 +154,7 @@ import { getCaseNotes, work } from "../data/work";
     const relationItems = document.querySelectorAll("[data-work-item]");
 
     const updatePressedState = (item) => {
-      item.querySelectorAll('[role="button"][data-relation]').forEach((node) => {
+      item.querySelectorAll('button[data-relation]').forEach((node) => {
         node.setAttribute("aria-pressed", String(item.dataset.pinnedRelation === node.dataset.relation));
       });
     };
@@ -184,16 +184,10 @@ import { getCaseNotes, work } from "../data/work";
         updatePressedState(item);
       };
 
-      item.querySelectorAll(".work-streams [data-relation], .relation-text[data-relation]").forEach((node) => {
+      item.querySelectorAll(".work-streams button[data-relation], .relation-text[data-relation]").forEach((node) => {
         node.addEventListener("mouseenter", () => setActive(node.dataset.relation));
         node.addEventListener("focus", () => setActive(node.dataset.relation));
         node.addEventListener("click", () => setActive(node.dataset.relation, true));
-        node.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            setActive(node.dataset.relation, true);
-          }
-        });
       });
 
       item.addEventListener("mouseleave", () => {

@@ -16,23 +16,85 @@ const nav = [
 ];
 
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const siteUrl = new URL("/", Astro.site ?? Astro.url).href;
+const canonicalUrl = Astro.url.href;
+const pageName = title.replace(/ - Owen Abel Amenze$/, "");
+const personId = `${siteUrl}#person`;
+
+const structuredDataGraph = [
+  {
+    "@type": "Person",
+    "@id": personId,
+    name: "Owen Abel Amenze",
+    jobTitle: "Software Engineer",
+    url: siteUrl,
+    image: ogImage,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "London",
+      addressCountry: "GB",
+    },
+    sameAs: [
+      "https://github.com/KingPsychopath",
+      "https://www.linkedin.com/in/owen-abel",
+    ],
+  },
+];
+
+if (pathname === "/") {
+  structuredDataGraph.push({
+    "@type": "WebSite",
+    "@id": `${siteUrl}#website`,
+    name: "Owen Abel Amenze",
+    url: siteUrl,
+    author: { "@id": personId },
+  });
+}
+
+if (pathname === "/work" || pathname.startsWith("/work/")) {
+  const itemListElement = [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Work",
+      item: new URL("/work", siteUrl).href,
+    },
+  ];
+
+  if (pathname.startsWith("/work/")) {
+    itemListElement.push({
+      "@type": "ListItem",
+      position: 3,
+      name: pageName,
+      item: canonicalUrl,
+    });
+
+    structuredDataGraph.push({
+      "@type": "CreativeWork",
+      "@id": `${canonicalUrl}#creative-work`,
+      name: pageName,
+      description,
+      url: canonicalUrl,
+      author: { "@id": personId },
+      mainEntityOfPage: canonicalUrl,
+    });
+  }
+
+  structuredDataGraph.push({
+    "@type": "BreadcrumbList",
+    itemListElement,
+  });
+}
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Owen Abel Amenze",
-  jobTitle: "Software Engineer",
-  url: "https://owenabel.com",
-  image: ogImage,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "London",
-    addressCountry: "GB",
-  },
-  sameAs: [
-    "https://github.com/KingPsychopath",
-    "https://www.linkedin.com/in/owen-abel",
-  ],
+  "@graph": structuredDataGraph,
 };
 ---
 
@@ -43,7 +105,6 @@ const structuredData = {
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#efefec" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111213" media="(prefers-color-scheme: dark)" />
-    <link rel="preload" href="/grain.png" as="image" />
     <style is:inline>
       html {
         background: #efefec;
@@ -165,7 +226,6 @@ const structuredData = {
     </div>
     <script>
       const themeToggle = document.querySelector("[data-theme-toggle]");
-      const footerMicrotext = document.querySelector("[data-footer-microtext]");
       const setTheme = (theme) => {
         const isDark = theme === "dark";
 
@@ -189,21 +249,6 @@ const structuredData = {
           localStorage.setItem("owenabel-theme", nextTheme);
           setTheme(nextTheme);
         });
-      }
-
-      if (footerMicrotext) {
-        fetch("/footer-microtext.txt")
-          .then((response) => (response.ok ? response.text() : ""))
-          .then((text) => {
-            const normalized = text.replace(/\s+/g, " ").trim();
-
-            if (normalized) {
-              footerMicrotext.textContent = normalized;
-            }
-          })
-          .catch(() => {
-            // Decorative only; the inline fallback stays in place.
-          });
       }
     </script>
   </body>
