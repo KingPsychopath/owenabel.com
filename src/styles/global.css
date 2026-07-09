@@ -562,8 +562,16 @@ html[data-theme="dark"] .invoice-box::before {
   color: var(--muted);
 }
 
-.work-item details {
+.work-detail {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
   margin-top: 10px;
+}
+
+.work-item details {
+  flex: 1;
+  min-width: 0;
 }
 
 .work-item summary {
@@ -580,12 +588,18 @@ html[data-theme="dark"] .invoice-box::before {
 
 .case-study-count {
   display: inline-block;
-  margin-left: 6px;
   color: var(--muted);
   text-decoration: none;
   transition:
     color 180ms ease,
     transform 180ms ease;
+}
+
+.case-study-shortcuts {
+  display: flex;
+  gap: 6px;
+  padding-top: 1px;
+  font-size: 12px;
 }
 
 .case-study-count:hover,

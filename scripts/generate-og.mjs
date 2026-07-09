@@ -1,13 +1,8 @@
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
-const output = {
-  svg: new URL("../public/og.svg", import.meta.url),
-  png: new URL("../public/og.png", import.meta.url),
-};
-
-const card = {
+const defaultCard = {
   name: "Owen Abel Amenze",
   role: "Software Engineer / London",
   email: "work@owenabel.com",
@@ -22,6 +17,114 @@ const card = {
     ["03", "Reliability", "Leave the system easier to trust after launch"],
   ],
 };
+
+const caseCard = ({ slug, name, area, document, issued, method, rows }) => ({
+  slug,
+  name,
+  role: `${area} / Case study`,
+  email: `owenabel.com/work/${slug}`,
+  document,
+  issued,
+  method,
+  site: "owenabel.com",
+  status: "Case study",
+  rows,
+});
+
+const cards = [
+  defaultCard,
+  caseCard({
+    slug: "fete-finder-discovery",
+    name: "Fete Finder",
+    area: "Discovery",
+    document: "CASE-FF-DISC",
+    issued: "2025-26",
+    method: "Search, maps, stable routes",
+    rows: [
+      ["01", "Discovery surface", "Narrow by date, place, and taste"],
+      ["02", "City context", "Use maps without blocking browsing"],
+      ["03", "Shareable events", "Keep edited event links stable"],
+    ],
+  }),
+  caseCard({
+    slug: "fete-finder-operations",
+    name: "Fete Finder",
+    area: "Operations",
+    document: "CASE-FF-OPS",
+    issued: "2025-26",
+    method: "Operate, recover, report",
+    rows: [
+      ["01", "Runtime data", "Back up and recover live records"],
+      ["02", "Admin workflow", "Make launch work explicit"],
+      ["03", "Partner signal", "Track placements without harming discovery"],
+    ],
+  }),
+  caseCard({
+    slug: "milk-and-henny-media",
+    name: "Milk & Henny",
+    area: "Media",
+    document: "CASE-MH-MEDIA",
+    issued: "2025",
+    method: "Store, process, publish",
+    rows: [
+      ["01", "Storage model", "Separate content by lifecycle"],
+      ["02", "Image pipeline", "Create fast previews and useful crops"],
+      ["03", "Publishing surface", "Unify public, unlisted, and private work"],
+    ],
+  }),
+  caseCard({
+    slug: "milk-and-henny-operations",
+    name: "Milk & Henny",
+    area: "Sharing",
+    document: "CASE-MH-OPS",
+    issued: "2025",
+    method: "Share, control, recover",
+    rows: [
+      ["01", "Event operations", "Support entry, voting, and photos"],
+      ["02", "Photo sharing", "Deliver large media from owned storage"],
+      ["03", "Operational control", "Keep private tools cheap and recoverable"],
+    ],
+  }),
+  caseCard({
+    slug: "open-policy-finder",
+    name: "Open Policy Finder",
+    area: "Search & data",
+    document: "CASE-OPF",
+    issued: "2023-26",
+    method: "Find, explain, verify",
+    rows: [
+      ["01", "Search surface", "Make policy data findable"],
+      ["02", "Documentation", "Connect source content and publishing"],
+      ["03", "Data quality", "Remove missing and incorrect records"],
+    ],
+  }),
+  caseCard({
+    slug: "receipts-discovery",
+    name: "Receipts",
+    area: "Discovery",
+    document: "CASE-RCPT-DISC",
+    issued: "2026",
+    method: "Evidence before claims",
+    rows: [
+      ["01", "Evidence model", "Explain why a provider appears"],
+      ["02", "Taxonomy policy", "Keep visual inference within limits"],
+      ["03", "Ranking", "Make trust part of result order"],
+    ],
+  }),
+  caseCard({
+    slug: "receipts-platform",
+    name: "Receipts",
+    area: "Platform",
+    document: "CASE-RCPT-PLAT",
+    issued: "2026",
+    method: "Separate, queue, observe",
+    rows: [
+      ["01", "Platform boundaries", "Keep domain logic out of delivery code"],
+      ["02", "Async work", "Move heavy processing into workers"],
+      ["03", "Operational control", "Make failure inspectable and reversible"],
+    ],
+  }),
+];
 
 const escapeXml = (value) =>
   String(value)
@@ -82,10 +185,25 @@ ${rowMarkup}
 `;
 };
 
-const svg = createLedgerOgSvg(card);
+await mkdir(new URL("../public/og/", import.meta.url), { recursive: true });
 
-await writeFile(output.svg, svg);
-await sharp(Buffer.from(svg)).png().toFile(fileURLToPath(output.png));
+await Promise.all(
+  cards.map(async ({ slug, ...card }) => {
+    const output = slug
+      ? {
+          svg: new URL(`../public/og/${slug}.svg`, import.meta.url),
+          png: new URL(`../public/og/${slug}.png`, import.meta.url),
+        }
+      : {
+          svg: new URL("../public/og.svg", import.meta.url),
+          png: new URL("../public/og.png", import.meta.url),
+        };
+    const svg = createLedgerOgSvg(card);
 
-console.log(`Generated ${output.svg.pathname}`);
-console.log(`Generated ${output.png.pathname}`);
+    await writeFile(output.svg, svg);
+    await sharp(Buffer.from(svg)).png().toFile(fileURLToPath(output.png));
+
+    console.log(`Generated ${output.svg.pathname}`);
+    console.log(`Generated ${output.png.pathname}`);
+  }),
+);

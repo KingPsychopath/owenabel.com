@@ -26,22 +26,10 @@ import { getCaseNotes, work } from "../data/work";
               <a href={getCaseNotes(item)[0]?.href ?? item.href}>{item.name}</a>
             </h3>
             <p>{item.detail}</p>
-            <details>
-              <summary>
-                More detail
-                {
-                  getCaseNotes(item).map((caseNote, index) => (
-                    <a
-                      class="case-study-count"
-                      href={caseNote.href}
-                      aria-label={`Case study ${index + 1}: ${caseNote.label}`}
-                    >
-                      [{index + 1}]
-                    </a>
-                  ))
-                }
-              </summary>
-              <dl>
+            <div class="work-detail">
+              <details>
+                <summary>More detail</summary>
+                <dl>
                 <div>
                   <dt>Tension</dt>
                   <dd>
@@ -141,8 +129,24 @@ import { getCaseNotes, work } from "../data/work";
                     </div>
                   )
                 }
-              </dl>
-            </details>
+                </dl>
+              </details>
+              {
+                getCaseNotes(item).length > 0 && (
+                  <nav class="case-study-shortcuts" aria-label={`${item.name} case studies`}>
+                    {getCaseNotes(item).map((caseNote, index) => (
+                      <a
+                        class="case-study-count"
+                        href={caseNote.href}
+                        aria-label={`Case study ${index + 1}: ${caseNote.label}`}
+                      >
+                        [{index + 1}]
+                      </a>
+                    ))}
+                  </nav>
+                )
+              }
+            </div>
           </div>
           <span class="work-role">{item.role}</span>
         </article>
