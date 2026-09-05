@@ -11,12 +11,13 @@
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "lint": "oxlint --type-aware --deny-warnings . --ignore-pattern dist --ignore-pattern node_modules --ignore-pattern '*.astro'",
-    "typecheck": "tsgo --noEmit",
+    "typecheck": "astro check && tsgo --noEmit",
     "build": "pnpm run format:check && pnpm run lint && pnpm run typecheck && astro build",
     "preview": "astro preview",
     "deploy:cf": "pnpm run build && wrangler pages deploy dist --project-name owenabel-com --branch main"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@astrojs/sitemap": "^3.7.3",
     "@typescript/native-preview": "^7.0.0-dev.20260512.1",
     "astro": "^7.0.7",
@@ -26,5 +27,6 @@
     "sharp": "0.34.5",
     "typescript": "^6.0.3",
     "wrangler": "^4.110.0"
-  }
+  },
+  "packageManager": "pnpm@11.17.0"
 }

@@ -1,6 +1,12 @@
 ---
 import "../styles/global.css";
 
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
 const {
   title = "Owen Abel Amenze - Software Engineer",
   description = "Software engineer in London, making product systems clearer, calmer, and easier to trust under real use.",
@@ -25,7 +31,7 @@ const ogImageAlt = caseStudySlug
   ? `${pageName} case study by Owen Abel Amenze`
   : "Owen Abel Amenze, Software Engineer in London";
 
-const structuredDataGraph = [
+const structuredDataGraph: Record<string, unknown>[] = [
   {
     "@type": "Person",
     "@id": personId,
@@ -176,7 +182,7 @@ const structuredData = {
     <meta name="twitter:image:alt" content={ogImageAlt} />
     <link rel="canonical" href={Astro.url.href} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <title>{title}</title>
   </head>
   <body>
@@ -231,8 +237,8 @@ const structuredData = {
       </footer>
     </div>
     <script>
-      const themeToggle = document.querySelector("[data-theme-toggle]");
-      const setTheme = (theme) => {
+      const themeToggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+      const setTheme = (theme: string) => {
         const isDark = theme === "dark";
 
         document.documentElement.dataset.theme = isDark ? "dark" : "light";
@@ -242,18 +248,20 @@ const structuredData = {
       };
 
       if (themeToggle) {
-        const storedTheme = localStorage.getItem("owenabel-theme");
-        const currentTheme =
-          storedTheme ??
-          (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-
-        setTheme(currentTheme);
+        setTheme(
+          document.documentElement.dataset.theme ??
+            (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"),
+        );
 
         themeToggle.addEventListener("click", () => {
           const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
 
-          localStorage.setItem("owenabel-theme", nextTheme);
           setTheme(nextTheme);
+          try {
+            localStorage.setItem("owenabel-theme", nextTheme);
+          } catch {
+            // Switching themes still works when preferences cannot be saved.
+          }
         });
       }
     </script>

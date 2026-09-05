@@ -1,6 +1,6 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import CaseStudyInteractions from "../../components/CaseStudyInteractions.astro";
+import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+import CaseStudySection from "../../components/CaseStudySection.astro";
 
 const threads = [
   {
@@ -52,185 +52,151 @@ const mechanisms = [
 const initialThread = "search";
 ---
 
-<BaseLayout
-  title="Open Policy Finder - Owen Abel Amenze"
+<CaseStudyLayout
+  title="Open Policy Finder"
   description="A case study on Open Policy Finder work across search, documentation, content systems, and data quality."
+  threads={threads}
+  initialThread={initialThread}
 >
-  <article class="case-note" data-case-note data-active-thread={initialThread}>
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/work">Work</a>
-      <span aria-hidden="true">/</span>
-      <span>Open Policy Finder</span>
-    </nav>
+  <p slot="intro">
+    Work on a Jisc product surface where open access compliance depended on
+    policy, journal, and transitional-agreement data being searchable,
+    legible, and trusted.
+  </p>
 
-    <header class="case-hero">
-      <p class="eyebrow">Case study</p>
-      <h1>Open Policy Finder</h1>
-      <p>
-        Work on a Jisc product surface where open access compliance depended on
-        policy, journal, and transitional-agreement data being searchable,
-        legible, and trusted.
-      </p>
-    </header>
+  <dl slot="meta" class="case-meta" aria-label="Case note summary">
+    <div>
+      <dt>Context</dt>
+      <dd>Jisc / 2023-26</dd>
+    </div>
+    <div>
+      <dt>Focus</dt>
+      <dd>Search, documentation, content systems, Elasticsearch, indexing, data quality</dd>
+    </div>
+    <div>
+      <dt>Link</dt>
+      <dd>
+        <a href="https://openpolicyfinder.jisc.ac.uk">openpolicyfinder.jisc.ac.uk</a>
+      </dd>
+    </div>
+  </dl>
 
-    <dl class="case-meta" aria-label="Case note summary">
-      <div>
-        <dt>Context</dt>
-        <dd>Jisc / 2023-26</dd>
-      </div>
-      <div>
-        <dt>Focus</dt>
-        <dd>Search, documentation, content systems, Elasticsearch, indexing, data quality</dd>
-      </div>
-      <div>
-        <dt>Link</dt>
-        <dd>
-          <a href="https://openpolicyfinder.jisc.ac.uk">openpolicyfinder.jisc.ac.uk</a>
-        </dd>
-      </div>
-    </dl>
+  <CaseStudySection
+    id="case-tension"
+    title="Tension"
+    summary="The product problem beneath the work."
+  >
+    <p>
+      Open access compliance is practical work. Users arrive with questions
+      about policies, journals, agreements, and eligibility, while internal
+      teams need documentation that can change safely. The interface had to
+      support fuzzy, acronym-heavy search behaviour and a content workflow that
+      stayed editable without hiding the shape of the underlying data.
+    </p>
+  </CaseStudySection>
 
-    <nav class="case-control" aria-label="Case study controls">
-      <p>
-        <span>Navigate</span>
-        <kbd>↑</kbd><kbd>↓</kbd> sections
-        <kbd>←</kbd><kbd>→</kbd> threads
-        <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> direct
-      </p>
-      <div>
-        {
-          threads.map((thread, index) => (
-            <button
-              type="button"
-              data-thread-control={thread.key}
-              data-active={thread.key === initialThread ? true : undefined}
-              aria-pressed={thread.key === initialThread ? "true" : "false"}
-            >
-              [{index + 1}] {thread.label}
-            </button>
-          ))
-        }
-      </div>
-    </nav>
+  <CaseStudySection
+    id="case-threads"
+    title="Threads"
+    summary="Three parts of the work that connect through the page."
+  >
+    <div class="case-thread-grid">
+      {
+        threads.map((thread) => (
+          <button
+            class="case-thread"
+            type="button"
+            data-thread={thread.key}
+            data-active={thread.key === initialThread ? true : undefined}
+            aria-pressed={thread.key === initialThread ? "true" : "false"}
+          >
+            <span>{thread.label}</span>
+            <small>{thread.tension}</small>
+          </button>
+        ))
+      }
+    </div>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-tension" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-tension">Tension</h2>
-        <p>The product problem beneath the work.</p>
-      </div>
-      <p>
-        Open access compliance is practical work. Users arrive with questions
-        about policies, journals, agreements, and eligibility, while internal
-        teams need documentation that can change safely. The interface had to
-        support fuzzy, acronym-heavy search behaviour and a content workflow that
-        stayed editable without hiding the shape of the underlying data.
-      </p>
-    </section>
-
-    <section class="case-section" aria-labelledby="case-threads" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-threads">Threads</h2>
-        <p>Three parts of the work that connect through the page.</p>
-      </div>
-      <div class="case-thread-grid">
+  <CaseStudySection
+    id="case-owned"
+    title="Owned"
+    summary="What I was responsible for, and what it changed."
+  >
+    <table class="case-ledger">
+      <thead>
+        <tr>
+          <th scope="col">Thread</th>
+          <th scope="col">Work</th>
+          <th scope="col">Signal</th>
+        </tr>
+      </thead>
+      <tbody>
         {
           threads.map((thread) => (
-            <button
-              class="case-thread"
-              type="button"
-              data-thread={thread.key}
-              data-active={thread.key === initialThread ? true : undefined}
-              aria-pressed={thread.key === initialThread ? "true" : "false"}
-            >
-              <span>{thread.label}</span>
-              <small>{thread.tension}</small>
-            </button>
+            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+              <td>{thread.label}</td>
+              <td>{thread.owned}</td>
+              <td>{thread.proof}</td>
+            </tr>
           ))
         }
-      </div>
-    </section>
+      </tbody>
+    </table>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-owned" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-owned">Owned</h2>
-        <p>What I was responsible for, and what it changed.</p>
-      </div>
-      <table class="case-ledger">
-        <thead>
-          <tr>
-            <th scope="col">Thread</th>
-            <th scope="col">Work</th>
-            <th scope="col">Signal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            threads.map((thread) => (
-              <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-                <td>{thread.label}</td>
-                <td>{thread.owned}</td>
-                <td>{thread.proof}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </section>
+  <CaseStudySection
+    id="case-mechanism"
+    title="Mechanism"
+    summary="The technical layers behind those responsibilities."
+  >
+    <table class="case-ledger">
+      <thead>
+        <tr>
+          <th scope="col">Layer</th>
+          <th scope="col">Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          mechanisms.map((mechanism) => (
+            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+              <td>{mechanism.layer}</td>
+              <td>{mechanism.detail}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-mechanism">Mechanism</h2>
-        <p>The technical layers behind those responsibilities.</p>
-      </div>
-      <table class="case-ledger">
-        <thead>
-          <tr>
-            <th scope="col">Layer</th>
-            <th scope="col">Detail</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            mechanisms.map((mechanism) => (
-              <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-                <td>{mechanism.layer}</td>
-                <td>{mechanism.detail}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </section>
+  <CaseStudySection
+    id="case-shape"
+    title="Shape"
+    summary="How the work moved from user need to reliable surface."
+    class="case-flow"
+  >
+    <ol>
+      <li data-thread="search" data-active>A user starts with a policy or journal question.</li>
+      <li data-thread="search" data-active>Fuzzy search and ranking narrow the problem into inspectable results.</li>
+      <li data-thread="docs">Markdown content becomes structured React surfaces through an AST parser.</li>
+      <li data-thread="docs">Connection blocks keep related guidance editable for content teams and developers.</li>
+      <li data-thread="data">Verification catches missing and incorrect fields that had previously gone unnoticed.</li>
+      <li data-thread="data">Data cleanup brings the failure rate from roughly 70% down to zero.</li>
+    </ol>
+  </CaseStudySection>
 
-    <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-shape">Shape</h2>
-        <p>How the work moved from user need to reliable surface.</p>
-      </div>
-      <ol>
-        <li data-thread="search" data-active>A user starts with a policy or journal question.</li>
-        <li data-thread="search" data-active>Fuzzy search and ranking narrow the problem into inspectable results.</li>
-        <li data-thread="docs">Markdown content becomes structured React surfaces through an AST parser.</li>
-        <li data-thread="docs">Connection blocks keep related guidance editable for content teams and developers.</li>
-        <li data-thread="data">Verification catches missing and incorrect fields that had previously gone unnoticed.</li>
-        <li data-thread="data">Data cleanup brings the failure rate from roughly 70% down to zero.</li>
-      </ol>
-    </section>
-
-    <section class="case-section" aria-labelledby="case-reflection" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-reflection">Reflection</h2>
-        <p>What the project clarified about building trustworthy systems.</p>
-      </div>
-      <p>
-        The important part was not only building search pages. It was making a
-        compliance product easier to operate and easier to trust, from fuzzy
-        search and ranking through to the repo-backed content model, Directus
-        sync, documentation, and the verification work that made the underlying
-        records safe to expose.
-      </p>
-    </section>
-  </article>
-
-  <CaseStudyInteractions />
-</BaseLayout>
+  <CaseStudySection
+    id="case-reflection"
+    title="Reflection"
+    summary="What the project clarified about building trustworthy systems."
+  >
+    <p>
+      The important part was not only building search pages. It was making a
+      compliance product easier to operate and easier to trust, from fuzzy
+      search and ranking through to the repo-backed content model, Directus
+      sync, documentation, and the verification work that made the underlying
+      records safe to expose.
+    </p>
+  </CaseStudySection>
+</CaseStudyLayout>

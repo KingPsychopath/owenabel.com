@@ -1,0 +1,54 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import CaseStudyInteractions from "../components/CaseStudyInteractions.astro";
+import RelatedCaseStudies from "../components/RelatedCaseStudies.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  initialThread: string;
+  threads: { key: string; label: string }[];
+}
+const { title, description, initialThread, threads } = Astro.props;
+---
+
+<BaseLayout title={`${title} - Owen Abel Amenze`} description={description}>
+  <article class="case-note" data-case-note data-active-thread={initialThread}>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/work">Work</a>
+      <span aria-hidden="true">/</span>
+      <span>{title}</span>
+    </nav>
+    <header class="case-hero">
+      <p class="eyebrow">Case study</p>
+      <h1>{title}</h1>
+      <slot name="intro" />
+    </header>
+    <slot name="meta" />
+    <nav class="case-control" aria-label="Case study controls">
+      <p>
+        <span>Navigate</span>
+        <kbd>↑</kbd><kbd>↓</kbd> sections
+        <kbd>←</kbd><kbd>→</kbd> threads
+        <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> direct
+      </p>
+      <div>
+        {
+          threads.map((thread, index) => (
+            <button
+              type="button"
+              data-thread-control={thread.key}
+              data-active={thread.key === initialThread ? true : undefined}
+              aria-pressed={thread.key === initialThread ? "true" : "false"}
+            >
+              [{index + 1}] {thread.label}
+            </button>
+          ))
+        }
+      </div>
+    </nav>
+    <slot />
+    <RelatedCaseStudies currentHref={Astro.url.pathname.replace(/\/$/, "")} />
+  </article>
+  <CaseStudyInteractions />
+</BaseLayout>

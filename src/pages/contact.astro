@@ -38,10 +38,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </section>
 
   <script>
-    const copyButton = document.querySelector("[data-copy-email]");
+    const copyButton = document.querySelector<HTMLButtonElement>("[data-copy-email]");
     const copyStatus = document.querySelector("[data-copy-status]");
 
-    copyButton?.addEventListener("click", async () => {
+    if (copyButton && copyStatus) copyButton.addEventListener("click", async () => {
       const email = copyButton.dataset.copyEmail;
 
       if (!email) {

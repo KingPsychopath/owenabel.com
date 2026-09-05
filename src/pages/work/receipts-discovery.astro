@@ -1,7 +1,6 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import CaseStudyInteractions from "../../components/CaseStudyInteractions.astro";
-import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
+import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+import CaseStudySection from "../../components/CaseStudySection.astro";
 
 const threads = [
   {
@@ -48,169 +47,132 @@ const mechanisms = [
 const initialThread = "intent";
 ---
 
-<BaseLayout
-  title="Receipts Discovery - Owen Abel Amenze"
+<CaseStudyLayout
+  title="Receipts Discovery"
   description="A case study on Receipts' evidence model, multimodal search, taxonomy policy, and explainable ranking."
+  threads={threads}
+  initialThread={initialThread}
 >
-  <article class="case-note" data-case-note data-active-thread={initialThread}>
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/work">Work</a>
-      <span aria-hidden="true">/</span>
-      <span>Receipts Discovery</span>
-    </nav>
+  <p slot="intro">
+    Work on a trust-first beauty discovery system where search, image
+    evidence, taxonomy policy, and ranking all need to show their working.
+  </p>
 
-    <header class="case-hero">
-      <p class="eyebrow">Case study</p>
-      <h1>Receipts Discovery</h1>
-      <p>
-        Work on a trust-first beauty discovery system where search, image
-        evidence, taxonomy policy, and ranking all need to show their working.
-      </p>
-    </header>
+  <dl slot="meta" class="case-meta" aria-label="Case note summary">
+    <div>
+      <dt>Context</dt>
+      <dd>Founder / 2026</dd>
+    </div>
+    <div>
+      <dt>Focus</dt>
+      <dd>Evidence, taxonomy, visual intent, lookbooks, Postgres search, ranking</dd>
+    </div>
+    <div>
+      <dt>Link</dt>
+      <dd>
+        <a href="https://receipts.beauty">receipts.beauty</a>
+      </dd>
+    </div>
+  </dl>
 
-    <dl class="case-meta" aria-label="Case note summary">
-      <div>
-        <dt>Context</dt>
-        <dd>Founder / 2026</dd>
-      </div>
-      <div>
-        <dt>Focus</dt>
-        <dd>Evidence, taxonomy, visual intent, lookbooks, Postgres search, ranking</dd>
-      </div>
-      <div>
-        <dt>Link</dt>
-        <dd>
-          <a href="https://receipts.beauty">receipts.beauty</a>
-        </dd>
-      </div>
-    </dl>
+  <CaseStudySection
+    id="case-tension"
+    title="Tension"
+    summary="Looking right and being proven are different things."
+  >
+    <p>
+      Beauty discovery is full of high-stakes personal decisions and weak
+      evidence. A provider can look relevant because their text is good, their
+      tags are broad, or their profile is polished. Receipts needed a ranking
+      model that could prefer proof over performance.
+    </p>
+  </CaseStudySection>
 
-    <nav class="case-control" aria-label="Case study controls">
-      <p>
-        <span>Navigate</span>
-        <kbd>↑</kbd><kbd>↓</kbd> sections
-        <kbd>←</kbd><kbd>→</kbd> threads
-        <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> direct
-      </p>
-      <div>
-        {
-          threads.map((thread, index) => (
-            <button
-              type="button"
-              data-thread-control={thread.key}
-              data-active={thread.key === initialThread ? true : undefined}
-              aria-pressed={thread.key === initialThread ? "true" : "false"}
-            >
-              [{index + 1}] {thread.label}
-            </button>
-          ))
-        }
-      </div>
-    </nav>
+  <CaseStudySection
+    id="case-threads"
+    title="Threads"
+    summary="What counts as proof, how intent enters, and why a result appears."
+  >
+    <div class="case-thread-grid">
+      {
+        threads.map((thread) => (
+          <button
+            class="case-thread"
+            type="button"
+            data-thread={thread.key}
+            data-active={thread.key === initialThread ? true : undefined}
+            aria-pressed={thread.key === initialThread ? "true" : "false"}
+          >
+            <span>{thread.label}</span>
+            <small>{thread.tension}</small>
+          </button>
+        ))
+      }
+    </div>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-tension" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-tension">Tension</h2>
-        <p>Looking right and being proven are different things.</p>
-      </div>
-      <p>
-        Beauty discovery is full of high-stakes personal decisions and weak
-        evidence. A provider can look relevant because their text is good, their
-        tags are broad, or their profile is polished. Receipts needed a ranking
-        model that could prefer proof over performance.
-      </p>
-    </section>
-
-    <section class="case-section" aria-labelledby="case-threads" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-threads">Threads</h2>
-        <p>What counts as proof, how intent enters, and why a result appears.</p>
-      </div>
-      <div class="case-thread-grid">
+  <CaseStudySection
+    id="case-owned"
+    title="Owned"
+    summary="The product rules and systems I shaped."
+  >
+    <table class="case-ledger">
+      <thead>
+        <tr>
+          <th scope="col">Thread</th>
+          <th scope="col">Work</th>
+          <th scope="col">Outcome</th>
+        </tr>
+      </thead>
+      <tbody>
         {
           threads.map((thread) => (
-            <button
-              class="case-thread"
-              type="button"
-              data-thread={thread.key}
-              data-active={thread.key === initialThread ? true : undefined}
-              aria-pressed={thread.key === initialThread ? "true" : "false"}
-            >
-              <span>{thread.label}</span>
-              <small>{thread.tension}</small>
-            </button>
+            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+              <td>{thread.label}</td>
+              <td>{thread.owned}</td>
+              <td>{thread.proof}</td>
+            </tr>
           ))
         }
-      </div>
-    </section>
+      </tbody>
+    </table>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-owned" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-owned">Owned</h2>
-        <p>The product rules and systems I shaped.</p>
-      </div>
-      <table class="case-ledger">
-        <thead>
-          <tr>
-            <th scope="col">Thread</th>
-            <th scope="col">Work</th>
-            <th scope="col">Outcome</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            threads.map((thread) => (
-              <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-                <td>{thread.label}</td>
-                <td>{thread.owned}</td>
-                <td>{thread.proof}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </section>
+  <CaseStudySection
+    id="case-mechanism"
+    title="Mechanism"
+    summary="The technical choices beneath discovery."
+  >
+    <table class="case-ledger">
+      <thead>
+        <tr>
+          <th scope="col">Layer</th>
+          <th scope="col">Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          mechanisms.map((mechanism) => (
+            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+              <td>{mechanism.layer}</td>
+              <td>{mechanism.detail}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-mechanism">Mechanism</h2>
-        <p>The technical choices beneath discovery.</p>
-      </div>
-      <table class="case-ledger">
-        <thead>
-          <tr>
-            <th scope="col">Layer</th>
-            <th scope="col">Detail</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            mechanisms.map((mechanism) => (
-              <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-                <td>{mechanism.layer}</td>
-                <td>{mechanism.detail}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </section>
-
-    <section class="case-section" aria-labelledby="case-reflection" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-reflection">Reflection</h2>
-        <p>What the project clarified about trust.</p>
-      </div>
-      <p>
-        The product is strongest when trust is treated as infrastructure, not
-        copy. If the system can say why a provider appears, what evidence
-        supports it, and where the model refused to overclaim, discovery starts
-        to feel useful rather than merely persuasive.
-      </p>
-    </section>
-
-    <RelatedCaseStudies currentHref="/work/receipts-discovery" />
-  </article>
-
-  <CaseStudyInteractions />
-</BaseLayout>
+  <CaseStudySection
+    id="case-reflection"
+    title="Reflection"
+    summary="What the project clarified about trust."
+  >
+    <p>
+      The product is strongest when trust is treated as infrastructure, not
+      copy. If the system can say why a provider appears, what evidence
+      supports it, and where the model refused to overclaim, discovery starts
+      to feel useful rather than merely persuasive.
+    </p>
+  </CaseStudySection>
+</CaseStudyLayout>

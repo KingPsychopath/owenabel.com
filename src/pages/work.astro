@@ -155,40 +155,40 @@ import { getCaseNotes, work } from "../data/work";
   </div>
 
   <script>
-    const relationItems = document.querySelectorAll("[data-work-item]");
+    const relationItems = document.querySelectorAll<HTMLElement>("[data-work-item]");
 
-    const updatePressedState = (item) => {
-      item.querySelectorAll('button[data-relation]').forEach((node) => {
+    const updatePressedState = (item: HTMLElement) => {
+      item.querySelectorAll<HTMLButtonElement>('button[data-relation]').forEach((node) => {
         node.setAttribute("aria-pressed", String(item.dataset.pinnedRelation === node.dataset.relation));
       });
     };
 
-    const clearItem = (item) => {
+    const clearItem = (item: HTMLElement) => {
       delete item.dataset.pinnedRelation;
-      item.querySelectorAll("[data-relation]").forEach((node) => {
+      item.querySelectorAll<HTMLElement>("[data-relation]").forEach((node) => {
         node.removeAttribute("data-active");
       });
       updatePressedState(item);
     };
 
     for (const item of relationItems) {
-      const setActive = (key, persist = false) => {
+      const setActive = (key: string | undefined, persist = false) => {
         if (persist) {
           if (item.dataset.pinnedRelation === key) {
             delete item.dataset.pinnedRelation;
             key = undefined;
           } else {
-            item.dataset.pinnedRelation = key;
+            item.dataset.pinnedRelation = key ?? "";
           }
         }
 
-        item.querySelectorAll("[data-relation]").forEach((node) => {
+        item.querySelectorAll<HTMLElement>("[data-relation]").forEach((node) => {
           node.toggleAttribute("data-active", Boolean(key) && node.dataset.relation === key);
         });
         updatePressedState(item);
       };
 
-      item.querySelectorAll(".work-streams button[data-relation], .relation-text[data-relation]").forEach((node) => {
+      item.querySelectorAll<HTMLElement>(".work-streams button[data-relation], .relation-text[data-relation]").forEach((node) => {
         node.addEventListener("mouseenter", () => setActive(node.dataset.relation));
         node.addEventListener("focus", () => setActive(node.dataset.relation));
         node.addEventListener("click", () => setActive(node.dataset.relation, true));
@@ -200,7 +200,7 @@ import { getCaseNotes, work } from "../data/work";
     }
 
     document.addEventListener("click", (event) => {
-      if (event.target.closest("[data-relation]")) {
+      if (event.target instanceof Element && event.target.closest("[data-relation]")) {
         return;
       }
 

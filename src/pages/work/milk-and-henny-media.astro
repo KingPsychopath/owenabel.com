@@ -1,7 +1,6 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import CaseStudyInteractions from "../../components/CaseStudyInteractions.astro";
-import RelatedCaseStudies from "../../components/RelatedCaseStudies.astro";
+import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+import CaseStudySection from "../../components/CaseStudySection.astro";
 
 const threads = [
   {
@@ -68,185 +67,149 @@ const mechanisms = [
 const initialThread = "storage";
 ---
 
-<BaseLayout
-  title="Milk & Henny Media - Owen Abel Amenze"
+<CaseStudyLayout
+  title="Milk & Henny Media"
   description="A case study on Milk & Henny's personal archive, image pipeline, and media publishing model."
+  threads={threads}
+  initialThread={initialThread}
 >
-  <article class="case-note" data-case-note data-active-thread={initialThread}>
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/work">Work</a>
-      <span aria-hidden="true">/</span>
-      <span>Milk & Henny Media</span>
-    </nav>
+  <p slot="intro">
+    Work on a personal archive for travel, writing, parties, and the photos
+    I take on digital and film cameras, built so memory can be published and
+    shared without becoming admin.
+  </p>
 
-    <header class="case-hero">
-      <p class="eyebrow">Case study</p>
-      <h1>Milk & Henny Media</h1>
-      <p>
-        Work on a personal archive for travel, writing, parties, and the photos
-        I take on digital and film cameras, built so memory can be published and
-        shared without becoming admin.
-      </p>
-    </header>
+  <dl slot="meta" class="case-meta" aria-label="Case study summary">
+    <div>
+      <dt>Context</dt>
+      <dd>Personal platform / 2025</dd>
+    </div>
+    <div>
+      <dt>Focus</dt>
+      <dd>Cloudflare R2, image variants, filtering, downloads, focal points, private publishing</dd>
+    </div>
+    <div>
+      <dt>Link</dt>
+      <dd>
+        <a href="https://milkandhenny.com">milkandhenny.com</a>
+      </dd>
+    </div>
+  </dl>
 
-    <dl class="case-meta" aria-label="Case study summary">
-      <div>
-        <dt>Context</dt>
-        <dd>Personal platform / 2025</dd>
-      </div>
-      <div>
-        <dt>Focus</dt>
-        <dd>Cloudflare R2, image variants, filtering, downloads, focal points, private publishing</dd>
-      </div>
-      <div>
-        <dt>Link</dt>
-        <dd>
-          <a href="https://milkandhenny.com">milkandhenny.com</a>
-        </dd>
-      </div>
-    </dl>
+  <CaseStudySection
+    id="case-tension"
+    title="Tension"
+    summary="The product problem beneath the work."
+  >
+    <p>
+      I travel, write, meet people, and take a lot of photos. After parties
+      and trips, the same problem repeats: people want their photos, large
+      batches are awkward to send, and temporary file-sharing tools become
+      expensive or disposable. Milk & Henny turns that loop into an owned
+      archive with optimized previews, filters, sorting, and HD downloads.
+    </p>
+  </CaseStudySection>
 
-    <nav class="case-control" aria-label="Case study controls">
-      <p>
-        <span>Navigate</span>
-        <kbd>↑</kbd><kbd>↓</kbd> sections
-        <kbd>←</kbd><kbd>→</kbd> threads
-        <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> direct
-      </p>
-      <div>
-        {
-          threads.map((thread, index) => (
-            <button
-              type="button"
-              data-thread-control={thread.key}
-              data-active={thread.key === initialThread ? true : undefined}
-              aria-pressed={thread.key === initialThread ? "true" : "false"}
-            >
-              [{index + 1}] {thread.label}
-            </button>
-          ))
-        }
-      </div>
-    </nav>
+  <CaseStudySection
+    id="case-threads"
+    title="Threads"
+    summary="Three contracts behind the archive surface."
+  >
+    <div class="case-thread-grid">
+      {
+        threads.map((thread) => (
+          <button
+            class="case-thread"
+            type="button"
+            data-thread={thread.key}
+            data-active={thread.key === initialThread ? true : undefined}
+            aria-pressed={thread.key === initialThread ? "true" : "false"}
+          >
+            <span>{thread.label}</span>
+            <small>{thread.tension}</small>
+          </button>
+        ))
+      }
+    </div>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-tension" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-tension">Tension</h2>
-        <p>The product problem beneath the work.</p>
-      </div>
-      <p>
-        I travel, write, meet people, and take a lot of photos. After parties
-        and trips, the same problem repeats: people want their photos, large
-        batches are awkward to send, and temporary file-sharing tools become
-        expensive or disposable. Milk & Henny turns that loop into an owned
-        archive with optimized previews, filters, sorting, and HD downloads.
-      </p>
-    </section>
-
-    <section class="case-section" aria-labelledby="case-threads" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-threads">Threads</h2>
-        <p>Three contracts behind the archive surface.</p>
-      </div>
-      <div class="case-thread-grid">
+  <CaseStudySection
+    id="case-owned"
+    title="Owned"
+    summary="What I was responsible for, and what it changed."
+  >
+    <table class="case-ledger">
+      <thead>
+        <tr>
+          <th scope="col">Thread</th>
+          <th scope="col">Work</th>
+          <th scope="col">Signal</th>
+        </tr>
+      </thead>
+      <tbody>
         {
           threads.map((thread) => (
-            <button
-              class="case-thread"
-              type="button"
-              data-thread={thread.key}
-              data-active={thread.key === initialThread ? true : undefined}
-              aria-pressed={thread.key === initialThread ? "true" : "false"}
-            >
-              <span>{thread.label}</span>
-              <small>{thread.tension}</small>
-            </button>
+            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+              <td>{thread.label}</td>
+              <td>{thread.owned}</td>
+              <td>{thread.proof}</td>
+            </tr>
           ))
         }
-      </div>
-    </section>
+      </tbody>
+    </table>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-owned" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-owned">Owned</h2>
-        <p>What I was responsible for, and what it changed.</p>
-      </div>
-      <table class="case-ledger">
-        <thead>
-          <tr>
-            <th scope="col">Thread</th>
-            <th scope="col">Work</th>
-            <th scope="col">Signal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            threads.map((thread) => (
-              <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-                <td>{thread.label}</td>
-                <td>{thread.owned}</td>
-                <td>{thread.proof}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </section>
+  <CaseStudySection
+    id="case-mechanism"
+    title="Mechanism"
+    summary="The technical layers behind those responsibilities."
+  >
+    <table class="case-ledger">
+      <thead>
+        <tr>
+          <th scope="col">Layer</th>
+          <th scope="col">Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          mechanisms.map((mechanism) => (
+            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+              <td>{mechanism.layer}</td>
+              <td>{mechanism.detail}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </CaseStudySection>
 
-    <section class="case-section" aria-labelledby="case-mechanism" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-mechanism">Mechanism</h2>
-        <p>The technical layers behind those responsibilities.</p>
-      </div>
-      <table class="case-ledger">
-        <thead>
-          <tr>
-            <th scope="col">Layer</th>
-            <th scope="col">Detail</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            mechanisms.map((mechanism) => (
-              <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-                <td>{mechanism.layer}</td>
-                <td>{mechanism.detail}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </section>
+  <CaseStudySection
+    id="case-shape"
+    title="Shape"
+    summary="How media becomes browsable and shareable."
+    class="case-flow"
+  >
+    <ol>
+      <li data-thread="storage" data-active>Content enters through a route that matches its lifecycle: album, word, shared asset, or private entry.</li>
+      <li data-thread="images">Photo uploads generate fast previews, HD variants, and social-preview assets before anyone needs them.</li>
+      <li data-thread="images">Filtering, sorting, focal points, and crops help people find and recognize the photos they came for.</li>
+      <li data-thread="publishing">Markdown references resolve against explicit R2 media paths and reusable asset paths.</li>
+      <li data-thread="publishing">Visibility rules decide whether the result is public, unlisted, or privately shareable.</li>
+    </ol>
+  </CaseStudySection>
 
-    <section class="case-section case-flow" aria-labelledby="case-shape" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-shape">Shape</h2>
-        <p>How media becomes browsable and shareable.</p>
-      </div>
-      <ol>
-        <li data-thread="storage" data-active>Content enters through a route that matches its lifecycle: album, word, shared asset, or private entry.</li>
-        <li data-thread="images">Photo uploads generate fast previews, HD variants, and social-preview assets before anyone needs them.</li>
-        <li data-thread="images">Filtering, sorting, focal points, and crops help people find and recognize the photos they came for.</li>
-        <li data-thread="publishing">Markdown references resolve against explicit R2 media paths and reusable asset paths.</li>
-        <li data-thread="publishing">Visibility rules decide whether the result is public, unlisted, or privately shareable.</li>
-      </ol>
-    </section>
-
-    <section class="case-section" aria-labelledby="case-reflection" data-case-section>
-      <div class="case-section-label">
-        <h2 id="case-reflection">Reflection</h2>
-        <p>What the project clarified about owning the archive.</p>
-      </div>
-      <p>
-        The real product is relief: a place to put the writing, the camera
-        rolls, the party albums, and the people who ask for them later. The
-        storage model matters because it lets the archive feel generous without
-        becoming expensive.
-      </p>
-    </section>
-
-    <RelatedCaseStudies currentHref="/work/milk-and-henny-media" />
-  </article>
-
-  <CaseStudyInteractions />
-</BaseLayout>
+  <CaseStudySection
+    id="case-reflection"
+    title="Reflection"
+    summary="What the project clarified about owning the archive."
+  >
+    <p>
+      The real product is relief: a place to put the writing, the camera
+      rolls, the party albums, and the people who ask for them later. The
+      storage model matters because it lets the archive feel generous without
+      becoming expensive.
+    </p>
+  </CaseStudySection>
+</CaseStudyLayout>
