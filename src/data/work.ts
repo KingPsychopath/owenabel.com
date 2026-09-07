@@ -187,7 +187,7 @@ export const work: WorkItem[] = [
 export const getCaseNotes = (item: WorkItem) => item.caseNotes;
 
 export const getFeaturedWork = () =>
-  work.slice(0, 3).map((item) => ({
+  work.map((item) => ({
     year: item.year,
     name: item.featuredName ?? item.name,
     href: item.caseNotes[0]?.href ?? item.href,
