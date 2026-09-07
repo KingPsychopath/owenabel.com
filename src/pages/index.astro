@@ -3,9 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getFeaturedWork } from "../data/work";
 
 const lineItems = [
-  ["01", "Product systems", "Make the path through a problem visible"],
-  ["02", "Data work", "Turn uncertain records into useful decisions"],
-  ["03", "Reliability", "Leave the system easier to trust after launch"],
+  ["01", "Product systems", "Help people find what they came for"],
+  ["02", "Data work", "Make messy records useful"],
+  ["03", "Reliability", "Keep things working when people depend on them"],
 ];
 
 const featuredWork = getFeaturedWork();
@@ -18,9 +18,7 @@ const featuredWork = getFeaturedWork();
         <p class="eyebrow">Engineering ledger</p>
         <h1 id="intro-title">Owen Abel Amenze</h1>
         <p>
-          I am a software engineer in London. I solve problems by making systems
-          clearer, calmer, and more reliable when real people start depending on
-          them.
+          I'm an engineer. That means I solve problems. What kind of problems?
         </p>
         <div class="hero-actions" aria-label="Primary actions">
           <a class="button-link" href="#selected-work">Selected work</a>
@@ -48,7 +46,7 @@ const featuredWork = getFeaturedWork();
 
     <div class="section">
       <table class="ledger">
-        <caption>Current Practice</caption>
+        <caption>The kinds I work on</caption>
         <thead>
           <tr>
             <th scope="col">No.</th>
@@ -76,8 +74,7 @@ const featuredWork = getFeaturedWork();
     <div class="section-header">
       <h2 id="selected-work-heading">Work</h2>
       <p>
-        A short index of systems where the problem was not just writing code,
-        but making the path through uncertainty easier to operate.
+        A few problems I've worked on, and the systems I built to solve them.
       </p>
     </div>
 

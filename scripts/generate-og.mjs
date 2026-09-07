@@ -12,9 +12,9 @@ const defaultCard = {
   site: "owenabel.com",
   status: "Present",
   rows: [
-    ["01", "Product systems", "Make the path through a problem visible"],
-    ["02", "Data work", "Turn uncertain records into useful decisions"],
-    ["03", "Reliability", "Leave the system easier to trust after launch"],
+    ["01", "Product systems", "Help people find what they came for"],
+    ["02", "Data work", "Make messy records useful"],
+    ["03", "Reliability", "Keep things working when people depend on them"],
   ],
 };
 
