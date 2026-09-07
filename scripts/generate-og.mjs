@@ -8,7 +8,6 @@ const defaultCard = {
   email: "work@owenabel.com",
   document: "INDEX-ABEL",
   issued: "May 2026",
-  method: "Clarify, build, verify",
   site: "owenabel.com",
   status: "Present",
   sectionLabel: "Current practice",
@@ -193,7 +192,7 @@ ${rowMarkup}
     <line x1="78" y1="478" x2="1122" y2="478" stroke="#111111" stroke-width="1" />
     <line x1="78" y1="482" x2="1122" y2="482" stroke="#111111" stroke-width="1" />
 
-    <text x="78" y="536" font-size="22">Method: ${escapeXml(method)}</text>
+${method ? `    <text x="78" y="536" font-size="22">Method: ${escapeXml(method)}</text>` : ""}
     <text x="78" y="574" font-size="18">${escapeXml(site)}</text>
     <text x="960" y="574" font-size="18">Status: ${escapeXml(status)}</text>
   </g>
