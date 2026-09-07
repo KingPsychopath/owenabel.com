@@ -91,7 +91,7 @@ export const work: WorkItem[] = [
       },
       { label: "Milk & Henny: keeping the memories", href: "/work/milk-and-henny-media" },
     ],
-    role: "Builder & host",
+    role: "Engineer & organiser",
   },
   {
     year: "2023–26",
