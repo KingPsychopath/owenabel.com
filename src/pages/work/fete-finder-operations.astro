@@ -5,173 +5,85 @@ import CaseStudySection from "../../components/CaseStudySection.astro";
 const threads = [
   {
     key: "data",
-    label: "Programme data",
-    tension: "The programme changed daily and still had to stay publishable.",
-    owned: "Turned programme edits into a safe publish-and-recover workflow.",
-    proof: "The public site stayed usable when live data needed repair.",
+    label: "Publish updates",
+    owned: "Built event-data workflows with validation, revision history, backups, and import/export paths.",
+    enables: "The team can inspect programme changes and work from recoverable records."
   },
   {
     key: "audience",
-    label: "Audience operations",
-    tension: "People did more than browse: they registered, submitted events, saved plans, and exchanged tickets.",
+    label: "Support the audience",
     owned: "Built registration, submission moderation, saved-plan, and ticket-exchange tools.",
-    proof: "People could contribute events, plan a night, and find or pass on tickets.",
+    enables: "People can contribute listings and organise their plans beyond the initial search."
   },
   {
     key: "partners",
-    label: "Partner operations",
-    tension: "Paid placements needed to be scheduled, measured, and reported without distorting editorial discovery.",
-    owned: "Built promoted-event scheduling, partner activation, performance reports, and exports.",
-    proof: "Partners could see what their campaign delivered without changing organic discovery.",
-  },
+    label: "Run placements",
+    owned: "Built promoted-event scheduling, activation, reports, and exports.",
+    enables: "Partner work has an operational path from scheduled placement to engagement reporting."
+  }
 ];
-
 const mechanisms = [
   {
     thread: "data",
-    layer: "Publishing",
-    detail: "Postgres event storage, validation, revision history, backups, CSV fallback, and revalidation keep edits recoverable.",
+    layer: "Keep a recoverable programme",
+    detail: "Postgres holds live records, with revisions and backup paths available for inspection and recovery. CSV remains an import/export and fallback format rather than the only copy of the programme."
   },
   {
     thread: "audience",
-    layer: "Audience state",
-    detail: "Public sessions connect users to submissions, saved events, plans, preferences, notices, and ticket exchange.",
+    layer: "Review submissions before publishing",
+    detail: "A contributed event needs an editorial decision before it belongs in the public programme. Moderation makes that step visible to the team."
   },
   {
     thread: "partners",
-    layer: "Partner reporting",
-    detail: "Promoted schedules, Stripe activations, first-party engagement, tokenized reports, and CSV exports close the campaign loop.",
-  },
+    layer: "Make the placement lifecycle explicit",
+    detail: "Schedules and activation determine when a promoted placement is eligible. Engagement reports give partners a record to inspect, rather than treating a live link as the whole deliverable."
+  }
 ];
-
 const initialThread = "data";
 ---
 
-<CaseStudyLayout
-  title="Fete Finder Operations"
-  description="A case study on Fete Finder's programme data, audience operations, partner reporting, launch controls, and seasonal lifecycle."
-  threads={threads}
-  initialThread={initialThread}
->
-  <p slot="intro">
-    The work that kept the programme publishable, supported its audience,
-    and carried it through launch into archive.
-  </p>
-
-  <dl slot="meta" class="case-meta" aria-label="Case note summary">
-    <div>
-      <dt>Context</dt>
-      <dd>Out Of Office Collective / 2025-26</dd>
-    </div>
-    <div>
-      <dt>Focus</dt>
-      <dd>Publishing, audience workflows, partner reporting, recovery, archive</dd>
-    </div>
-    <div>
-      <dt>Link</dt>
-      <dd>
-        <a href="https://fete.outofofficecollective.co.uk">fete.outofofficecollective.co.uk</a>
-      </dd>
-    </div>
+<CaseStudyLayout title="Fête Finder Operations" description="The publishing, audience, and partner tools behind Fête Finder’s event programme." threads={threads} initialThread={initialThread}>
+  <p slot="intro">The programme keeps changing after the website ships. I built tools for editing listings, reviewing submissions, supporting the audience, and reporting on partner placements.</p>
+  <dl slot="meta" class="case-meta" aria-label="Case study summary">
+    <div><dt>Context</dt><dd>Out Of Office Collective / 2025–26</dd></div>
+    <div><dt>Focus</dt><dd>Programme data, submissions, partners, recovery</dd></div>
+    <div><dt>Project</dt><dd><a href="https://fete.outofofficecollective.co.uk">fete.outofofficecollective.co.uk</a></dd></div>
   </dl>
 
-  <CaseStudySection
-    id="case-tension"
-    title="Tension"
-    summary="The programme kept moving after the code shipped."
-  >
-    <p>
-      The public experience could only feel calm if the operating model behind
-      it was calm too. Event data changed, partners needed placements, hosts
-      submitted updates, and launch traffic made manual recovery paths too
-      risky to leave implicit.
-    </p>
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>Organisers change details, people submit events, and partners need placements to start and end on time. Those changes need a clear route to the public programme, with a way to inspect and recover the data behind it.</p>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-threads"
-    title="Threads"
-    summary="Publishing the programme, supporting people, and running partner campaigns."
-  >
-    <div class="case-thread-grid">
-      {
-        threads.map((thread) => (
-          <button
-            class="case-thread"
-            type="button"
-            data-thread={thread.key}
-            data-active={thread.key === initialThread ? true : undefined}
-            aria-pressed={thread.key === initialThread ? "true" : "false"}
-          >
-            <span>{thread.label}</span>
-            <small>{thread.tension}</small>
-          </button>
-        ))
-      }
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+
     </div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-owned"
-    title="Owned"
-    summary="What I built and what it enabled."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Thread</th>
-          <th scope="col">Work</th>
-          <th scope="col">Outcome</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          threads.map((thread) => (
-            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-              <td>{thread.label}</td>
-              <td>{thread.owned}</td>
-              <td>{thread.proof}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+  <CaseStudySection id="case-result" title="What it enables">
+    <div class="case-prose"><p>The operational tools connect programme editing, audience contributions, and partner work. A changed listing can be traced through the data workflow, and the team has recovery tools when the live records need attention.</p></div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-mechanism"
-    title="Mechanism"
-    summary="The technical choices beneath the operating model."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Layer</th>
-          <th scope="col">Detail</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          mechanisms.map((mechanism) => (
-            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-              <td>{mechanism.layer}</td>
-              <td>{mechanism.detail}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-reflection"
-    title="Reflection"
-    summary="What the project clarified about launch systems."
-  >
-    <p>
-      The important work was making the launch less dependent on a single
-      perfect path. A public campaign can absorb change when data, publishing,
-      recovery, placements, and reporting each have explicit contracts.
-    </p>
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>A launch needs more than a publish button. The valuable questions are who can change a record, how the team sees that change, and what they can recover if it is wrong. Those questions also make the next season easier to prepare.</p>
   </CaseStudySection>
 </CaseStudyLayout>

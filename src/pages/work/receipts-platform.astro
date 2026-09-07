@@ -4,176 +4,86 @@ import CaseStudySection from "../../components/CaseStudySection.astro";
 
 const threads = [
   {
-    key: "boundaries",
-    label: "Runtime boundaries",
-    tension: "Product rules could not belong separately to web routes, API adapters, workers, and database queries.",
-    owned: "Moved product rules behind one generated API contract and a Go backend.",
-    proof: "Web and future clients can use the same behaviour.",
+    key: "contracts",
+    label: "One API contract",
+    owned: "Built a Go backend with Protobuf definitions and generated ConnectRPC clients.",
+    enables: "The web application consumes defined product behaviour rather than duplicating it in routes."
   },
   {
     key: "jobs",
-    label: "Durable workflows",
-    tension: "Media, AI analysis, and search indexing outlive a request and fail in different ways.",
-    owned: "Made long-running work retryable, visible, and recoverable.",
-    proof: "Failures no longer disappear inside a request.",
+    label: "Recorded work",
+    owned: "Built Postgres-backed job workflows for processing and other background tasks.",
+    enables: "Jobs retain state, attempts, and failure information beyond a single request or worker process."
   },
   {
-    key: "ops",
-    label: "Control and release",
-    tension: "Speed could not come at the cost of unclear permissions, unsafe migrations, or fragile releases.",
-    owned: "Turned sensitive changes and releases into checked paths.",
-    proof: "Contract, migration, and release drift can fail before production.",
-  },
+    key: "publication",
+    label: "Publication state",
+    owned: "Connected media processing and publication status to the API response.",
+    enables: "An image can be reported as processing or failed while it remains private."
+  }
 ];
-
 const mechanisms = [
   {
-    thread: "boundaries",
-    layer: "Contracts",
-    detail: "Protobuf definitions generate ConnectRPC clients while Go capability packages own validation, policy, persistence, and projections.",
+    thread: "contracts",
+    layer: "Put product rules behind the API",
+    detail: "Go owns the backend workflows and persistence; generated clients carry the contract to the web application. A change to the contract has explicit consumers to check."
   },
   {
     thread: "jobs",
-    layer: "Background work",
-    detail: "Postgres queues give media, AI, embeddings, indexing, notifications, and cleanup retryable state and visible status.",
+    layer: "Make retry a policy decision",
+    detail: "Workers claim jobs with database leases and schedule eligible failures with backoff. Retryable errors and exhausted attempts have different transitions, so a permanently failing job does not just loop."
   },
   {
-    thread: "ops",
-    layer: "Control plane",
-    detail: "OIDC sessions, permissions, audit events, health checks, architecture linting, migration checks, and release smokes guard production.",
-  },
+    thread: "publication",
+    layer: "Separate upload from publication",
+    detail: "Finalisation verifies the uploaded object and enqueues processing. The public status distinguishes processing, failure, and publication readiness; successful transfer of bytes is only one step."
+  }
 ];
-
-const initialThread = "boundaries";
+const initialThread = "contracts";
 ---
 
-<CaseStudyLayout
-  title="Receipts Platform"
-  description="A case study on Receipts' generated API contracts, Go backend, Postgres workflows, media jobs, and release controls."
-  threads={threads}
-  initialThread={initialThread}
->
-  <p slot="intro">
-    Work on the system underneath a trust-first product: typed contracts,
-    package boundaries, background jobs, and operational controls that make
-    change possible.
-  </p>
-
+<CaseStudyLayout title="Receipts Platform" description="The Go API, generated contracts, and Postgres job lifecycle behind Receipts." threads={threads} initialThread={initialThread}>
+  <p slot="intro">An image can finish uploading and still fail during processing. I built the platform around those intermediate states, so the product can explain what is happening and the work has a recorded path through failure.</p>
   <dl slot="meta" class="case-meta" aria-label="Case study summary">
-    <div>
-      <dt>Context</dt>
-      <dd>Founder / 2026</dd>
-    </div>
-    <div>
-      <dt>Focus</dt>
-      <dd>TanStack Start, Go, ConnectRPC, Protobuf, Postgres, workers, Railway</dd>
-    </div>
-    <div>
-      <dt>Link</dt>
-      <dd>
-        <a href="https://receipts.beauty">receipts.beauty</a>
-      </dd>
-    </div>
+    <div><dt>Context</dt><dd>Receipts / Founder / In development, 2026</dd></div>
+    <div><dt>Focus</dt><dd>Go, ConnectRPC, Protobuf, Postgres, background jobs</dd></div>
+    <div><dt>Project</dt><dd><a href="https://receipts.beauty">receipts.beauty</a></dd></div>
   </dl>
 
-  <CaseStudySection
-    id="case-tension"
-    title="Tension"
-    summary="The product grew faster than one application layer could own."
-  >
-    <p>
-      Receipts now spans search, reviews, provider workspaces, lookbooks,
-      messaging, media, AI, and moderation. The platform needed to keep those
-      capabilities changeable without letting routes, jobs, or database code
-      become the owners of product rules.
-    </p>
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>Media processing, AI analysis, and indexing can outlive the request that starts them. They also fail differently. The system needs to retain the work, decide which failures are retryable, and keep incomplete media out of public results.</p>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-threads"
-    title="Threads"
-    summary="Where behaviour lives, how work survives, and how change ships."
-  >
-    <div class="case-thread-grid">
-      {
-        threads.map((thread) => (
-          <button
-            class="case-thread"
-            type="button"
-            data-thread={thread.key}
-            data-active={thread.key === initialThread ? true : undefined}
-            aria-pressed={thread.key === initialThread ? "true" : "false"}
-          >
-            <span>{thread.label}</span>
-            <small>{thread.tension}</small>
-          </button>
-        ))
-      }
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+
     </div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-owned"
-    title="Owned"
-    summary="The platform boundaries and operating paths I shaped."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Thread</th>
-          <th scope="col">Work</th>
-          <th scope="col">Outcome</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          threads.map((thread) => (
-            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-              <td>{thread.label}</td>
-              <td>{thread.owned}</td>
-              <td>{thread.proof}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+  <CaseStudySection id="case-result" title="What it enables">
+    <div class="case-prose"><p>The platform records the stages between an upload and a publishable image. Retryable work can be scheduled again, terminal failures keep a status, and the client has a specific state to show.</p><p>Receipts is in development. These are implemented platform behaviours, rather than claims about production volume or customer outcomes.</p></div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-mechanism"
-    title="Mechanism"
-    summary="The technical choices beneath the platform."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Layer</th>
-          <th scope="col">Detail</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          mechanisms.map((mechanism) => (
-            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-              <td>{mechanism.layer}</td>
-              <td>{mechanism.detail}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-reflection"
-    title="Reflection"
-    summary="What the project clarified about platform work."
-  >
-    <p>
-      The platform is part of the product. A trust product cannot explain
-      itself if its own internals are tangled, so the architecture has to make
-      responsibility visible: where data enters, where work waits, where it
-      retries, and where an operator can see what happened.
-    </p>
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>The important boundary is often between two kinds of success. Uploading a file does not mean processing finished, and processing does not mean it is ready to publish. Naming those stages gives both the interface and the operator a better next step.</p>
   </CaseStudySection>
 </CaseStudyLayout>

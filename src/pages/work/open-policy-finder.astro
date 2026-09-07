@@ -5,198 +5,85 @@ import CaseStudySection from "../../components/CaseStudySection.astro";
 const threads = [
   {
     key: "search",
-    label: "Search surface",
-    tension: "People searched with partial titles, acronyms, publisher names, policy terms, and imperfect recall.",
-    owned: "Built search and result surfaces around Elasticsearch-backed indexes, fuzzy matching, ranking, and filters.",
-    proof: "Search became a practical route through a complex compliance dataset rather than a thin lookup box.",
+    label: "Search",
+    owned: "Built Elasticsearch-backed search, ranking, filters, and result views.",
+    enables: "Users can search beyond an exact title match and narrow the records they see."
   },
   {
     key: "docs",
-    label: "Content system",
-    tension: "Documentation needed to stay editable for content teams without becoming opaque to developers.",
-    owned: "Built a Markdown-to-AST-to-React parser and patched in connection blocks for easier editing.",
-    proof: "The repo could remain the source of truth while content synced into Directus for headless-CMS-style publishing.",
+    label: "Documentation",
+    owned: "Built Markdown parsing and React rendering, connected to Directus publishing.",
+    enables: "Content teams can maintain help and API guidance without editing the page implementation."
   },
   {
     key: "data",
     label: "Data quality",
-    tension: "The dataset looked usable until somebody actually verified it.",
-    owned: "Led the data-quality effort with the data team: massaging records, checking percentage errors, and tracing missing or incorrect fields.",
-    proof: "Reduced glaring missing or incorrect data failures from roughly 70% to zero before launch.",
-  },
+    owned: "Worked with the data team to identify and correct missing and malformed records before launch.",
+    enables: "Source-data issues can be fed back to the people maintaining the records."
+  }
 ];
-
 const mechanisms = [
   {
     thread: "search",
-    layer: "Search index",
-    detail: "Elasticsearch, fuzzy search, ranking, filters, and result shaping.",
+    layer: "Support imperfect queries",
+    detail: "Fuzzy matching, ranking, and filters address the ways people actually search. An exact lookup alone would make users responsible for remembering the dataset’s naming conventions."
+  },
+  {
+    thread: "docs",
+    layer: "Separate content from its rendering",
+    detail: "Markdown is parsed into an intermediate structure and rendered in React. The publishing connection lets editors change the guidance while the application owns how it appears."
   },
   {
     thread: "data",
-    layer: "Data quality",
-    detail: "Verification passes, percentage-error checks, record cleanup, and source-data feedback.",
-  },
-  {
-    thread: "docs",
-    layer: "Content model",
-    detail: "Markdown source, AST parsing, React rendering, connection blocks, and Directus sync.",
-  },
-  {
-    thread: "docs",
-    layer: "Documentation",
-    detail: "Help and API-facing documentation for users, stakeholders, and consumers.",
-  },
+    layer: "Check the records behind the interface",
+    detail: "Record verification and feedback to data stewards sit alongside indexing work. Improving a query cannot supply a field that is missing from the source."
+  }
 ];
-
 const initialThread = "search";
 ---
 
-<CaseStudyLayout
-  title="Open Policy Finder"
-  description="A case study on Open Policy Finder work across search, documentation, content systems, and data quality."
-  threads={threads}
-  initialThread={initialThread}
->
-  <p slot="intro">
-    Work on a Jisc product surface where open access compliance depended on
-    policy, journal, and transitional-agreement data being searchable,
-    legible, and trusted.
-  </p>
-
-  <dl slot="meta" class="case-meta" aria-label="Case note summary">
-    <div>
-      <dt>Context</dt>
-      <dd>Jisc / 2023-26</dd>
-    </div>
-    <div>
-      <dt>Focus</dt>
-      <dd>Search, documentation, content systems, Elasticsearch, indexing, data quality</dd>
-    </div>
-    <div>
-      <dt>Link</dt>
-      <dd>
-        <a href="https://openpolicyfinder.jisc.ac.uk">openpolicyfinder.jisc.ac.uk</a>
-      </dd>
-    </div>
+<CaseStudyLayout title="Open Policy Finder" description="My work with Jisc on publishing-policy search, editable documentation, and data quality." threads={threads} initialThread={initialThread}>
+  <p slot="intro">Researchers need to find the publishing policy relevant to their journal or publisher. At Jisc, I worked on the search, documentation, and data quality that help them answer that question.</p>
+  <dl slot="meta" class="case-meta" aria-label="Case study summary">
+    <div><dt>Context</dt><dd>Jisc / April 2023–February 2026</dd></div>
+    <div><dt>Focus</dt><dd>Search, documentation, Elasticsearch, data quality</dd></div>
+    <div><dt>Project</dt><dd><a href="https://openpolicyfinder.jisc.ac.uk">openpolicyfinder.jisc.ac.uk</a></dd></div>
   </dl>
 
-  <CaseStudySection
-    id="case-tension"
-    title="Tension"
-    summary="The product problem beneath the work."
-  >
-    <p>
-      Open access compliance is practical work. Users arrive with questions
-      about policies, journals, agreements, and eligibility, while internal
-      teams need documentation that can change safely. The interface had to
-      support fuzzy, acronym-heavy search behaviour and a content workflow that
-      stayed editable without hiding the shape of the underlying data.
-    </p>
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>People search with partial titles, acronyms, publisher names, and imperfect recall. A relevant result also depends on the source records being complete enough to use, while the guidance needs to stay editable by the content team.</p>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-threads"
-    title="Threads"
-    summary="Three parts of the work that connect through the page."
-  >
-    <div class="case-thread-grid">
-      {
-        threads.map((thread) => (
-          <button
-            class="case-thread"
-            type="button"
-            data-thread={thread.key}
-            data-active={thread.key === initialThread ? true : undefined}
-            aria-pressed={thread.key === initialThread ? "true" : "false"}
-          >
-            <span>{thread.label}</span>
-            <small>{thread.tension}</small>
-          </button>
-        ))
-      }
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+
     </div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-owned"
-    title="Owned"
-    summary="What I was responsible for, and what it changed."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Thread</th>
-          <th scope="col">Work</th>
-          <th scope="col">Signal</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          threads.map((thread) => (
-            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-              <td>{thread.label}</td>
-              <td>{thread.owned}</td>
-              <td>{thread.proof}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+  <CaseStudySection id="case-result" title="What it enables">
+    <div class="case-prose"><p>The work connected policy discovery with the content and data workflows behind it. My contribution covered the search and documentation implementation, alongside collaboration with the data team on record quality.</p></div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-mechanism"
-    title="Mechanism"
-    summary="The technical layers behind those responsibilities."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Layer</th>
-          <th scope="col">Detail</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          mechanisms.map((mechanism) => (
-            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-              <td>{mechanism.layer}</td>
-              <td>{mechanism.detail}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-shape"
-    title="Shape"
-    summary="How the work moved from user need to reliable surface."
-    class="case-flow"
-  >
-    <ol>
-      <li data-thread="search" data-active>A user starts with a policy or journal question.</li>
-      <li data-thread="search" data-active>Fuzzy search and ranking narrow the problem into inspectable results.</li>
-      <li data-thread="docs">Markdown content becomes structured React surfaces through an AST parser.</li>
-      <li data-thread="docs">Connection blocks keep related guidance editable for content teams and developers.</li>
-      <li data-thread="data">Verification catches missing and incorrect fields that had previously gone unnoticed.</li>
-      <li data-thread="data">Data cleanup brings the failure rate from roughly 70% down to zero.</li>
-    </ol>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-reflection"
-    title="Reflection"
-    summary="What the project clarified about building trustworthy systems."
-  >
-    <p>
-      The important part was not only building search pages. It was making a
-      compliance product easier to operate and easier to trust, from fuzzy
-      search and ranking through to the repo-backed content model, Directus
-      sync, documentation, and the verification work that made the underlying
-      records safe to expose.
-    </p>
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>Search quality crosses team boundaries. A confusing result might need a query change, clearer guidance, or a correction to the source record. Working through those possibilities with the people who own the data is part of building the search.</p>
   </CaseStudySection>
 </CaseStudyLayout>

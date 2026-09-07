@@ -5,174 +5,89 @@ import CaseStudySection from "../../components/CaseStudySection.astro";
 const threads = [
   {
     key: "discover",
-    label: "Find the night",
-    tension: "A large programme needed to feel searchable by half-formed intent: area, date, genre, venue, price, and mood.",
-    owned: "Built search, filters, and maps around how people actually choose a night.",
-    proof: "A vague idea could become a manageable set of events.",
+    label: "Find an event",
+    owned: "Built search, filters, and maps around place, time, and taste.",
+    enables: "A broad idea becomes a smaller set of events to choose from."
   },
   {
     key: "plan",
-    label: "Plan a route",
-    tension: "Finding one event was not enough; people needed to save stops, order a night, and share it.",
-    owned: "Turned saved events into timed routes that could be adjusted and shared.",
-    proof: "Browsing could become a plan instead of a collection of open tabs.",
+    label: "Make a plan",
+    owned: "Built saved events and routes with ordering and arrival times.",
+    enables: "People can organise several stops rather than keep a collection of open tabs."
   },
   {
     key: "return",
     label: "Share and return",
-    tension: "Links and saved plans needed to survive programme edits and weak connections.",
-    owned: "Made event identity, sharing, offline state, and sync work as one return path.",
-    proof: "Plans remained useful after the first visit.",
-  },
+    owned: "Connected stable event links, saved state, and offline support.",
+    enables: "A plan has a way back after the first visit, including when a connection is weak."
+  }
 ];
-
 const mechanisms = [
   {
     thread: "discover",
-    layer: "Search and maps",
-    detail: "Typed event records feed multi-field filtering, result counts, location lookup, and lazy MapLibre views.",
+    layer: "Keep the map optional",
+    detail: "Search and filters can do useful work before the MapLibre view loads. Geography adds context without making every visitor wait for a map."
   },
   {
     thread: "plan",
-    layer: "Saved routes",
-    detail: "Authenticated saved events and Postgres-backed plans support ordering, arrival times, sharing, and export.",
+    layer: "Save a route as its own record",
+    detail: "Postgres-backed plans retain stop order and arrival times. Saving a set of favourites alone would lose the sequence that makes it a night out."
   },
   {
     thread: "return",
-    layer: "Identity and offline",
-    detail: "Canonical event keys, share routes, IndexedDB snapshots, service-worker caching, and queued mutations preserve the return path.",
-  },
+    layer: "Keep identity separate from presentation",
+    detail: "Canonical event keys let shared links refer to an event even when its listing changes. Browser snapshots and queued changes support returning to saved work during a poor connection."
+  }
 ];
-
 const initialThread = "discover";
 ---
 
-<CaseStudyLayout
-  title="Fete Finder Discovery"
-  description="A case study on Fete Finder's search, maps, saved routes, sharing, and offline product experience."
-  threads={threads}
-  initialThread={initialThread}
->
-  <p slot="intro">
-    Work on the public surface of a city-wide cultural programme: search,
-    filters, maps, event detail routes, and the small pieces of trust that
-    make a listing worth sharing under launch traffic that reached 3,000+
-    registrations and 50,000+ unique visitors.
-  </p>
-
-  <dl slot="meta" class="case-meta" aria-label="Case note summary">
-    <div>
-      <dt>Context</dt>
-      <dd>Out Of Office Collective / 2025-26</dd>
-    </div>
-    <div>
-      <dt>Focus</dt>
-      <dd>Search, maps, saved events, route planning, sharing, offline support</dd>
-    </div>
-    <div>
-      <dt>Link</dt>
-      <dd>
-        <a href="https://fete.outofofficecollective.co.uk">fete.outofofficecollective.co.uk</a>
-      </dd>
-    </div>
+<CaseStudyLayout title="Fête Finder Discovery" description="Search, maps, and saved routes that help people turn the Fête de la Musique programme into a night out." threads={threads} initialThread={initialThread}>
+  <p slot="intro">I built search, maps, and saved routes to help people turn a city-wide programme into a night out. The June 2026 recap records 54,295 page views across the programme.</p>
+  <dl slot="meta" class="case-meta" aria-label="Case study summary">
+    <div><dt>Context</dt><dd>Out Of Office Collective / 2025–26</dd></div>
+    <div><dt>Focus</dt><dd>Search, maps, route planning, sharing, offline support</dd></div>
+    <div><dt>Project</dt><dd><a href="https://fete.outofofficecollective.co.uk">fete.outofofficecollective.co.uk</a></dd></div>
   </dl>
 
-  <CaseStudySection
-    id="case-tension"
-    title="Tension"
-    summary="A city-wide programme rarely begins as a tidy plan."
-  >
-    <p>
-      Fete de la Musique is not a neat catalogue problem. It is a moving city
-      programme: many venues, many tastes, changing details, and users who may
-      only know that they want something nearby, free, outside, late, specific,
-      or surprising.
-    </p>
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>People rarely start with an exact event title. They know an area, a genre, a time, or that they want something free nearby. Once they find a few options, they need to turn them into a route and share it with friends.</p>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-threads"
-    title="Threads"
-    summary="Finding an event, making a plan, and keeping it usable."
-  >
-    <div class="case-thread-grid">
-      {
-        threads.map((thread) => (
-          <button
-            class="case-thread"
-            type="button"
-            data-thread={thread.key}
-            data-active={thread.key === initialThread ? true : undefined}
-            aria-pressed={thread.key === initialThread ? "true" : "false"}
-          >
-            <span>{thread.label}</span>
-            <small>{thread.tension}</small>
-          </button>
-        ))
-      }
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+      <figure class="case-diagram"><figcaption>From a vague idea to a shared plan</figcaption><ol>
+<li><strong>Find</strong><span>Narrow the programme by place, time, and taste.</span></li>
+<li><strong>Plan</strong><span>Save stops and decide when to arrive.</span></li>
+<li><strong>Return</strong><span>Share the route and open it again later.</span></li>
+</ol></figure>
     </div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-owned"
-    title="Owned"
-    summary="The parts I built across the public journey."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Thread</th>
-          <th scope="col">Work</th>
-          <th scope="col">Outcome</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          threads.map((thread) => (
-            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-              <td>{thread.label}</td>
-              <td>{thread.owned}</td>
-              <td>{thread.proof}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+  <CaseStudySection id="case-result" title="Recorded activity" summary="June 2026, from the archived production snapshot.">
+    <div class="case-prose"><p>The product connects discovering an event, planning several stops, and sharing the result. The June 2026 recap records 54,295 page views and 10,270 outbound clicks, from the production backup taken on 3 July. These count page views and clicks, not unique people.</p></div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-mechanism"
-    title="Mechanism"
-    summary="The technical choices beneath the product work."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Layer</th>
-          <th scope="col">Detail</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          mechanisms.map((mechanism) => (
-            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-              <td>{mechanism.layer}</td>
-              <td>{mechanism.detail}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-reflection"
-    title="Reflection"
-    summary="What the project clarified about cultural discovery."
-  >
-    <p>
-      The strongest version of the product was not a beautiful list of events.
-      It helped people narrow a whole city until a night began to take shape.
-    </p>
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>Finding a good option is only the first part of discovery. The route home to a saved plan matters too: what happens when someone opens the link later, an organiser edits the details, or mobile reception drops?</p>
   </CaseStudySection>
 </CaseStudyLayout>

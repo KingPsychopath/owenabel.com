@@ -893,7 +893,7 @@ html[data-theme="dark"] .invoice-box::before {
 }
 
 .case-hero h1 {
-  max-width: 9ch;
+  max-width: 16ch;
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(54px, 10vw, 132px);
@@ -1243,4 +1243,62 @@ html[data-theme="dark"] .invoice-box::before {
   .case-note {
     margin-top: -24px;
   }
+}
+
+.case-prose {
+  display: grid;
+  gap: 22px;
+}
+
+.case-diagram {
+  margin: 0;
+}
+
+.case-diagram figcaption {
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.case-diagram ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--rule);
+  background: var(--rule);
+}
+
+.case-diagram li {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--paper);
+}
+
+.case-diagram strong {
+  font-weight: 500;
+}
+
+.case-diagram span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .case-diagram ol {
+    grid-template-columns: 1fr;
+  }
+}
+
+.case-ledger th:first-child {
+  width: 28%;
+}
+
+.case-ledger td p + p {
+  margin-top: 10px;
+  color: var(--muted);
 }

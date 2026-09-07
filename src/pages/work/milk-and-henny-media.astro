@@ -4,212 +4,90 @@ import CaseStudySection from "../../components/CaseStudySection.astro";
 
 const threads = [
   {
-    key: "storage",
-    label: "Storage model",
-    tension: "Travel writing, party albums, camera rolls, private notes, and shared assets all needed a home without becoming expensive or fragile.",
-    owned: "Separated permanent albums, words content, reusable assets, and private share surfaces across git manifests, KV metadata, and R2 object paths.",
-    proof: "The site can hold thoughts and photo archives in one owned place while keeping large media cheap to store and serve.",
+    key: "albums",
+    label: "Publish an album",
+    owned: "Built draft albums, image processing, publishing, and downloads.",
+    enables: "People can browse smaller previews and request a larger image when they want to keep it."
   },
   {
-    key: "images",
-    label: "Image pipeline",
-    tension: "People should be able to browse an event, find themselves, and download the right image without asking for a separate transfer.",
-    owned: "Built processing for thumbnails, full-size variants, originals, Open Graph images, focal points, rotation handling, filtering, sorting, and face-aware crops.",
-    proof: "Large photo sets get fast previews, sensible crops, and HD downloads from Cloudflare R2/CDN instead of expensive one-off sharing tools.",
+    key: "transfers",
+    label: "Send a private batch",
+    owned: "Built expiring transfers, upload and download paths, previews, and separate deletion controls.",
+    enables: "A recipient can get the files without turning them into a public gallery."
   },
   {
-    key: "publishing",
-    label: "Publishing surface",
-    tension: "The same place needed to hold public writing, unlisted notes, private vault entries, and photo-led memory without creating separate systems.",
-    owned: "Built the unified words model with markdown bodies in R2, KV metadata, visibility controls, signed share links, and reusable media references.",
-    proof: "Writing and photography can live together without sacrificing access control, editorial presentation, or storage clarity.",
-  },
+    key: "writing",
+    label: "Keep the context",
+    owned: "Built writing and media publishing alongside the albums.",
+    enables: "Photos and the stories around them have a home beyond a temporary download link."
+  }
 ];
-
 const mechanisms = [
   {
-    thread: "storage",
-    layer: "Album manifests",
-    detail: "Permanent galleries use JSON manifests in git with R2-backed media, giving public album pages static speed and low runtime cost.",
+    thread: "albums",
+    layer: "Separate source files from public previews",
+    detail: "Album manifests and originals stay in private object storage. Publishing copies display variants into public delivery storage; original downloads go through a published-album check and a signed link."
   },
   {
-    thread: "storage",
-    layer: "Words storage",
-    detail: "Words metadata lives in KV while markdown bodies and media live in R2 under stable paths.",
+    thread: "albums",
+    layer: "Do image work before browsing",
+    detail: "Processing creates responsive variants and social previews before an album is published. The gallery can serve prepared images rather than reprocess the source for each visitor."
   },
   {
-    thread: "images",
-    layer: "Variants",
-    detail: "Images produce thumbnail, full, original, and social-preview variants; GIFs, video, audio, documents, and archives follow file-appropriate paths.",
-  },
-  {
-    thread: "images",
-    layer: "Focal points",
-    detail: "ONNX face detection or Sharp saliency computes crop anchors, with manual overrides for album-level editorial control.",
-  },
-  {
-    thread: "images",
-    layer: "Social previews",
-    detail: "Album and photo Open Graph images are pre-built as 1200x630 JPGs in R2 to avoid runtime image generation on normal shares.",
-  },
-  {
-    thread: "publishing",
-    layer: "Visibility",
-    detail: "Public and unlisted words render through the editorial route; private words resolve through vault links with share-token and optional PIN gates.",
-  },
-  {
-    thread: "publishing",
-    layer: "Reusable media",
-    detail: "Word-specific media and shared assets use explicit R2 prefixes so markdown can reference files without duplicating uploads.",
-  },
+    thread: "transfers",
+    layer: "Give a transfer its own lifetime",
+    detail: "Transfer records use Redis expiry and private object storage. Recipient access and deletion authority are separate, so sharing a download does not also give away the sender’s deletion control."
+  }
 ];
-
-const initialThread = "storage";
+const initialThread = "albums";
 ---
 
-<CaseStudyLayout
-  title="Milk & Henny Media"
-  description="A case study on Milk & Henny's personal archive, image pipeline, and media publishing model."
-  threads={threads}
-  initialThread={initialThread}
->
-  <p slot="intro">
-    Work on a personal archive for travel, writing, parties, and the photos
-    I take on digital and film cameras, built so memory can be published and
-    shared without becoming admin.
-  </p>
-
+<CaseStudyLayout title="Keeping the memories" description="The photography and publishing behind Milk & Henny: galleries, image processing, writing, and private transfers." threads={threads} initialThread={initialThread}>
+  <p slot="intro">Milk &amp; Henny started with a familiar request after a party: can you send me the photos? I wanted somewhere people could browse an album and get their pictures, alongside the writing and photography I wanted to keep.</p>
   <dl slot="meta" class="case-meta" aria-label="Case study summary">
-    <div>
-      <dt>Context</dt>
-      <dd>Personal platform / 2025</dd>
-    </div>
-    <div>
-      <dt>Focus</dt>
-      <dd>Cloudflare R2, image variants, filtering, downloads, focal points, private publishing</dd>
-    </div>
-    <div>
-      <dt>Link</dt>
-      <dd>
-        <a href="https://milkandhenny.com">milkandhenny.com</a>
-      </dd>
-    </div>
+    <div><dt>Context</dt><dd>Milk & Henny / Builder &amp; photographer / 2025–26</dd></div>
+    <div><dt>Focus</dt><dd>Galleries, image processing, publishing, private transfers</dd></div>
+    <div><dt>Project</dt><dd><a href="https://milkandhenny.com">milkandhenny.com</a></dd></div>
   </dl>
 
-  <CaseStudySection
-    id="case-tension"
-    title="Tension"
-    summary="The product problem beneath the work."
-  >
-    <p>
-      I travel, write, meet people, and take a lot of photos. After parties
-      and trips, the same problem repeats: people want their photos, large
-      batches are awkward to send, and temporary file-sharing tools become
-      expensive or disposable. Milk & Henny turns that loop into an owned
-      archive with optimized previews, filters, sorting, and HD downloads.
-    </p>
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>I take photos on digital and film cameras, at parties and while travelling. Sending large batches repeatedly turns the same favour into admin. A gallery needs to be easy to browse, while private files need a different sharing path.</p>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-threads"
-    title="Threads"
-    summary="Three contracts behind the archive surface."
-  >
-    <div class="case-thread-grid">
-      {
-        threads.map((thread) => (
-          <button
-            class="case-thread"
-            type="button"
-            data-thread={thread.key}
-            data-active={thread.key === initialThread ? true : undefined}
-            aria-pressed={thread.key === initialThread ? "true" : "false"}
-          >
-            <span>{thread.label}</span>
-            <small>{thread.tension}</small>
-          </button>
-        ))
-      }
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+      <figure class="case-diagram"><figcaption>From upload to published album</figcaption><ol>
+<li><strong>Private draft</strong><span>Upload, process, and arrange the photos.</span></li>
+<li><strong>Public previews</strong><span>Publish prepared display images for browsing.</span></li>
+<li><strong>Original download</strong><span>Check publication, then issue a signed download link.</span></li>
+</ol></figure>
     </div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-owned"
-    title="Owned"
-    summary="What I was responsible for, and what it changed."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Thread</th>
-          <th scope="col">Work</th>
-          <th scope="col">Signal</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          threads.map((thread) => (
-            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-              <td>{thread.label}</td>
-              <td>{thread.owned}</td>
-              <td>{thread.proof}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+  <CaseStudySection id="case-result" title="What it enables">
+    <div class="case-prose"><p>Public albums provide a repeatable place to browse and download photos. Transfers cover the private exchange, while writing keeps the context around the images. The archive remains part of Milk &amp; Henny as the events and games grow.</p></div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-mechanism"
-    title="Mechanism"
-    summary="The technical layers behind those responsibilities."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Layer</th>
-          <th scope="col">Detail</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          mechanisms.map((mechanism) => (
-            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-              <td>{mechanism.layer}</td>
-              <td>{mechanism.detail}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-shape"
-    title="Shape"
-    summary="How media becomes browsable and shareable."
-    class="case-flow"
-  >
-    <ol>
-      <li data-thread="storage" data-active>Content enters through a route that matches its lifecycle: album, word, shared asset, or private entry.</li>
-      <li data-thread="images">Photo uploads generate fast previews, HD variants, and social-preview assets before anyone needs them.</li>
-      <li data-thread="images">Filtering, sorting, focal points, and crops help people find and recognize the photos they came for.</li>
-      <li data-thread="publishing">Markdown references resolve against explicit R2 media paths and reusable asset paths.</li>
-      <li data-thread="publishing">Visibility rules decide whether the result is public, unlisted, or privately shareable.</li>
-    </ol>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-reflection"
-    title="Reflection"
-    summary="What the project clarified about owning the archive."
-  >
-    <p>
-      The real product is relief: a place to put the writing, the camera
-      rolls, the party albums, and the people who ask for them later. The
-      storage model matters because it lets the archive feel generous without
-      becoming expensive.
-    </p>
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>A public album and a private transfer may contain the same kind of file, but they make different promises. Giving each a clear publishing and expiry model is more useful than treating everything as an upload with a link.</p>
   </CaseStudySection>
 </CaseStudyLayout>

@@ -1,8 +1,8 @@
 <script>
   const caseNote = document.querySelector<HTMLElement>("[data-case-note]");
   if (caseNote) {
-    const controls = Array.from(caseNote.querySelectorAll<HTMLButtonElement>(".case-thread[data-thread]"));
     const threadControls = Array.from(caseNote.querySelectorAll<HTMLButtonElement>("[data-thread-control]"));
+    const controls = threadControls;
     const related = caseNote.querySelectorAll<HTMLElement>("[data-thread]");
     const sections = Array.from(caseNote.querySelectorAll<HTMLElement>("[data-case-section]"));
 
@@ -12,10 +12,6 @@
       related.forEach((node) => {
         const active = Boolean(key) && node.dataset.thread === key;
         node.toggleAttribute("data-active", active);
-
-        if (node.matches(".case-thread")) {
-          node.setAttribute("aria-pressed", String(active));
-        }
       });
 
       threadControls.forEach((control) => {
@@ -31,7 +27,7 @@
 
     const activeThreadIndex = () => {
       const index = controls.findIndex(
-        (control) => control.dataset.thread === caseNote.dataset.activeThread,
+        (control) => control.dataset.threadControl === caseNote.dataset.activeThread,
       );
       return index < 0 ? 0 : index;
     };
@@ -41,7 +37,7 @@
         controls[(activeThreadIndex() + amount + controls.length) % controls.length];
 
       nextControl.focus({ preventScroll: true });
-      applyThread(nextControl.dataset.thread);
+      applyThread(nextControl.dataset.threadControl);
     };
 
     const currentSectionIndex = () => {
@@ -74,7 +70,7 @@
     };
 
     controls.forEach((control, index) => {
-      control.addEventListener("click", () => toggleThread(control.dataset.thread));
+      control.addEventListener("click", () => toggleThread(control.dataset.threadControl));
       control.addEventListener("keydown", (event) => {
         const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
 
@@ -94,13 +90,7 @@
         const nextControl = controls[nextIndex];
 
         nextControl.focus({ preventScroll: true });
-        applyThread(nextControl.dataset.thread);
-      });
-    });
-
-    threadControls.forEach((control) => {
-      control.addEventListener("click", () => {
-        applyThread(control.dataset.threadControl);
+        applyThread(nextControl.dataset.threadControl);
       });
     });
 
@@ -127,7 +117,7 @@
         moveThread(-1);
       } else if (["1", "2", "3"].includes(event.key)) {
         event.preventDefault();
-        applyThread(controls[Number(event.key) - 1].dataset.thread);
+        applyThread(controls[Number(event.key) - 1]?.dataset.threadControl);
       } else if (event.key === "Escape") {
         applyThread();
       }

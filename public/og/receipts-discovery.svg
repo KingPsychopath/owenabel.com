@@ -11,7 +11,7 @@
       <text x="764" y="134">Issued:        2026</text>
     </g>
 
-    <text x="78" y="230" font-size="18">Current Practice</text>
+    <text x="78" y="230" font-size="18">Case study</text>
     <line x1="78" y1="262" x2="1122" y2="262" stroke="#111111" stroke-width="1" />
     <text x="92" y="292" font-size="20">#</text>
     <text x="158" y="292" font-size="20">Area</text>
@@ -23,12 +23,12 @@
     <text x="458" y="344" font-size="20">Explain why a provider appears</text>
 
     <text x="92" y="390" font-size="20">02</text>
-    <text x="158" y="390" font-size="20">Taxonomy policy</text>
-    <text x="458" y="390" font-size="20">Keep visual inference within limits</text>
+    <text x="158" y="390" font-size="20">Visual search</text>
+    <text x="458" y="390" font-size="20">Use an image to express a desired look</text>
 
     <text x="92" y="436" font-size="20">03</text>
     <text x="158" y="436" font-size="20">Ranking</text>
-    <text x="458" y="436" font-size="20">Make trust part of result order</text>
+    <text x="458" y="436" font-size="20">Label the source behind a match</text>
 
     <line x1="78" y1="478" x2="1122" y2="478" stroke="#111111" stroke-width="1" />
     <line x1="78" y1="482" x2="1122" y2="482" stroke="#111111" stroke-width="1" />

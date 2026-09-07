@@ -8,7 +8,28 @@ This review covers all eleven pages, shared copy, work data, social-card source,
 CV's text. Milk & Henny recommendations also draw on its current local implementation and product
 documents. This is an editorial review, not a production audit or verification of historical metrics.
 
-## Applied in this change
+## Implemented follow-up
+
+The site recommendations were applied on 7 September 2026. The CV is explicitly excluded and remains
+unchanged. The original review below is retained as the rationale, rather than an outstanding task list.
+
+- Featured order: Fête Finder, Milk & Henny, Open Policy Finder at Jisc; Receipts follows on the work page.
+- Milk & Henny now has events, games, and media case studies. The existing media and operations URLs remain.
+- All case studies use shorter sections while retaining area toggles, highlighting, and keyboard navigation.
+- Source-checked figures now use the June 2026 Fête Finder recap: 54,295 page views and 10,270 outbound clicks.
+  This does not establish whether the previous visitor/registration claim described a different campaign.
+- Open Policy Finder describes the data-quality work without the undefined percentage.
+- Receipts is labelled in development, with its current Go/ConnectRPC/Postgres architecture retained.
+- Contact, work labels, metadata, related links, and social cards have been updated.
+
+Follow-up evidence: `../oooc-fete-finder/data/recap-2026.json` records the period and 3 July backup source.
+In `../../work/receipts`, reviewed `backend/internal/media/upload/finalize.go`,
+`backend/internal/jobs/queue/worker_process.go`, `backend/internal/db/queries/queues.sql`,
+`backend/internal/media/assets/protobuf_projection.go`, and `backend/internal/search/projection/pb.go`.
+These support the job lifecycle, private processing states, and distinct search explanations.
+No attendance, revenue, or successful playtest outcome was inferred from implementation.
+
+## Original opening change
 
 The homepage now opens:
 

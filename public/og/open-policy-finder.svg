@@ -8,10 +8,10 @@
     <g font-size="22">
       <rect x="748" y="70" width="374" height="86" fill="none" stroke="#111111" stroke-width="1" />
       <text x="764" y="104">Document:      CASE-OPF</text>
-      <text x="764" y="134">Issued:        2023-26</text>
+      <text x="764" y="134">Issued:        2023–26</text>
     </g>
 
-    <text x="78" y="230" font-size="18">Current Practice</text>
+    <text x="78" y="230" font-size="18">Case study</text>
     <line x1="78" y1="262" x2="1122" y2="262" stroke="#111111" stroke-width="1" />
     <text x="92" y="292" font-size="20">#</text>
     <text x="158" y="292" font-size="20">Area</text>

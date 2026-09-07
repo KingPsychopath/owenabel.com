@@ -5,174 +5,89 @@ import CaseStudySection from "../../components/CaseStudySection.astro";
 const threads = [
   {
     key: "evidence",
-    label: "Evidence",
-    tension: "Beauty discovery often asks users to trust claims without showing where those claims came from.",
-    owned: "Separated claims, reviews, media confirmations, AI suggestions, and moderator decisions.",
-    proof: "Each result can show what is proven and by whom.",
+    label: "Name the source",
+    owned: "Built distinctions between provider claims, reviews, media evidence, and moderation.",
+    enables: "A result can identify the kind of support behind a match."
   },
   {
     key: "intent",
-    label: "Search intent",
-    tension: "Hair and beauty language is messy, personal, and culturally specific; people also search with images, places, and saved looks.",
-    owned: "Let people search with words, images, places, and lookbooks without turning intent into proof.",
-    proof: "Visual similarity remains a lead, not a claim.",
+    label: "Understand the request",
+    owned: "Built search around words, images, location, and saved looks.",
+    enables: "People can express what they want without needing the exact label used by a provider."
   },
   {
     key: "ranking",
-    label: "Ranking and explanation",
-    tension: "A relevant match is not always a proven one.",
-    owned: "Balanced relevance, evidence, review quality, location, and visual likeness.",
-    proof: "Each result explains why it appeared and how strong its evidence is.",
-  },
+    label: "Explain the match",
+    owned: "Built ranking and result explanations that carry the source and reason for a match.",
+    enables: "Visual similarity can be labelled separately from support in a portfolio or review."
+  }
 ];
-
 const mechanisms = [
   {
     thread: "evidence",
-    layer: "Evidence model",
-    detail: "Append-only events keep provider claims, verified reviews, media confirmations, corrections, and moderation distinct.",
+    layer: "Keep a claim attached to its source",
+    detail: "The result model carries an evidence source and an admission reason. Those distinctions survive into the public explanation instead of being collapsed into a single confidence score."
   },
   {
     thread: "intent",
-    layer: "Search context",
-    detail: "Stable intent and lookbook IDs carry image, taxonomy, location, and provenance without turning intent into evidence.",
+    layer: "Treat an image as a search clue",
+    detail: "A reference image can express a desired look. Similarity helps find candidates, but it does not by itself establish that a provider has done that work."
   },
   {
     thread: "ranking",
-    layer: "Retrieval and rank",
-    detail: "Postgres text search and private embeddings feed a deterministic ranker that returns evidence level and admission reason.",
-  },
+    layer: "Return the explanation with the result",
+    detail: "Search returns labels for different match paths, including visual similarity and portfolio or review support. The interface does not need to invent an explanation after ranking."
+  }
 ];
-
-const initialThread = "intent";
+const initialThread = "evidence";
 ---
 
-<CaseStudyLayout
-  title="Receipts Discovery"
-  description="A case study on Receipts' evidence model, multimodal search, taxonomy policy, and explainable ranking."
-  threads={threads}
-  initialThread={initialThread}
->
-  <p slot="intro">
-    Work on a trust-first beauty discovery system where search, image
-    evidence, taxonomy policy, and ranking all need to show their working.
-  </p>
-
-  <dl slot="meta" class="case-meta" aria-label="Case note summary">
-    <div>
-      <dt>Context</dt>
-      <dd>Founder / 2026</dd>
-    </div>
-    <div>
-      <dt>Focus</dt>
-      <dd>Evidence, taxonomy, visual intent, lookbooks, Postgres search, ranking</dd>
-    </div>
-    <div>
-      <dt>Link</dt>
-      <dd>
-        <a href="https://receipts.beauty">receipts.beauty</a>
-      </dd>
-    </div>
+<CaseStudyLayout title="Receipts Discovery" description="Building beauty search that distinguishes provider claims, reviews, and visual similarity." threads={threads} initialThread={initialThread}>
+  <p slot="intro">Choosing a beauty provider means judging whether their work fits what you want. I’m building Receipts so people can search with words or images and see what sits behind a recommendation.</p>
+  <dl slot="meta" class="case-meta" aria-label="Case study summary">
+    <div><dt>Context</dt><dd>Receipts / Founder / In development, 2026</dd></div>
+    <div><dt>Focus</dt><dd>Beauty discovery, reviews, visual search, ranking</dd></div>
+    <div><dt>Project</dt><dd><a href="https://receipts.beauty">receipts.beauty</a></dd></div>
   </dl>
 
-  <CaseStudySection
-    id="case-tension"
-    title="Tension"
-    summary="Looking right and being proven are different things."
-  >
-    <p>
-      Beauty discovery is full of high-stakes personal decisions and weak
-      evidence. A provider can look relevant because their text is good, their
-      tags are broad, or their profile is polished. Receipts needed a ranking
-      model that could prefer proof over performance.
-    </p>
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>A polished profile, a similar-looking image, and a review from a client tell you different things. Search needs to use those signals without presenting them as interchangeable evidence of what a provider can do.</p>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-threads"
-    title="Threads"
-    summary="What counts as proof, how intent enters, and why a result appears."
-  >
-    <div class="case-thread-grid">
-      {
-        threads.map((thread) => (
-          <button
-            class="case-thread"
-            type="button"
-            data-thread={thread.key}
-            data-active={thread.key === initialThread ? true : undefined}
-            aria-pressed={thread.key === initialThread ? "true" : "false"}
-          >
-            <span>{thread.label}</span>
-            <small>{thread.tension}</small>
-          </button>
-        ))
-      }
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+      <figure class="case-diagram"><figcaption>Three signals, three meanings</figcaption><ol>
+<li><strong>Provider claim</strong><span>What the provider says they offer.</span></li>
+<li><strong>Portfolio or review</strong><span>Work or an account of an experience that supports the match.</span></li>
+<li><strong>Visual similarity</strong><span>A reason to look closer, with its own label.</span></li>
+</ol></figure>
     </div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-owned"
-    title="Owned"
-    summary="The product rules and systems I shaped."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Thread</th>
-          <th scope="col">Work</th>
-          <th scope="col">Outcome</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          threads.map((thread) => (
-            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-              <td>{thread.label}</td>
-              <td>{thread.owned}</td>
-              <td>{thread.proof}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+  <CaseStudySection id="case-result" title="What it enables">
+    <div class="case-prose"><p>Receipts is in development. The implemented search model supports results with distinct reasons for appearing and explicit sources of support. The next product test is whether those distinctions help people make a useful choice.</p></div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-mechanism"
-    title="Mechanism"
-    summary="The technical choices beneath discovery."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Layer</th>
-          <th scope="col">Detail</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          mechanisms.map((mechanism) => (
-            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-              <td>{mechanism.layer}</td>
-              <td>{mechanism.detail}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-reflection"
-    title="Reflection"
-    summary="What the project clarified about trust."
-  >
-    <p>
-      The product is strongest when trust is treated as infrastructure, not
-      copy. If the system can say why a provider appears, what evidence
-      supports it, and where the model refused to overclaim, discovery starts
-      to feel useful rather than merely persuasive.
-    </p>
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>A ranking score is useful to a retrieval system, but people need an explanation they can judge. Keeping the source visible forces the product to be precise about what it knows and what it is only suggesting.</p>
   </CaseStudySection>
 </CaseStudyLayout>

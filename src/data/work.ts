@@ -25,6 +25,7 @@ export type WorkItem = {
   owned: string;
   streams?: WorkStream[];
   signal: string | RelationText[];
+  signalLabel?: string;
   links: Array<{
     label: string;
     href: string;
@@ -36,18 +37,19 @@ export type WorkItem = {
 
 export const work: WorkItem[] = [
   {
-    year: "2025-26",
-    name: "Fete Finder",
+    year: "2025–26",
+    name: "Fête Finder",
     href: "https://fete.outofofficecollective.co.uk",
     detail:
-      "A cultural event discovery platform for Fete de la Musique, built to make a large, scattered programme feel findable.",
+      "Search, maps, and saved routes that help people turn the Fête de la Musique programme into a night out.",
     featuredDetail:
-      "Search, maps, saved routes, sharing, and offline support for 50,000+ launch visitors.",
+      "Event discovery and route planning, with 54,295 page views recorded in June 2026.",
     tension:
-      "A city-wide programme is only useful if people can move through it by place, time, taste, and confidence.",
+      "People need to find events by place, time, and taste, then make a plan they can share and return to.",
     owned:
       "Discovery, planning, identity, submissions, ticket exchange, partner operations, data workflows, and the seasonal lifecycle.",
-    signal: "Supported 3,000+ registrations and 50,000+ unique visitors during launch.",
+    signalLabel: "Recorded activity",
+    signal: "The June 2026 recap records 54,295 page views and 10,270 outbound clicks.",
     links: [
       {
         label: "fete.outofofficecollective.co.uk",
@@ -56,33 +58,58 @@ export const work: WorkItem[] = [
     ],
     caseNotes: [
       {
-        label: "Fete Finder: discovery, planning, and sharing",
+        label: "Fête Finder: discovery, planning, and sharing",
         href: "/work/fete-finder-discovery",
       },
       {
-        label: "Fete Finder: data, operations, and lifecycle",
+        label: "Fête Finder: data, operations, and lifecycle",
         href: "/work/fete-finder-operations",
       },
     ],
     role: "Product",
   },
   {
-    year: "2023-26",
+    year: "2025–26",
+    name: "Milk & Henny",
+    featuredDetail:
+      "Software for the events I host, from tickets and check-in to party games and the photos afterwards.",
+    href: "https://milkandhenny.com",
+    detail:
+      "A platform I build around the events I host: tickets, games, and photos, with tools for the people running the night and the people coming along.",
+    tension:
+      "Hosting means thinking about the whole night: how people get in, what brings them together, and how they find the photos afterwards.",
+    owned:
+      "Event pages, ticketing and check-in, attendee tools, multiplayer games, event scoring, Pitch Night, galleries, writing, and private transfers.",
+    signal:
+      "Guests can find event information and photos in one place; hosts have tools for admission, participation, and follow-up.",
+    links: [{ label: "milkandhenny.com", href: "https://milkandhenny.com" }],
+    caseNotes: [
+      { label: "Milk & Henny: running the night", href: "/work/milk-and-henny-operations" },
+      {
+        label: "Milk & Henny: games that bring the room together",
+        href: "/work/milk-and-henny-games",
+      },
+      { label: "Milk & Henny: keeping the memories", href: "/work/milk-and-henny-media" },
+    ],
+    role: "Builder & host",
+  },
+  {
+    year: "2023–26",
     name: "Jisc",
-    featuredName: "Open Policy Finder",
+    featuredName: "Open Policy Finder at Jisc",
     href: "https://www.jisc.ac.uk",
     detail:
-      "Work across Open Policy Finder and the Digital Experience Content Management System, where policy data and public publishing both needed steadier systems.",
+      "Search and data quality for Open Policy Finder, alongside publishing tools and AWS migration work for the main Jisc website.",
     featuredDetail:
-      "Search, documentation, content systems, indexing, and data quality for open access compliance.",
+      "Helping researchers find publishing policies, and content teams keep the guidance up to date.",
     tension: [
       {
-        text: "Open access compliance depends on policy, journal, and transitional-agreement data being searchable and trustworthy",
+        text: "Researchers need to find the policy or agreement relevant to their journal",
         key: "open-policy-finder",
       },
       { text: "; " },
       {
-        text: "the main website needed publishing tools and infrastructure that content teams could rely on through change",
+        text: "content teams need to update the main website and check changes before release",
         key: "digital-experience",
       },
       { text: "." },
@@ -98,17 +125,17 @@ export const work: WorkItem[] = [
       {
         label: "Digital Experience Content Management System",
         key: "digital-experience",
-        body: "Worked on the main Jisc website platform: content management system delivery, publishing flows, AWS migration support, release readiness, and validation with product and content teams.",
+        body: "Worked with product, content, and infrastructure teams on the main Jisc website: CMS delivery, publishing flows, migration to AWS, and release validation. The work connected what editors changed to what the team checked before release.",
       },
     ],
     signal: [
       {
-        text: "Policy and journal records became easier to keep aligned with the search experience",
+        text: "Record checks and indexing connect source data to search",
         key: "open-policy-finder",
       },
       { text: ", while " },
       {
-        text: "website releases gained a clearer path from content change to production",
+        text: "publishing and release checks connect editorial changes to the live website",
         key: "digital-experience",
       },
       { text: "." },
@@ -134,13 +161,14 @@ export const work: WorkItem[] = [
     name: "Receipts",
     href: "https://receipts.beauty",
     detail:
-      "A trust-first beauty discovery platform designed around evidence, not empty ranking theatre.",
+      "A beauty discovery platform in development, helping people judge providers using reviews, images, and the source of each claim.",
     featuredDetail: "Evidence-backed beauty search across words, images, location, and lookbooks.",
     tension:
-      "Beauty discovery often asks people to trust opaque recommendations; the product needed to show its working.",
+      "A provider claim, a client review, and a similar-looking image tell people different things. Search needs to make those differences visible.",
     owned:
       "Product architecture, search and evidence semantics, provider and review workflows, media and AI pipelines, generated API contracts, and release operations.",
-    signal: "Trust becomes part of the interface rather than a claim made after the fact.",
+    signal:
+      "Results distinguish provider claims, reviews, and media evidence so people can see the basis for a recommendation.",
     links: [{ label: "receipts.beauty", href: "https://receipts.beauty" }],
     caseNotes: [
       {
@@ -153,31 +181,6 @@ export const work: WorkItem[] = [
       },
     ],
     role: "Founder",
-  },
-  {
-    year: "2025",
-    name: "Milk & Henny",
-    href: "https://milkandhenny.com",
-    detail:
-      "A personal archive for writing, travel, parties, and the photos I take on digital and film cameras.",
-    tension:
-      "Meeting people, taking hundreds of photos, and sharing them afterwards should not turn into expensive storage, repeated DMs, or disposable transfer links.",
-    owned:
-      "R2-backed galleries, optimized previews, HD downloads, filtering and sorting, private transfers, words publishing, guest-list tooling, and admin workflows.",
-    signal:
-      "Turned a recurring personal problem into a durable place to publish, browse, filter, and download large photo sets cheaply.",
-    links: [{ label: "milkandhenny.com", href: "https://milkandhenny.com" }],
-    caseNotes: [
-      {
-        label: "Milk & Henny: media publishing and image pipeline",
-        href: "/work/milk-and-henny-media",
-      },
-      {
-        label: "Milk & Henny: photo sharing, transfers, and event tools",
-        href: "/work/milk-and-henny-operations",
-      },
-    ],
-    role: "Full stack",
   },
 ];
 

@@ -4,212 +4,85 @@ import CaseStudySection from "../../components/CaseStudySection.astro";
 
 const threads = [
   {
-    key: "event",
-    label: "Event operations",
-    tension: "A party site has to work before, during, and after the event: entry, voting, photos, and the inevitable sharing afterwards.",
-    owned: "Built the party hub, guest-list check-in, admin management, best-dressed voting, vote-code controls, multi-device sync, and album download paths.",
-    proof: "The site supports the whole event loop: guests arrive, participate, find photos, and leave with a way to get what they need.",
+    key: "arrival",
+    label: "Getting in",
+    owned: "Built event pages, ticketing, QR check-in, and staff lookup tools.",
+    enables: "Guests have an admission path; staff can distinguish a valid ticket from one already used."
   },
   {
-    key: "transfers",
-    label: "Photo sharing",
-    tension: "Sending hundreds of photos through DMs or temporary transfer links does not scale socially, financially, or aesthetically.",
-    owned: "Built private transfer links, R2 storage, presigned uploads, delete tokens, media previews, optimized galleries, and batch download paths.",
-    proof: "People can browse and download their own photos from an owned surface instead of repeatedly asking for files after the event.",
+    key: "participation",
+    label: "Joining in",
+    owned: "Built attendee tools and event scoring, and connected games to the event platform.",
+    enables: "A match can contribute to the wider event without making the game depend on its points system."
   },
   {
-    key: "control",
-    label: "Operational control",
-    tension: "A cheap personal platform still needs real controls when it handles private links, large media, and live event traffic.",
-    owned: "Implemented httpOnly role cookies, token revocation/versioning, admin step-up, cron cleanup, R2 lifecycle guidance, worker fallbacks, and CLI diagnostics.",
-    proof: "The archive can stay inexpensive and recoverable: sessions can be revoked, files can expire, credentials can rotate, and costs have guardrails.",
-  },
+    key: "followup",
+    label: "Following up",
+    owned: "Built event communications and connected the site to galleries and Pitch Night.",
+    enables: "The event has a place for information before the night and things people want to return to afterwards."
+  }
 ];
-
 const mechanisms = [
   {
-    thread: "event",
-    layer: "Guest list",
-    detail: "Door-staff check-in uses server-readable auth, optimistic UI, multi-device polling, CSV import, plus-one handling, and conservative fetch gaps.",
+    thread: "arrival",
+    layer: "Let the database settle admission",
+    detail: "Online check-in claims a valid, unused ticket in a Postgres transaction. If two scanners submit the same ticket, only one can claim it. Offline admission still needs reconciliation; it cannot settle a duplicate across disconnected devices."
   },
   {
-    thread: "event",
-    layer: "Best dressed",
-    detail: "Voting uses staff-minted one-time codes, optional voting windows, per-device identity, server validation against the guest list, and admin resets.",
-  },
-  {
-    thread: "transfers",
-    layer: "Upload path",
-    detail: "Browser uploads use presigned PUT URLs so large photo and video files go directly to Cloudflare R2 instead of through serverless request bodies.",
-  },
-  {
-    thread: "transfers",
-    layer: "Lifecycle",
-    detail: "Transfer metadata lives in Redis with TTL, pages are noindexed, delete tokens are separate from recipient links, and cron/R2 lifecycle cleanup catches residue.",
-  },
-  {
-    thread: "transfers",
-    layer: "Heavy media",
-    detail: "Hybrid processing handles RAW previews, video posters, browser HEIC/HIF conversion, and ZIP fallback for multi-file downloads.",
-  },
-  {
-    thread: "control",
-    layer: "Auth model",
-    detail: "Role JWTs live in httpOnly cookies; API bearer auth remains available for CLI and tools; admin actions use step-up tokens and revocation checks.",
-  },
-  {
-    thread: "control",
-    layer: "Cost guardrails",
-    detail: "CDN caching, direct R2 media delivery, polling budgets, retry rules, rate limits, and documented rotation paths reduce expensive surprises.",
-  },
+    thread: "participation",
+    layer: "Keep playing separate from points",
+    detail: "Games publish their results; the event layer decides eligibility and event points. A points feature should not be required to finish a match."
+  }
 ];
-
-const initialThread = "event";
+const initialThread = "arrival";
 ---
 
-<CaseStudyLayout
-  title="Milk & Henny Sharing"
-  description="A case study on Milk & Henny's photo sharing, private transfers, auth model, and event tools."
-  threads={threads}
-  initialThread={initialThread}
->
-  <p slot="intro">
-    Work on the tools around the archive: event-night check-in, voting,
-    uploads, private transfers, downloads, auth, cleanup, and cost controls.
-  </p>
-
+<CaseStudyLayout title="Running the night" description="How I build Milk & Henny around the events I host: tickets, arrival, participation, and follow-up." threads={threads} initialThread={initialThread}>
+  <p slot="intro">I host events and build the software around them. Milk &amp; Henny connects the practical parts of a night: finding the details, getting a ticket, arriving, joining in, and finding the photos afterwards.</p>
   <dl slot="meta" class="case-meta" aria-label="Case study summary">
-    <div>
-      <dt>Context</dt>
-      <dd>Personal platform / 2025</dd>
-    </div>
-    <div>
-      <dt>Focus</dt>
-      <dd>Photo sharing, event tooling, private transfers, auth, R2, Redis/KV</dd>
-    </div>
-    <div>
-      <dt>Link</dt>
-      <dd>
-        <a href="https://milkandhenny.com">milkandhenny.com</a>
-      </dd>
-    </div>
+    <div><dt>Context</dt><dd>Milk & Henny / Builder &amp; host / 2025–26</dd></div>
+    <div><dt>Focus</dt><dd>Events, tickets, admission, attendee tools</dd></div>
+    <div><dt>Project</dt><dd><a href="https://milkandhenny.com">milkandhenny.com</a></dd></div>
   </dl>
 
-  <CaseStudySection
-    id="case-tension"
-    title="Tension"
-    summary="The product problem beneath the work."
-  >
-    <p>
-      The product came from a simple repeated friction: I would take photos
-      at parties, while travelling, and on film/digital cameras, then people
-      would ask for them afterwards. Milk & Henny makes that exchange cleaner:
-      an event can have tools, a gallery can have filters and downloads, and
-      large media can stay cheap instead of becoming a chain of temporary
-      transfer links.
-    </p>
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>A guest needs to know where to go and what to do next. The person at the door needs a quick answer about admission. As the host, I need to keep those experiences connected without spending the night moving information between separate tools.</p>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-threads"
-    title="Threads"
-    summary="Three contracts behind sharing without the chase."
-  >
-    <div class="case-thread-grid">
-      {
-        threads.map((thread) => (
-          <button
-            class="case-thread"
-            type="button"
-            data-thread={thread.key}
-            data-active={thread.key === initialThread ? true : undefined}
-            aria-pressed={thread.key === initialThread ? "true" : "false"}
-          >
-            <span>{thread.label}</span>
-            <small>{thread.tension}</small>
-          </button>
-        ))
-      }
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+      <figure class="case-diagram"><figcaption>A night, from two sides</figcaption><ol>
+<li><strong>Before</strong><span>Guests find the event and get tickets.</span><span>Hosts publish details and manage availability.</span></li>
+<li><strong>At the door</strong><span>Guests show a ticket.</span><span>Staff scan it or use a lookup path.</span></li>
+<li><strong>In the room</strong><span>People play and take part.</span><span>Hosts run activities and manage event points.</span></li>
+</ol></figure>
     </div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-owned"
-    title="Owned"
-    summary="What I was responsible for, and what it changed."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Thread</th>
-          <th scope="col">Work</th>
-          <th scope="col">Signal</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          threads.map((thread) => (
-            <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
-              <td>{thread.label}</td>
-              <td>{thread.owned}</td>
-              <td>{thread.proof}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+  <CaseStudySection id="case-result" title="What it enables">
+    <div class="case-prose"><p>The platform supports a guest journey and the staff work behind it in one application. I can build around the event itself, rather than treating tickets, activities, and the archive as unrelated sites.</p><p><a href="https://milkandhenny.com/things/pitches">Pitch Night Studio</a> is one example: people can prepare a deck, publish an edition, and present it on a shared screen with phone controls.</p></div>
   </CaseStudySection>
 
-  <CaseStudySection
-    id="case-mechanism"
-    title="Mechanism"
-    summary="The technical layers behind those responsibilities."
-  >
-    <table class="case-ledger">
-      <thead>
-        <tr>
-          <th scope="col">Layer</th>
-          <th scope="col">Detail</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          mechanisms.map((mechanism) => (
-            <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
-              <td>{mechanism.layer}</td>
-              <td>{mechanism.detail}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-shape"
-    title="Shape"
-    summary="How event media becomes self-serve."
-    class="case-flow"
-  >
-    <ol>
-      <li data-thread="event" data-active>Event tools define the role first: guest, staff, or admin.</li>
-      <li data-thread="event">Live state stays lightweight so check-in and voting remain usable during the night.</li>
-      <li data-thread="transfers">Uploads go straight to R2 while metadata records expiry, ownership, and deletion paths.</li>
-      <li data-thread="transfers">Galleries and transfer pages expose previews, filters, sorting, and downloads so recipients can self-serve.</li>
-      <li data-thread="control">Auth, cleanup, budgets, and rate limits keep the archive private, cheap, and recoverable.</li>
-    </ol>
-  </CaseStudySection>
-
-  <CaseStudySection
-    id="case-reflection"
-    title="Reflection"
-    summary="What the project clarified about sharing."
-  >
-    <p>
-      The nicest sharing experience is often the one where nobody has to ask
-      twice. People can find themselves, choose the quality they need, and
-      download from a place that feels like mine rather than a temporary
-      workaround.
-    </p>
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>Hosting gives the interface a practical test: can someone understand it while a queue is forming or a room is waiting? That makes the recovery path part of the main design. A staff member needs a next step when a scan fails, as much as a green confirmation when it works.</p>
   </CaseStudySection>
 </CaseStudyLayout>

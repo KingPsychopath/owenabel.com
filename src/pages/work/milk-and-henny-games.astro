@@ -1,0 +1,93 @@
+---
+import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+import CaseStudySection from "../../components/CaseStudySection.astro";
+
+const threads = [
+  {
+    key: "surfaces",
+    label: "Divide the screens",
+    owned: "Built separate presenter, host, and team-buzzer views for Family Feud.",
+    enables: "The audience sees the board; the host can see unrevealed answers and make rulings."
+  },
+  {
+    key: "pace",
+    label: "Give the host control",
+    owned: "Built game phases, reveal controls, pauses, and corrections.",
+    enables: "The host can leave space for a reaction or fix a ruling without treating every interruption as a restart."
+  },
+  {
+    key: "recovery",
+    label: "Keep the match together",
+    owned: "Built shared room state, controller recovery, and official result publication.",
+    enables: "Devices can return to the room state, and the event platform can consume the result separately."
+  }
+];
+const mechanisms = [
+  {
+    thread: "surfaces",
+    layer: "Send each role the information it needs",
+    detail: "Family Feud builds snapshots for each role. Unrevealed answer labels stay out of the public view while the host can use them to judge an answer."
+  },
+  {
+    thread: "pace",
+    layer: "Let people decide when to continue",
+    detail: "Timers bound timed play, while host controls handle reveals, pauses, and rulings. A countdown cannot know when the room has finished reacting."
+  },
+  {
+    thread: "recovery",
+    layer: "Record the result alongside the game",
+    detail: "The Redis room update and official result are saved together before delivery is attempted. Event scoring receives that result separately, so the match does not need to know the event points rules."
+  }
+];
+const initialThread = "surfaces";
+---
+
+<CaseStudyLayout title="Games for the room" description="Designing Milk & Henny multiplayer games around shared screens, host controls, and people playing together." threads={threads} initialThread={initialThread}>
+  <p slot="intro">I build party games to give people something to do together. The interesting design problem is deciding when software should take their attention, and when it should give it back to the room.</p>
+  <dl slot="meta" class="case-meta" aria-label="Case study summary">
+    <div><dt>Context</dt><dd>Milk & Henny / Builder &amp; host / 2025–26</dd></div>
+    <div><dt>Focus</dt><dd>Multiplayer, shared screens, host controls, recovery</dd></div>
+    <div><dt>Project</dt><dd><a href="https://milkandhenny.com/things">milkandhenny.com/things</a></dd></div>
+  </dl>
+
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>A multiplayer game can keep everyone busy on a phone and still give them very little to do with one another. For a hosted game, I want the conversation, guesses, disagreements, and reveal to happen between people. The screens need specific jobs.</p>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+      <figure class="case-diagram"><figcaption>Family Feud: each screen has a job</figcaption><ol>
+<li><strong>Shared display</strong><span>Prompt, revealed answers, scores, and the next public beat.</span></li>
+<li><strong>Host phone</strong><span>Unrevealed answers, rulings, pause, correction, and continue.</span></li>
+<li><strong>Team buzzer</strong><span>A brief input when the team needs to act, then attention back to the room.</span></li>
+</ol></figure>
+    </div>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-result" title="What it enables">
+    <div class="case-prose"><p>Family Feud is the worked example: two teams, a public board, a host controller, and optional team buzzers. Other games use different arrangements, including shared devices and private prompts.</p><p>The design goal is more attention on the people playing together. Reconnect and scoring behaviour can be checked in software; whether the pace and rules work for a new group needs play in the room.</p></div>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>The useful abstraction is the repeatable machinery: joining a room, reconnecting, sharing state, and publishing results. The game still owns its rules and rhythm. Keeping those separate leaves room for a word game and a social-deduction game to feel different.</p>
+  </CaseStudySection>
+</CaseStudyLayout>

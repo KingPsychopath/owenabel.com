@@ -11,6 +11,7 @@ const defaultCard = {
   method: "Clarify, build, verify",
   site: "owenabel.com",
   status: "Present",
+  sectionLabel: "Current practice",
   rows: [
     ["01", "Product systems", "Help people find what they came for"],
     ["02", "Data work", "Make messy records useful"],
@@ -28,6 +29,7 @@ const caseCard = ({ slug, name, area, document, issued, method, rows }) => ({
   method,
   site: "owenabel.com",
   status: "Case study",
+  sectionLabel: "Case study",
   rows,
 });
 
@@ -35,10 +37,10 @@ const cards = [
   defaultCard,
   caseCard({
     slug: "fete-finder-discovery",
-    name: "Fete Finder",
+    name: "Fête Finder",
     area: "Discovery",
     document: "CASE-FF-DISC",
-    issued: "2025-26",
+    issued: "2025–26",
     method: "Search, maps, stable routes",
     rows: [
       ["01", "Discovery surface", "Narrow by date, place, and taste"],
@@ -48,41 +50,54 @@ const cards = [
   }),
   caseCard({
     slug: "fete-finder-operations",
-    name: "Fete Finder",
+    name: "Fête Finder",
     area: "Operations",
     document: "CASE-FF-OPS",
-    issued: "2025-26",
+    issued: "2025–26",
     method: "Operate, recover, report",
     rows: [
       ["01", "Runtime data", "Back up and recover live records"],
       ["02", "Admin workflow", "Make launch work explicit"],
-      ["03", "Partner signal", "Track placements without harming discovery"],
-    ],
-  }),
-  caseCard({
-    slug: "milk-and-henny-media",
-    name: "Milk & Henny",
-    area: "Media",
-    document: "CASE-MH-MEDIA",
-    issued: "2025",
-    method: "Store, process, publish",
-    rows: [
-      ["01", "Storage model", "Separate content by lifecycle"],
-      ["02", "Image pipeline", "Create fast previews and useful crops"],
-      ["03", "Publishing surface", "Unify public, unlisted, and private work"],
+      ["03", "Partner reporting", "Record placement engagement"],
     ],
   }),
   caseCard({
     slug: "milk-and-henny-operations",
     name: "Milk & Henny",
-    area: "Sharing",
+    area: "Running the night",
     document: "CASE-MH-OPS",
-    issued: "2025",
-    method: "Share, control, recover",
+    issued: "2025–26",
+    method: "Arrive, join in, return",
     rows: [
-      ["01", "Event operations", "Support entry, voting, and photos"],
-      ["02", "Photo sharing", "Deliver large media from owned storage"],
-      ["03", "Operational control", "Keep private tools cheap and recoverable"],
+      ["01", "Getting in", "Connect tickets and door check-in"],
+      ["02", "Joining in", "Bring games into the event"],
+      ["03", "Following up", "Keep information and memories together"],
+    ],
+  }),
+  caseCard({
+    slug: "milk-and-henny-games",
+    name: "Milk & Henny",
+    area: "Games for the room",
+    document: "CASE-MH-GAMES",
+    issued: "2025–26",
+    method: "Play, reveal, reconnect",
+    rows: [
+      ["01", "Shared display", "Give the room a common focal point"],
+      ["02", "Host controls", "Leave pacing and rulings with the host"],
+      ["03", "Room state", "Keep recovery and results in the design"],
+    ],
+  }),
+  caseCard({
+    slug: "milk-and-henny-media",
+    name: "Milk & Henny",
+    area: "Keeping the memories",
+    document: "CASE-MH-MEDIA",
+    issued: "2025–26",
+    method: "Process, publish, share",
+    rows: [
+      ["01", "Photo albums", "Prepare previews before publishing"],
+      ["02", "Private transfers", "Give shared files their own lifetime"],
+      ["03", "Writing", "Keep the stories around the photos"],
     ],
   }),
   caseCard({
@@ -90,7 +105,7 @@ const cards = [
     name: "Open Policy Finder",
     area: "Search & data",
     document: "CASE-OPF",
-    issued: "2023-26",
+    issued: "2023–26",
     method: "Find, explain, verify",
     rows: [
       ["01", "Search surface", "Make policy data findable"],
@@ -107,8 +122,8 @@ const cards = [
     method: "Evidence before claims",
     rows: [
       ["01", "Evidence model", "Explain why a provider appears"],
-      ["02", "Taxonomy policy", "Keep visual inference within limits"],
-      ["03", "Ranking", "Make trust part of result order"],
+      ["02", "Visual search", "Use an image to express a desired look"],
+      ["03", "Ranking", "Label the source behind a match"],
     ],
   }),
   caseCard({
@@ -121,7 +136,7 @@ const cards = [
     rows: [
       ["01", "Platform boundaries", "Keep domain logic out of delivery code"],
       ["02", "Async work", "Move heavy processing into workers"],
-      ["03", "Operational control", "Make failure inspectable and reversible"],
+      ["03", "Publication", "Keep incomplete media private"],
     ],
   }),
 ];
@@ -142,6 +157,7 @@ export const createLedgerOgSvg = ({
   method,
   site,
   status,
+  sectionLabel,
   rows,
 }) => {
   const rowMarkup = rows
@@ -166,7 +182,7 @@ export const createLedgerOgSvg = ({
       <text x="764" y="134">Issued:        ${escapeXml(issued)}</text>
     </g>
 
-    <text x="78" y="230" font-size="18">Current Practice</text>
+    <text x="78" y="230" font-size="18">${escapeXml(sectionLabel)}</text>
     <line x1="78" y1="262" x2="1122" y2="262" stroke="#111111" stroke-width="1" />
     <text x="92" y="292" font-size="20">#</text>
     <text x="158" y="292" font-size="20">Area</text>
