@@ -72,7 +72,7 @@ export const work: WorkItem[] = [
     year: "2025–26",
     name: "Milk & Henny",
     featuredDetail:
-      "Software for the events I host, from tickets and check-in to party games and the photos afterwards.",
+      "An events platform that brings ticketing, multiplayer games, and photo sharing together for organisers and guests.",
     href: "https://milkandhenny.com",
     detail:
       "A platform I build around the events I host: tickets, games, and photos, with tools for the people running the night and the people coming along.",
@@ -162,7 +162,8 @@ export const work: WorkItem[] = [
     href: "https://receipts.beauty",
     detail:
       "A beauty discovery platform in development, helping people judge providers using reviews, images, and the source of each claim.",
-    featuredDetail: "Evidence-backed beauty search across words, images, location, and lookbooks.",
+    featuredDetail:
+      "A beauty discovery platform in development, combining portfolios, reviews, and visual search to help people find a provider.",
     tension:
       "A provider claim, a client review, and a similar-looking image tell people different things. Search needs to make those differences visible.",
     owned:
