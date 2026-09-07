@@ -66,7 +66,7 @@ export const work: WorkItem[] = [
         href: "/work/fete-finder-operations",
       },
     ],
-    role: "Product",
+    role: "Lead Engineer",
   },
   {
     year: "2025–26",
@@ -75,7 +75,7 @@ export const work: WorkItem[] = [
       "An events platform that brings ticketing, multiplayer games, and photo sharing together for organisers and guests.",
     href: "https://milkandhenny.com",
     detail:
-      "A platform I build around the events I host: tickets, games, and photos, with tools for the people running the night and the people coming along.",
+      "An events platform for ticketing, check-in, multiplayer games, and photo sharing, with tools for both guests and event staff.",
     tension:
       "Hosting means thinking about the whole night: how people get in, what brings them together, and how they find the photos afterwards.",
     owned:
@@ -91,7 +91,7 @@ export const work: WorkItem[] = [
       },
       { label: "Milk & Henny: keeping the memories", href: "/work/milk-and-henny-media" },
     ],
-    role: "Engineer & organiser",
+    role: "Presenter",
   },
   {
     year: "2023–26",
@@ -154,16 +154,16 @@ export const work: WorkItem[] = [
         href: "/work/open-policy-finder",
       },
     ],
-    role: "Senior",
+    role: "Senior Engineer",
   },
   {
     year: "2026",
     name: "Receipts",
     href: "https://receipts.beauty",
     detail:
-      "A beauty discovery platform in development, helping people judge providers using reviews, images, and the source of each claim.",
+      "A beauty discovery platform helping people judge providers using reviews, images, and the source of each claim.",
     featuredDetail:
-      "A beauty discovery platform in development, combining portfolios, reviews, and visual search to help people find a provider.",
+      "A beauty discovery platform combining portfolios, reviews, and visual search to help people find a provider.",
     tension:
       "A provider claim, a client review, and a similar-looking image tell people different things. Search needs to make those differences visible.",
     owned:
