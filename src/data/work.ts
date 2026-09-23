@@ -66,7 +66,7 @@ export const work: WorkItem[] = [
         href: "/work/fete-finder-operations",
       },
     ],
-    role: "Lead Engineer",
+    role: "Product Engineer",
   },
   {
     year: "2025–26",
@@ -91,10 +91,10 @@ export const work: WorkItem[] = [
       },
       { label: "Milk & Henny: keeping the memories", href: "/work/milk-and-henny-media" },
     ],
-    role: "Presenter",
+    role: "Founder & Host",
   },
   {
-    year: "2023–26",
+    year: "2024–26",
     name: "Jisc",
     featuredName: "Open Policy Finder at Jisc",
     href: "https://www.jisc.ac.uk",
@@ -115,27 +115,27 @@ export const work: WorkItem[] = [
       { text: "." },
     ],
     owned:
-      "Search, content management system delivery, AWS migration work, release validation, and coordination between product, content, infrastructure, and data teams.",
+      "Led Open Policy Finder data and search work; later maintained the main site's publishing system and led its serverless AWS migration with the Digital Experience Team.",
     streams: [
       {
-        label: "Open Policy Finder",
+        label: "Open Policy Finder · Sherpa Team",
         key: "open-policy-finder",
-        body: "Built the search and help pages for policy, journal, and transitional-agreement discovery, including documentation for API consumers and internal stakeholders; supported the data pipelines, indexing, and feedback loops that kept open access compliance data usable.",
+        body: "Built search and help pages for policy, journal, and agreement discovery. Led data work with a feedback loop to data stewards. Retired Elasticsearch when PostgreSQL met the product's scale without a separate search synchronisation layer.",
       },
       {
-        label: "Digital Experience Content Management System",
+        label: "Jisc website · Digital Experience Team",
         key: "digital-experience",
-        body: "Worked with product, content, and infrastructure teams on the main Jisc website: CMS delivery, publishing flows, migration to AWS, and release validation. The work connected what editors changed to what the team checked before release.",
+        body: "Maintained the Wagtail and Next.js publishing system. After scaling and downtime issues, led a move of the main site to serverless AWS ECS Fargate, and helped build Terraform-managed preview environments and release checks.",
       },
     ],
     signal: [
       {
-        text: "Record checks and indexing connect source data to search",
+        text: "Search changes and steward feedback connect source data to policy discovery",
         key: "open-policy-finder",
       },
       { text: ", while " },
       {
-        text: "publishing and release checks connect editorial changes to the live website",
+        text: "preview environments and release checks help the team inspect website changes",
         key: "digital-experience",
       },
       { text: "." },
@@ -153,8 +153,12 @@ export const work: WorkItem[] = [
         label: "Open Policy Finder: search, documentation, and data quality",
         href: "/work/open-policy-finder",
       },
+      {
+        label: "Jisc website: infrastructure and publishing",
+        href: "/work/jisc-website",
+      },
     ],
-    role: "Senior Engineer",
+    role: "Senior Software Developer",
   },
   {
     year: "2026",
@@ -181,7 +185,7 @@ export const work: WorkItem[] = [
         href: "/work/receipts-platform",
       },
     ],
-    role: "Founder",
+    role: "Lead Engineer",
   },
 ];
 

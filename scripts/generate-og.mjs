@@ -4,7 +4,7 @@ import sharp from "sharp";
 
 const defaultCard = {
   name: "Owen Abel Amenze",
-  role: "Software Engineer / London",
+  role: "Senior Software Engineer / London",
   email: "work@owenabel.com",
   document: "INDEX-ABEL",
   issued: "May 2026",
@@ -104,12 +104,25 @@ const cards = [
     name: "Open Policy Finder",
     area: "Search & data",
     document: "CASE-OPF",
-    issued: "2023–26",
+    issued: "2024–26",
     method: "Find, explain, verify",
     rows: [
       ["01", "Search surface", "Make policy data findable"],
       ["02", "Documentation", "Connect source content and publishing"],
-      ["03", "Data quality", "Remove missing and incorrect records"],
+      ["03", "Data quality", "Surface source gaps to data stewards"],
+    ],
+  }),
+  caseCard({
+    slug: "jisc-website",
+    name: "Jisc website",
+    area: "Infrastructure & publishing",
+    document: "CASE-JISC-WEB",
+    issued: "2024–26",
+    method: "Stabilise, preview, release",
+    rows: [
+      ["01", "Infrastructure", "Move the main site to Fargate"],
+      ["02", "Publishing", "Maintain Wagtail and Next.js"],
+      ["03", "Delivery", "Preview and validate changes"],
     ],
   }),
   caseCard({

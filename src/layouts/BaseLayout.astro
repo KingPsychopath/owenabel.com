@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = "Owen Abel Amenze - Software Engineer",
-  description = "Owen Abel Amenze is a software engineer in London. Explore work in event platforms, search, publishing, and reliable software.",
+  title = "Owen Abel Amenze - Senior Software Engineer",
+  description = "Owen Abel Amenze is a senior software engineer in London. Explore work in event platforms, search, publishing, and reliable software.",
   noindex = false,
 } = Astro.props;
 
@@ -29,14 +29,14 @@ const ogImagePath = caseStudySlug ? `/og/${caseStudySlug}.png` : "/og.png";
 const ogImage = new URL(ogImagePath, Astro.site ?? Astro.url).href;
 const ogImageAlt = caseStudySlug
   ? `${pageName} case study by Owen Abel Amenze`
-  : "Owen Abel Amenze, Software Engineer in London";
+  : "Owen Abel Amenze, Senior Software Engineer in London";
 
 const structuredDataGraph: Record<string, unknown>[] = [
   {
     "@type": "Person",
     "@id": personId,
     name: "Owen Abel Amenze",
-    jobTitle: "Software Engineer",
+    jobTitle: "Senior Software Engineer",
     url: siteUrl,
     image: ogImage,
     address: {
@@ -195,7 +195,7 @@ const structuredData = {
           aria-current={pathname === "/" ? "page" : undefined}
         >
           <strong>Owen Abel Amenze</strong>
-          <span>Software Engineer / London</span>
+          <span>Senior Software Engineer / London</span>
         </a>
         <nav class="nav" aria-label="Primary navigation">
           {

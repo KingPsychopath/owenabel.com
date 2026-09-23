@@ -6,8 +6,8 @@ const threads = [
   {
     key: "search",
     label: "Search",
-    owned: "Built Elasticsearch-backed search, ranking, filters, and result views.",
-    enables: "Users can search beyond an exact title match and narrow the records they see."
+    owned: "Built the Next.js search experience, including ranking, filters, and result views, then retired Elasticsearch in favour of PostgreSQL.",
+    enables: "People can find relevant policies without a separate search index that must be kept in sync with the source records."
   },
   {
     key: "docs",
@@ -18,15 +18,15 @@ const threads = [
   {
     key: "data",
     label: "Data quality",
-    owned: "Worked with the data team to identify and correct missing and malformed records before launch.",
-    enables: "Source-data issues can be fed back to the people maintaining the records."
+    owned: "Led the data team and built a feedback loop with data stewards for missing and malformed records.",
+    enables: "The people maintaining the source records can investigate gaps exposed by search and product use."
   }
 ];
 const mechanisms = [
   {
     thread: "search",
-    layer: "Support imperfect queries",
-    detail: "Fuzzy matching, ranking, and filters address the ways people actually search. An exact lookup alone would make users responsible for remembering the dataset’s naming conventions."
+    layer: "Match the search architecture to the scale",
+    detail: "We used Elasticsearch historically for fuzzy matching and ranking. PostgreSQL met the product's actual scale, so we retired Elasticsearch and its synchronisation layer. The search still needs to handle imperfect queries and useful filters."
   },
   {
     thread: "docs",
@@ -36,17 +36,17 @@ const mechanisms = [
   {
     thread: "data",
     layer: "Check the records behind the interface",
-    detail: "Record verification and feedback to data stewards sit alongside indexing work. Improving a query cannot supply a field that is missing from the source."
+    detail: "Record checks and feedback to data stewards sit alongside search work. Improving a query cannot supply a field that is missing from the source."
   }
 ];
 const initialThread = "search";
 ---
 
-<CaseStudyLayout title="Open Policy Finder" description="My work with Jisc on publishing-policy search, editable documentation, and data quality." threads={threads} initialThread={initialThread}>
-  <p slot="intro">Researchers need to find the publishing policy relevant to their journal or publisher. At Jisc, I worked on the search, documentation, and data quality that help them answer that question.</p>
+<CaseStudyLayout title="Open Policy Finder" description="Leading data and search work for Jisc's publishing-policy service, including the decision to retire Elasticsearch." threads={threads} initialThread={initialThread}>
+  <p slot="intro">Researchers need to find the publishing policy relevant to their journal or publisher. In Jisc's Sherpa Team, I built the product's search experience and led data work behind the records people depend on.</p>
   <dl slot="meta" class="case-meta" aria-label="Case study summary">
-    <div><dt>Context</dt><dd>Jisc / April 2023–February 2026</dd></div>
-    <div><dt>Focus</dt><dd>Search, documentation, Elasticsearch, data quality</dd></div>
+    <div><dt>Context</dt><dd>Jisc · Sherpa Team / April 2024–February 2026</dd></div>
+    <div><dt>Focus</dt><dd>Next.js, PostgreSQL search, documentation, data quality</dd></div>
     <div><dt>Project</dt><dd><a href="https://openpolicyfinder.jisc.ac.uk">openpolicyfinder.jisc.ac.uk</a></dd></div>
   </dl>
 
@@ -80,7 +80,7 @@ const initialThread = "search";
   </CaseStudySection>
 
   <CaseStudySection id="case-result" title="What it enables">
-    <div class="case-prose"><p>The work connected policy discovery with the content and data workflows behind it. My contribution covered the search and documentation implementation, alongside collaboration with the data team on record quality.</p></div>
+    <div class="case-prose"><p>The work connected policy discovery with the content and data workflows behind it. Retiring Elasticsearch removed a second copy of the search data and the work of keeping it aligned with PostgreSQL. Separately, the data-steward feedback loop made source-record problems visible to the people who could address them.</p><p>I also started local engineering-harness and MCP work in the Sherpa Team. It could inspect the codebase, query data, run checks, and interact with the authenticated application. That was early tooling, rather than a claim of team-wide adoption.</p></div>
   </CaseStudySection>
 
   <CaseStudySection id="case-lesson" title="Lesson">

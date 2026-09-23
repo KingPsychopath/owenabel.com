@@ -6,7 +6,7 @@ const threads = [
   {
     key: "arrival",
     label: "Getting in",
-    owned: "Built event pages, ticketing, QR check-in, and staff lookup tools.",
+    owned: "Built event pages, Stripe ticketing, QR check-in, and staff lookup tools, with one-time email links and passkeys for attendee access.",
     enables: "Guests have an admission path; staff can distinguish a valid ticket from one already used."
   },
   {
@@ -25,6 +25,16 @@ const threads = [
 const mechanisms = [
   {
     thread: "arrival",
+    layer: "Make sign-in easy without outsourcing the account model",
+    detail: "Guests can use a one-time email link or code, then add a passkey. The app owns its sessions and keeps staff access separately scoped, so a guest login does not become an admin credential."
+  },
+  {
+    thread: "arrival",
+    layer: "Fulfil a paid ticket once",
+    detail: "Stripe Checkout handles payment. A signed webhook triggers ticket fulfilment, and a Postgres idempotency record prevents a repeated delivery from issuing a second ticket."
+  },
+  {
+    thread: "arrival",
     layer: "Let the database settle admission",
     detail: "Online check-in claims a valid, unused ticket in a Postgres transaction. If two scanners submit the same ticket, only one can claim it. Offline admission still needs reconciliation; it cannot settle a duplicate across disconnected devices."
   },
@@ -40,8 +50,8 @@ const initialThread = "arrival";
 <CaseStudyLayout title="Running the night" description="How I build Milk & Henny around the events I host: tickets, arrival, participation, and follow-up." threads={threads} initialThread={initialThread}>
   <p slot="intro">I host events and build the software around them. Milk &amp; Henny connects the practical parts of a night: finding the details, getting a ticket, arriving, joining in, and finding the photos afterwards.</p>
   <dl slot="meta" class="case-meta" aria-label="Case study summary">
-    <div><dt>Context</dt><dd>Milk & Henny / Presenter / 2025–26</dd></div>
-    <div><dt>Focus</dt><dd>Events, tickets, admission, attendee tools</dd></div>
+    <div><dt>Context</dt><dd>Milk & Henny / Founder &amp; Host / 2025–26</dd></div>
+    <div><dt>Focus</dt><dd>Events, passwordless access, ticketing, admission</dd></div>
     <div><dt>Project</dt><dd><a href="https://milkandhenny.com">milkandhenny.com</a></dd></div>
   </dl>
 

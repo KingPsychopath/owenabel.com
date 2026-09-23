@@ -1,0 +1,88 @@
+---
+import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+import CaseStudySection from "../../components/CaseStudySection.astro";
+
+const threads = [
+  {
+    key: "infrastructure",
+    label: "Infrastructure",
+    owned: "Stepped into infrastructure ownership after scaling and downtime issues, and led the main site's move to serverless AWS ECS Fargate and RDS.",
+    enables: "The team has a clearer hosting path for the website that Jisc's content and users depend on."
+  },
+  {
+    key: "publishing",
+    label: "Publishing",
+    owned: "Maintained the Wagtail and Next.js publishing system with the Digital Experience Team.",
+    enables: "Editors can keep the main site's content current while the application controls how it is presented."
+  },
+  {
+    key: "delivery",
+    label: "Delivery",
+    owned: "Helped build Terraform-managed preview environments and added Playwright release validation.",
+    enables: "The team can inspect a change and check key user paths before it reaches the main site."
+  }
+];
+const mechanisms = [
+  {
+    thread: "infrastructure",
+    layer: "Address the hosting failure mode",
+    detail: "Scaling and downtime problems made infrastructure a product concern. The migration moved the main site to AWS ECS Fargate and RDS, with the publishing application still serving Jisc's public website."
+  },
+  {
+    thread: "publishing",
+    layer: "Keep editorial and application work connected",
+    detail: "Wagtail manages content; Next.js presents it. Maintaining both sides matters when an editorial change needs to appear correctly on the public site."
+  },
+  {
+    thread: "delivery",
+    layer: "Inspect changes before release",
+    detail: "Terraform-managed preview environments gave the team somewhere to review a change. Playwright validation checked user-facing behaviour as part of the release work."
+  }
+];
+const initialThread = "infrastructure";
+---
+
+<CaseStudyLayout title="Jisc website" description="Infrastructure and publishing work on Jisc's main website, separate from Open Policy Finder." threads={threads} initialThread={initialThread}>
+  <p slot="intro">Jisc's main site is a publishing product as well as a piece of infrastructure. I joined the Digital Experience Team's infrastructure work under a tight deadline after scaling and downtime issues, while maintaining the Wagtail and Next.js content system.</p>
+  <dl slot="meta" class="case-meta" aria-label="Case study summary">
+    <div><dt>Context</dt><dd>Jisc · Digital Experience Team / April 2024–February 2026</dd></div>
+    <div><dt>Focus</dt><dd>AWS ECS Fargate, RDS, Wagtail, Next.js, Terraform</dd></div>
+    <div><dt>Project</dt><dd><a href="https://www.jisc.ac.uk">jisc.ac.uk</a></dd></div>
+  </dl>
+
+  <CaseStudySection id="case-problem" title="Problem">
+    <p>Reliability issues on the main site had become urgent. At the same time, content editors still needed a usable publishing flow, and the team needed a way to review changes before release.</p>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-contribution" title="My contribution">
+    <table class="case-ledger">
+      <thead><tr><th scope="col">Area</th><th scope="col">What I built and why</th></tr></thead>
+      <tbody>{threads.map((thread) => (
+        <tr data-thread={thread.key} data-active={thread.key === initialThread ? true : undefined}>
+          <th scope="row">{thread.label}</th><td><p>{thread.owned}</p><p>{thread.enables}</p></td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-decisions" title="Decisions">
+    <div class="case-prose">
+      <table class="case-ledger">
+        <thead><tr><th scope="col">Choice</th><th scope="col">Why it matters</th></tr></thead>
+        <tbody>{mechanisms.map((mechanism) => (
+          <tr data-thread={mechanism.thread} data-active={mechanism.thread === initialThread ? true : undefined}>
+            <th scope="row">{mechanism.layer}</th><td>{mechanism.detail}</td>
+          </tr>
+        ))}</tbody>
+      </table>
+    </div>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-result" title="What it enables">
+    <div class="case-prose"><p>The main site moved to Fargate and RDS, and the team had a clearer path to preview and validate website changes. The migration, CMS work, and release checks belonged to the Digital Experience Team; my Open Policy Finder data and search work was a separate Jisc workstream.</p></div>
+  </CaseStudySection>
+
+  <CaseStudySection id="case-lesson" title="Lesson">
+    <p>A public website's reliability, editorial workflow, and release path have to work together. Solving the urgent hosting problem also meant understanding how people changed and checked the site.</p>
+  </CaseStudySection>
+</CaseStudyLayout>

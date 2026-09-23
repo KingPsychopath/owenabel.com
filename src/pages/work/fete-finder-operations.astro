@@ -6,14 +6,14 @@ const threads = [
   {
     key: "data",
     label: "Publish updates",
-    owned: "Built event-data workflows with validation, revision history, backups, and import/export paths.",
+    owned: "Built event-data workflows with validation, revision history, backups, and import/export paths; used agents to draft suggestions from event and ticketing pages for human review.",
     enables: "The team can inspect programme changes and work from recoverable records."
   },
   {
     key: "audience",
     label: "Support the audience",
-    owned: "Built registration, submission moderation, saved-plan, and ticket-exchange tools.",
-    enables: "People can contribute listings and organise their plans beyond the initial search."
+    owned: "Built registration, submission moderation, saved-plan, and ticket-exchange tools, with a bot connecting listings to the community WhatsApp chat.",
+    enables: "People can contribute listings, organise their plans, and find ticket-exchange posts across the site and community chat."
   },
   {
     key: "partners",
@@ -31,7 +31,7 @@ const mechanisms = [
   {
     thread: "audience",
     layer: "Review submissions before publishing",
-    detail: "A contributed event needs an editorial decision before it belongs in the public programme. Moderation makes that step visible to the team."
+    detail: "Agents could scan event and ticketing pages and draft listing suggestions. A person reviewed suggestions and contributed events before either belonged in the public programme."
   },
   {
     thread: "partners",
@@ -80,7 +80,7 @@ const initialThread = "data";
   </CaseStudySection>
 
   <CaseStudySection id="case-result" title="What it enables">
-    <div class="case-prose"><p>The operational tools connect programme editing, audience contributions, and partner work. A changed listing can be traced through the data workflow, and the team has recovery tools when the live records need attention.</p></div>
+    <div class="case-prose"><p>The operational tools connect programme editing, audience contributions, and partner work. A changed listing can be traced through the data workflow, and the team has recovery tools when the live records need attention.</p><p>The ticket exchange also reached a community WhatsApp chat of about 2,000 people through a bot. Listings were announced into the chat with links back to the site; the two surfaces did not require every chat message to become a website listing.</p></div>
   </CaseStudySection>
 
   <CaseStudySection id="case-lesson" title="Lesson">

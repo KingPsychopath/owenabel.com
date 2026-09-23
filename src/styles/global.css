@@ -344,9 +344,9 @@ a:hover {
 
 .identity h1 {
   margin: 0;
-  max-width: 10ch;
+  max-width: 11ch;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(58px, 12vw, 154px);
+  font-size: clamp(58px, 8.5vw, 108px);
   font-weight: 400;
   line-height: 0.88;
 }
