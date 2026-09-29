@@ -1,0 +1,2 @@
+# Keep the short share link working with Astro's canonical directory route.
+/book /book/ 301

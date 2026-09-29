@@ -746,6 +746,53 @@ html[data-theme="dark"] .invoice-box::before {
   line-height: 0.95;
 }
 
+.booking-page .page-title {
+  margin-bottom: 28px;
+}
+
+.booking-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 32px;
+  align-items: end;
+  border-top: 1px solid var(--rule);
+  padding: 16px 0 22px;
+}
+
+.booking-intro > p {
+  max-width: 82ch;
+  margin: 0;
+}
+
+.booking-intro > p:first-child {
+  color: var(--muted);
+}
+
+.booking-intro > p:last-child {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.booking-embed {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--surface-soft);
+}
+
+.booking-embed iframe {
+  display: block;
+  width: 100%;
+  height: min(920px, 110vh);
+  border: 0;
+  background: var(--paper);
+}
+
+.booking-note {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 @keyframes settle-in {
   from {
     opacity: 0;
@@ -1157,6 +1204,7 @@ html[data-theme="dark"] .invoice-box::before {
   .site-footer,
   .hero-grid,
   .section-header,
+  .booking-intro,
   .work-item,
   .contact-row,
   .case-meta,
@@ -1169,6 +1217,10 @@ html[data-theme="dark"] .invoice-box::before {
   .site-header,
   .site-footer {
     display: grid;
+  }
+
+  .booking-embed iframe {
+    height: 760px;
   }
 
   .nav {

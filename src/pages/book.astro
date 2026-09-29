@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const bookingUrl =
+  "https://calendar.google.com/calendar/appointments/schedules/AcZssZ2LQPawHeYUD3HNEFUuFDr-0CUsi7Z8B9m-peU3KF5hTYbjP6SONeHbBNAb57dCOcX3lob_WBS1?gv=true";
+---
+
+<BaseLayout
+  title="Book an introductory chat - Owen Abel Amenze"
+  description="Book a 20-minute introductory chat with Owen Abel Amenze. Choose a time that works and meet on Google Meet."
+>
+  <section class="booking-page" aria-labelledby="booking-title">
+    <p class="eyebrow">A quick introduction</p>
+    <h1 class="page-title" id="booking-title">Let's talk.</h1>
+
+    <div class="booking-intro">
+      <p>
+        Choose a time for a 20-minute introductory chat. We’ll talk on Google
+        Meet.
+      </p>
+      <p>
+        <a
+          class="button-link"
+          href={bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open booking page in Google Calendar
+        </a>
+      </p>
+    </div>
+
+    <section class="booking-embed" aria-label="Choose a meeting time">
+      <iframe
+        src={bookingUrl}
+        title="Google Calendar booking page for a 20-minute introductory chat"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+    </section>
+    <p class="booking-note">
+      Booking is handled by Google Calendar. If the scheduler does not load,
+      {" "}<a href={bookingUrl} target="_blank" rel="noopener noreferrer">
+        open it directly
+      </a>.
+    </p>
+  </section>
+</BaseLayout>
