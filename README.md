@@ -51,6 +51,22 @@ Direct deploy:
 pnpm run deploy:cf
 ```
 
+If an exported API token overrides the saved Wrangler login and lacks Pages
+permissions, deploy with the saved login for that command:
+
+```sh
+env -u CLOUDFLARE_API_TOKEN pnpm run deploy:cf
+```
+
+## Page URLs
+
+Pages use trailing slashes (`/work/`, `/contact/`, `/book/`), matching Astro's
+directory output and Cloudflare Pages routing. Internal page links, canonical
+URLs, and the sitemap follow that convention; asset filenames are unchanged.
+Cloudflare normalizes existing directory routes without a slash. The explicit
+`/book` redirect in `public/_redirects` also preserves the short booking link.
+Keep the root `404.html` so unknown routes return a real 404 instead of the homepage.
+
 The site intentionally avoids host-specific runtime code, so it can migrate to
 Cloudflare Pages, Netlify, GitHub Pages, Railway static hosting, object storage,
 or any CDN that serves static files.

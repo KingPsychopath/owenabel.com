@@ -59,11 +59,11 @@ export const work: WorkItem[] = [
     caseNotes: [
       {
         label: "Fête Finder: discovery, planning, and sharing",
-        href: "/work/fete-finder-discovery",
+        href: "/work/fete-finder-discovery/",
       },
       {
         label: "Fête Finder: data, operations, and lifecycle",
-        href: "/work/fete-finder-operations",
+        href: "/work/fete-finder-operations/",
       },
     ],
     role: "Product Engineer",
@@ -84,12 +84,12 @@ export const work: WorkItem[] = [
       "Guests can find event information and photos in one place; hosts have tools for admission, participation, and follow-up.",
     links: [{ label: "milkandhenny.com", href: "https://milkandhenny.com" }],
     caseNotes: [
-      { label: "Milk & Henny: running the night", href: "/work/milk-and-henny-operations" },
+      { label: "Milk & Henny: running the night", href: "/work/milk-and-henny-operations/" },
       {
         label: "Milk & Henny: games that bring the room together",
-        href: "/work/milk-and-henny-games",
+        href: "/work/milk-and-henny-games/",
       },
-      { label: "Milk & Henny: keeping the memories", href: "/work/milk-and-henny-media" },
+      { label: "Milk & Henny: keeping the memories", href: "/work/milk-and-henny-media/" },
     ],
     role: "Founder & Host",
   },
@@ -151,11 +151,11 @@ export const work: WorkItem[] = [
     caseNotes: [
       {
         label: "Open Policy Finder: search, documentation, and data quality",
-        href: "/work/open-policy-finder",
+        href: "/work/open-policy-finder/",
       },
       {
         label: "Jisc website: infrastructure and publishing",
-        href: "/work/jisc-website",
+        href: "/work/jisc-website/",
       },
     ],
     role: "Senior Software Developer",
@@ -178,11 +178,11 @@ export const work: WorkItem[] = [
     caseNotes: [
       {
         label: "Receipts: evidence, multimodal search, and ranking",
-        href: "/work/receipts-discovery",
+        href: "/work/receipts-discovery/",
       },
       {
         label: "Receipts: Go platform, media jobs, and operations",
-        href: "/work/receipts-platform",
+        href: "/work/receipts-platform/",
       },
     ],
     role: "Lead Engineer",

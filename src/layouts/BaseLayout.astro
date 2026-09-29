@@ -15,9 +15,9 @@ const {
 
 const nav = [
   { href: "/", label: "Index" },
-  { href: "/work", label: "Work" },
+  { href: "/work/", label: "Work" },
   { href: "/book/", label: "Book" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact/", label: "Contact" },
 ];
 
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
@@ -74,7 +74,7 @@ if (pathname === "/work" || pathname.startsWith("/work/")) {
       "@type": "ListItem",
       position: 2,
       name: "Work",
-      item: new URL("/work", siteUrl).href,
+      item: new URL("/work/", siteUrl).href,
     },
   ];
 
@@ -203,7 +203,7 @@ const structuredData = {
             nav.map((item) => (
               <a
                 href={item.href}
-                aria-current={pathname === item.href ? "page" : undefined}
+                aria-current={pathname === (item.href.replace(/\/$/, "") || "/") ? "page" : undefined}
               >
                 {item.label}
               </a>
