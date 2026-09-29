@@ -60,11 +60,12 @@ env -u CLOUDFLARE_API_TOKEN pnpm run deploy:cf
 
 ## Page URLs
 
-Pages use trailing slashes (`/work/`, `/contact/`, `/book/`), matching Astro's
-directory output and Cloudflare Pages routing. Internal page links, canonical
-URLs, and the sitemap follow that convention; asset filenames are unchanged.
-Cloudflare normalizes existing directory routes without a slash. The explicit
-`/book` redirect in `public/_redirects` also preserves the short booking link.
+Pages use URLs without trailing slashes (`/work`, `/contact`, `/book`). Astro
+builds named HTML files, and Cloudflare Pages serves their extensionless URLs.
+Internal links, canonical URLs, share metadata, and the sitemap use that form.
+The build generates `dist/_redirects` from the actual pages, redirecting each
+trailing-slash URL and legacy `/page/index.html` URL to `/page` with a 301.
+New pages get the same redirects automatically. Asset filenames are unchanged.
 Keep the root `404.html` so unknown routes return a real 404 instead of the homepage.
 
 The site intentionally avoids host-specific runtime code, so it can migrate to

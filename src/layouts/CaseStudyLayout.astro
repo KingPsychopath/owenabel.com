@@ -15,7 +15,7 @@ const { title, description, initialThread, threads } = Astro.props;
 <BaseLayout title={`${title} - Owen Abel Amenze`} description={description}>
   <article class="case-note" data-case-note data-active-thread={initialThread}>
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/work/">Work</a>
+      <a href="/work">Work</a>
       <span aria-hidden="true">/</span>
       <span>{title}</span>
     </nav>
@@ -48,7 +48,7 @@ const { title, description, initialThread, threads } = Astro.props;
       </div>
     </nav>
     <slot />
-    <RelatedCaseStudies currentHref={Astro.url.pathname} />
+    <RelatedCaseStudies currentHref={Astro.url.pathname.replace(/\.html$/, "").replace(/\/$/, "")} />
   </article>
   <CaseStudyInteractions />
 </BaseLayout>
